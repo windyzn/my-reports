@@ -41,13 +41,13 @@
   header {
     background: var(--dark-blue);
     color: #fff;
-    padding: 0 0 0 0;
+    padding: 48px 0 40px;
     border-bottom: 3px solid var(--aqua);
   }
   .header-inner {
     max-width: 900px;
     margin: 0 auto;
-    padding: 48px 24px 40px;
+    padding: 0 24px;
   }
   .back-link { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #666; text-decoration: none; transition: color .15s; }
   .back-link:hover { color: #fff; }
@@ -55,31 +55,11 @@
   .sticky-back-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; width: 100%; }
   .sticky-back .back-link { color: var(--text-light); }
   .sticky-back .back-link:hover { color: var(--dark-blue); }
-  .report-category {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--aqua);
-    margin-bottom: 12px;
-  }
-  header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #fff;
-    margin-bottom: 16px;
-  }
-  .header-meta {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    padding-top: 16px;
-    margin-top: 16px;
-  }
-  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  .header-eyebrow { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #aaa; margin-bottom: 14px; }
+  header h1 { font-size: 38px; font-weight: normal; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 12px; }
+  header h1 em { font-style: italic; color: #bbb; }
+  .header-meta { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #888; display: flex; gap: 28px; flex-wrap: wrap; margin-top: 16px; }
+  .header-dates { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: #666; display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
 
   /* ── NAV ── */
   nav {
@@ -289,13 +269,16 @@
 
 <header>
   <div class="header-inner">
-    <div class="report-category">&#9650; Fitness · Internal Analysis</div>
-    <h1>Gym, DTC &amp; Clinic Cohort Biomarker Analysis</h1>
+    <div class="header-eyebrow">Molecular You — Fitness Analysis</div>
+    <h1>Gym, DTC &amp; Clinic<br><em>Cohort Biomarker Analysis</em></h1>
     <div class="header-meta">
       <span>n = 50 barcodes</span>
       <span>mrm 1.1 · mymet 2.0 · myco 1.2 hqe</span>
-      <span>Published June 22, 2026</span>
-      <span>Last edited June 24, 2026</span>
+      <span>gym · dtc · clinic</span>
+    </div>
+    <div class="header-dates">
+      <span>Published: 2026-06-22</span>
+      <span>Last edited: 2026-06-24</span>
     </div>
   </div>
 </header>
