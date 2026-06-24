@@ -11,16 +11,21 @@
     --green: #2e7d32; --green-bg: #e8f5e9;
     --yellow: #b07d00; --yellow-bg: #fff8e1;
     --red: #c62828; --red-bg: #ffebee;
-    --accent: #1565c0; --accent-light: #e3f0ff;
+    --accent: #4a7c74; --accent-light: #e0f2ef;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 15px; }
 
-  .header { background: var(--ink); color: #fff; padding: 48px 64px 40px; border-bottom: 3px solid var(--accent); }
+  .header { background: var(--ink); color: #fff; padding: 48px 0 40px; border-bottom: 3px solid var(--accent); }
+  .header-inner { max-width: 1140px; margin: 0 auto; padding: 0 40px; }
+  .header-nav { margin-bottom: 20px; }
+  .back-link { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #666; text-decoration: none; transition: color .15s; }
+  .back-link:hover { color: #fff; }
   .header-eyebrow { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #aaa; margin-bottom: 14px; }
   .header h1 { font-size: 38px; font-weight: normal; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 12px; }
   .header h1 em { font-style: italic; color: #bbb; }
-  .header-meta { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #888; display: flex; gap: 28px; flex-wrap: wrap; }
+  .header-meta { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #888; display: flex; gap: 28px; flex-wrap: wrap; margin-top: 16px; }
+  .header-dates { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: #666; display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
 
   .container { max-width: 1140px; margin: 0 auto; padding: 0 40px 80px; }
   .section { margin-top: 56px; }
@@ -110,7 +115,7 @@
   .footnote { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--ink-light); padding-top: 12px; margin-top: 20px; line-height: 1.6; border-top: 1px solid var(--rule); }
 
   @media (max-width: 900px) {
-    .header { padding: 32px 24px; }
+    .header-inner { padding: 0 20px; }
     .container { padding: 0 20px 60px; }
     .overview-grid, .s5-grid { grid-template-columns: 1fr; }
     .line-grid-4 { grid-template-columns: 1fr 1fr; }
@@ -121,13 +126,20 @@
 <body>
 
 <div class="header">
-  <div class="header-eyebrow">Molecular You — Longitudinal Case Study</div>
-  <h1>Ten Years of Data,<br><em>One Patient's Health Story</em></h1>
-  <div class="header-meta">
-    <span>Subject: Robert Fraser</span>
-    <span>DOB: 1963-06-04</span>
-    <span>13 tests &nbsp;·&nbsp; 2015–2026</span>
-    <span>MY ID: MY2228526</span>
+  <div class="header-inner">
+    <div class="header-nav"><a href="../../index.html" class="back-link">← All Reports</a></div>
+    <div class="header-eyebrow">Molecular You — Longitudinal Case Study</div>
+    <h1>Ten Years of Data,<br><em>One Patient's Health Story</em></h1>
+    <div class="header-meta">
+      <span>Subject: Robert Fraser</span>
+      <span>DOB: 1963-06-04</span>
+      <span>13 tests &nbsp;·&nbsp; 2015–2026</span>
+      <span>MY ID: MY2228526</span>
+    </div>
+    <div class="header-dates">
+      <span>Published: 2026-06-24</span>
+      <span>Last edited: 2026-06-24</span>
+    </div>
   </div>
 </div>
 
