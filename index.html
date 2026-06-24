@@ -96,6 +96,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-height: 220px;
     transition: box-shadow 0.15s, background 0.15s;
   }
   .report-card:hover {
@@ -127,12 +128,20 @@
     line-height: 1.5;
   }
 
+  .card-date {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+  }
+
   .card-arrow {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 12px;
     color: var(--accent);
-    margin-top: auto;
-    padding-top: 8px;
+    padding-top: 4px;
   }
 
   /* ── FOOTER ── */
@@ -175,12 +184,16 @@
         <div class="card-tag">Case Study</div>
         <div class="card-title">Rob Fraser — Longitudinal Health Case Study</div>
         <div class="card-meta">
-          MY2228526 &nbsp;·&nbsp; 13 tests &nbsp;·&nbsp; 2015–2026
+          Tracking 150+ biomarkers across 13 blood tests from 2015 to 2026 to map a decade of metabolic change.
         </div>
+        <div class="card-date">Last edited June 24, 2026</div>
         <div class="card-arrow">View report →</div>
       </a>
 
-  <!-- ── FITNESS ANALYSIS ── -->
+    </div>
+  </div>
+
+  <!-- ── FITNESS ── -->
   <div class="category">
     <div class="category-label">Fitness</div>
     <div class="card-grid">
@@ -189,26 +202,14 @@
         <div class="card-tag">Cohort Comparison</div>
         <div class="card-title">Gym, DTC &amp; Clinic Cohort Biomarker Analysis</div>
         <div class="card-meta">
-          n = 50 barcodes &nbsp;·&nbsp; mrm 1.1 · mymet 2.0 · myco 1.2 hqe &nbsp;·&nbsp; June 2026
+          Metabolomic and proteomic comparison of 50 samples across gym, DTC, and clinic acquisition channels.
         </div>
+        <div class="card-date">Last edited June 24, 2026</div>
         <div class="card-arrow">View report →</div>
       </a>
 
-      <!-- ADD MORE CARDS BELOW following the same pattern -->
-
     </div>
   </div>
-
-  <!-- ADD MORE CATEGORIES BELOW following the same pattern:
-  <div class="category">
-    <div class="category-label">Cohort Analysis</div>
-    <div class="card-grid">
-      <a class="report-card" href="cohort-analysis/gym-dtc-clinic/">
-        ...
-      </a>
-    </div>
-  </div>
-  -->
 
 </div>
 
