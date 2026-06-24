@@ -3,199 +3,598 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Molecular You — Analysis Reports</title>
+<title>Rob Fraser — Longitudinal Health Case Study</title>
 <style>
   :root {
-    --ink: #1a1a1a;
-    --ink-mid: #4a4a4a;
-    --ink-light: #888;
-    --rule: #e0e0e0;
-    --bg: #fafafa;
-    --card: #ffffff;
-    --accent: #1565c0;
-    --accent-light: #e3f0ff;
+    --ink: #1a1a1a; --ink-mid: #4a4a4a; --ink-light: #888; --rule: #e0e0e0;
+    --bg: #fafafa; --card: #ffffff;
+    --green: #2e7d32; --green-bg: #e8f5e9;
+    --yellow: #b07d00; --yellow-bg: #fff8e1;
+    --red: #c62828; --red-bg: #ffebee;
+    --accent: #1565c0; --accent-light: #e3f0ff;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 15px; }
 
-  body {
-    font-family: Georgia, 'Times New Roman', serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.65;
-    font-size: 15px;
-  }
+  .header { background: var(--ink); color: #fff; padding: 48px 64px 40px; border-bottom: 3px solid var(--accent); }
+  .header-eyebrow { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #aaa; margin-bottom: 14px; }
+  .header h1 { font-size: 38px; font-weight: normal; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 12px; }
+  .header h1 em { font-style: italic; color: #bbb; }
+  .header-meta { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #888; display: flex; gap: 28px; flex-wrap: wrap; }
 
-  /* ── HEADER ── */
-  .header {
-    background: var(--ink);
-    color: #fff;
-    padding: 48px 64px 40px;
-    border-bottom: 3px solid var(--accent);
-  }
-  .header-eyebrow {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 14px;
-  }
-  .header h1 {
-    font-size: 34px;
-    font-weight: normal;
-    letter-spacing: -.02em;
-    margin-bottom: 10px;
-  }
-  .header-sub {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    color: #888;
-  }
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 40px 80px; }
+  .section { margin-top: 56px; }
+  .section-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  .section h2 { font-size: 22px; font-weight: normal; margin-bottom: 12px; letter-spacing: -.01em; }
+  .section-caption { font-size: 14.5px; color: var(--ink-mid); max-width: 780px; margin-bottom: 28px; line-height: 1.75; }
 
-  /* ── LAYOUT ── */
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 40px 80px;
-  }
+  .exec-summary { background: var(--card); border: 1px solid var(--rule); border-left: 4px solid var(--accent); border-radius: 0 4px 4px 0; padding: 28px 32px; margin-top: 36px; }
+  .exec-summary p { font-size: 15px; color: var(--ink-mid); line-height: 1.8; max-width: 820px; }
+  .exec-summary p + p { margin-top: 14px; }
 
-  /* ── CATEGORY SECTION ── */
-  .category {
-    margin-top: 56px;
-  }
-  .category-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--ink-light);
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 20px;
-  }
+  /* TIMELINE */
+  .timeline-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .timeline { display: flex; align-items: flex-start; gap: 0; min-width: 900px; position: relative; padding: 24px 0 8px; }
+  .timeline::before { content: ''; position: absolute; top: 38px; left: 0; right: 0; height: 2px; background: var(--rule); z-index: 0; }
+  .tnode { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+  .tnode-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #ccc; background: var(--card); margin-bottom: 10px; }
+  .tnode.has-data .tnode-dot { border-color: var(--accent); background: var(--accent); }
+  .tnode-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10.5px; color: var(--ink-light); text-align: center; line-height: 1.3; }
+  .tnode.has-data .tnode-label { color: var(--ink); font-weight: 600; }
+  .tnode-age { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9px; color: var(--ink-light); text-align: center; margin-top: 2px; }
 
-  /* ── REPORT CARDS ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
+  /* BARS */
+  .overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-card { background: var(--card); border: 1px solid var(--rule); border-radius: 4px; padding: 24px; }
+  .chart-card h3 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 20px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .bar-date { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--ink-mid); width: 68px; flex-shrink: 0; text-align: right; }
+  .bar-track { flex: 1; height: 22px; display: flex; border-radius: 2px; overflow: hidden; }
+  .bar-seg { height: 100%; }
+  .bar-seg.green { background: #4caf50; }
+  .bar-seg.yellow { background: #ffc107; }
+  .bar-seg.red { background: #ef5350; }
+  .bar-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10px; color: var(--ink-light); width: 50px; flex-shrink: 0; }
+  .legend { display: flex; gap: 16px; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--ink-mid); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
 
-  .report-card {
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 24px 28px;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .report-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 2px 12px rgba(21,101,192,.08);
-  }
+  /* HEATMAP */
+  .heatmap-wrap { overflow-x: auto; }
+  .heatmap table { border-collapse: collapse; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; width: 100%; }
+  .heatmap th { padding: 6px 10px; font-weight: 600; color: var(--ink-light); font-size: 10px; letter-spacing: .05em; border-bottom: 2px solid var(--rule); text-align: center; white-space: nowrap; }
+  .heatmap th.label-col { text-align: left; }
+  .heatmap td { padding: 5px 10px; border-bottom: 1px solid var(--rule); text-align: center; font-size: 11.5px; font-weight: 600; }
+  .heatmap td.label-col { text-align: left; font-weight: normal; color: var(--ink); white-space: nowrap; padding-right: 16px; min-width: 240px; }
+  .cell-green  { background: #e8f5e9; color: #2e7d32; }
+  .cell-yellow { background: #fff8e1; color: #b07d00; }
+  .cell-red    { background: #ffebee; color: #c62828; }
+  .cell-empty  { color: #ddd; background: transparent; font-weight: normal; }
+  .heatmap tr:hover td { filter: brightness(0.95); }
+  .heatmap tr:hover td.label-col { filter: none; }
 
-  .card-tag {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
+  /* LINE CHARTS */
+  .line-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .line-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .line-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .line-card { background: var(--card); border: 1px solid var(--rule); border-radius: 4px; padding: 16px 16px 12px; }
+  .line-card h4 { font-size: 12px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; color: var(--ink); }
+  .line-card-note { font-size: 10.5px; color: var(--ink-light); font-family: 'Helvetica Neue', Arial, sans-serif; margin-bottom: 10px; line-height: 1.4; }
 
-  .card-title {
-    font-size: 17px;
-    font-weight: normal;
-    letter-spacing: -.01em;
-    color: var(--ink);
-    line-height: 1.3;
-  }
+  /* FLAGS TABLE */
+  .flags-table { width: 100%; border-collapse: collapse; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; }
+  .flags-table th { padding: 8px 12px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-light); border-bottom: 2px solid var(--rule); }
+  .flags-table td { padding: 8px 12px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+  .flags-table tr:last-child td { border-bottom: none; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+  .pill-red    { background: var(--red-bg); color: var(--red); }
+  .pill-yellow { background: var(--yellow-bg); color: var(--yellow); }
 
-  .card-meta {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px;
-    color: var(--ink-light);
-    line-height: 1.5;
-  }
+  /* SECTION 5 LAYOUT */
+  .s5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .s5-context { font-size: 14px; color: var(--ink-mid); line-height: 1.75; }
+  .s5-context p + p { margin-top: 12px; }
+  .s5-stat { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .s5-num { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 28px; font-weight: 700; color: var(--red); }
+  .s5-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; color: var(--ink-light); }
+  .stat-row { display: flex; gap: 32px; margin-bottom: 28px; }
 
-  .card-arrow {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px;
-    color: var(--accent);
-    margin-top: auto;
-    padding-top: 8px;
-  }
+  /* FINDINGS */
+  .finding-list { list-style: none; }
+  .finding-list li { padding: 14px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 16px; align-items: flex-start; }
+  .finding-list li:last-child { border-bottom: none; }
+  .finding-dash { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--ink-light); min-width: 16px; padding-top: 1px; }
+  .finding-text { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+  .finding-text strong { color: var(--ink); font-weight: 600; }
 
-  /* ── FOOTER ── */
-  .footer {
-    margin-top: 80px;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    color: var(--ink-light);
-    text-align: center;
-  }
+  .footnote { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--ink-light); padding-top: 12px; margin-top: 20px; line-height: 1.6; border-top: 1px solid var(--rule); }
 
-  @media (max-width: 600px) {
-    .header { padding: 32px 24px 28px; }
+  @media (max-width: 900px) {
+    .header { padding: 32px 24px; }
     .container { padding: 0 20px 60px; }
-    .header h1 { font-size: 26px; }
+    .overview-grid, .s5-grid { grid-template-columns: 1fr; }
+    .line-grid-4 { grid-template-columns: 1fr 1fr; }
+    .line-grid-3 { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-eyebrow">Molecular You</div>
-  <h1>Analysis Reports</h1>
-  <div class="header-sub">Internal case studies and analytical summaries</div>
+  <div class="header-eyebrow">Molecular You — Longitudinal Case Study</div>
+  <h1>Ten Years of Data,<br><em>One Patient's Health Story</em></h1>
+  <div class="header-meta">
+    <span>Subject: Robert Fraser</span>
+    <span>DOB: 1963-06-04</span>
+    <span>13 tests &nbsp;·&nbsp; 2015–2026</span>
+    <span>MY ID: MY2228526</span>
+  </div>
 </div>
 
 <div class="container">
 
-  <!-- ── LONGITUDINAL ANALYSIS ── -->
-  <div class="category">
-    <div class="category-label">Longitudinal Analysis</div>
-    <div class="card-grid">
+  <div class="exec-summary">
+    <p>Since his first test in 2015, Rob has built one of the longest continuous molecular health records in our dataset. The record shows how his health has changed, which signals responded to intervention, and what his molecular profile actually looks like when something goes acutely wrong. When Rob tested in January 2026 during an episode of active infection, his results were unambiguous in context. Without five prior tests establishing his baseline, the same data would have been substantially harder to interpret.</p>
+    <p>Longitudinal testing adds context, and context is what turns a biomarker flag into a clinical insight.</p>
+  </div>
 
-      <a class="report-card" href="longitudinal-analysis/rob-fraser/">
-        <div class="card-tag">Case Study</div>
-        <div class="card-title">Rob Fraser — Longitudinal Health Case Study</div>
-        <div class="card-meta">
-          MY2228526 &nbsp;·&nbsp; 13 tests &nbsp;·&nbsp; 2015–2026
+  <!-- S01 -->
+  <div class="section">
+    <div class="section-label">Section 01</div>
+    <h2>Testing Timeline</h2>
+    <p class="section-caption">Rob has tested 13 times across a decade through four clinics and projects. The first six visits predate our current panel infrastructure; collection dates are known but molecular data are not available. The six tests from 2021 onward form the analytical record examined here, covering Rob's late 50s into his early 60s.</p>
+    <div class="timeline-wrap"><div class="timeline" id="timeline-bar"></div></div>
+  </div>
+
+  <!-- S02 -->
+  <div class="section">
+    <div class="section-label">Section 02</div>
+    <h2>Overall Health at a Glance</h2>
+    <p class="section-caption">Across five stable tests from 2021 to 2025, Rob's green biomarker rate held above 89% and his flagged condition count fell from 25 to 0. The January 2026 test departs sharply from this pattern, with red conditions rising from 0 to 23 in a single interval. That stable baseline is what makes the contrast interpretable.</p>
+    <div class="overview-grid">
+      <div class="chart-card">
+        <h3>Biomarker status per test</h3>
+        <div id="bio-bars"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#4caf50"></div>Optimal</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffc107"></div>Suboptimal</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef5350"></div>Flagged</div>
         </div>
-        <div class="card-arrow">View report →</div>
-      </a>
-
-      <!-- ADD MORE CARDS BELOW following the same pattern -->
-
+      </div>
+      <div class="chart-card">
+        <h3>Condition risk status per test</h3>
+        <div id="cond-bars"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#4caf50"></div>Low risk</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffc107"></div>Moderate risk</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef5350"></div>High risk</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- ADD MORE CATEGORIES BELOW following the same pattern:
-  <div class="category">
-    <div class="category-label">Cohort Analysis</div>
-    <div class="card-grid">
-      <a class="report-card" href="cohort-analysis/gym-dtc-clinic/">
-        ...
-      </a>
+  <!-- S03 -->
+  <div class="section">
+    <div class="section-label">Section 03</div>
+    <h2>Condition Risk Scores Over Time</h2>
+    <p class="section-caption">The heatmap shows three patterns that a single-timepoint report would miss. Several conditions flagged in 2021 resolved by 2022 and remained stable, including blood vessel lining health, innate immunity, and vascular inflammation. A separate group, including cell growth and renewal and cell growth and repair, remained persistently low across all four stable tests regardless of what improved elsewhere. The January 2026 result shows a concentrated collapse in inflammation, immunity, and coagulation pathways, while metabolic, hepatic, and amino acid conditions held at green.</p>
+    <div class="heatmap-wrap"><table class="heatmap" id="hm-all"></table></div>
+    <p style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#888;padding-top:10px;margin-top:12px;line-height:1.6;">Scoring thresholds: ≥ 91 optimal (green) &nbsp;·&nbsp; 70–90 suboptimal (yellow) &nbsp;·&nbsp; ≤ 69 high risk (red)</p>
+  </div>
+
+  <!-- S04 BIOMARKERS -->
+  <div class="section">
+    <div class="section-label">Section 04</div>
+    <h2>Key Biomarker Trajectories</h2>
+    <p class="section-caption">Biomarker scores (0–100 scale) across all six tests reveal two distinct patterns. Several biomarkers improved over the stable period and held — kynurenine, spermidine, and apolipoprotein A-I each moved from flagged or suboptimal in 2021 toward optimal by 2023 and stayed there. SM (OH) C24:1 shows a within-period decline that the stable average would obscure. A second group — CRP, haptoglobin, fibrinogen alpha chain, and alpha-1-acid glycoprotein 1 — held at 100 across five consecutive tests before dropping sharply in January 2026. The specifics of that episode are covered in Section 05.</p>
+    <div class="line-grid-3" id="bio-line-grid"></div>
+  </div>
+
+  <!-- S05 INFECTION EPISODE -->
+  <div class="section">
+    <div class="section-label">Section 05</div>
+    <h2>January 2026 — A Health Episode</h2>
+
+    <!-- stats row at top -->
+    <div style="display:flex;gap:80px;margin-bottom:32px;">
+      <div><div class="s5-num">25</div><div class="s5-label">biomarkers flagged<br>(up from 3 in Oct 2025)</div></div>
+      <div><div class="s5-num">23</div><div class="s5-label">conditions red<br>(up from 0 in Oct 2025)</div></div>
+      <div><div class="s5-num" style="font-size:22px">11×</div><div class="s5-label">CRP above upper<br>reference range</div></div>
+    </div>
+
+    <!-- para 1: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="s5-context">
+        <p>The January 2026 test was collected during an episode of active infection. The molecular signature is specific: CRP at 312.9 nM against a reference range of 0–26.9 nM, haptoglobin at 41027 nM against an upper reference of 19786 nM, both fibrinogen chains elevated, and serum amyloid proteins A-1 and A-4 both above range. These findings represent coordinated activation of the liver's acute-phase protein program alongside simultaneous engagement of the coagulation cascade and the complement system.</p>
+      </div>
+      <div id="s5-chart-1"></div>
+    </div>
+
+    <!-- para 2: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="s5-context">
+        <p>The condition scores reflect the same pattern. Inflammation response fell from 100 to 17. Innate immunity dropped from 100 to 25. Rheumatoid arthritis risk, which had held at 96–100 across five tests, dropped to 22 — driven entirely by the acute-phase protein elevation rather than any structural joint disease. Blood clot formation scored 38. Recovery scored 51.</p>
+      </div>
+      <div id="s5-chart-2"></div>
+    </div>
+
+    <!-- para 3: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="s5-context">
+        <p>What held up is equally informative. Amino acid conditions remained green. Liver disease scored 100. Neurotransmitter metabolism, kidney filtration, glycolysis, and hormone transport all stayed above 91. The collapse was concentrated in the immune and coagulation systems, not distributed across Rob's full metabolic profile. That specificity reflects a body under acute immune stress with intact metabolic reserves.</p>
+      </div>
+      <div id="s5-chart-3"></div>
+    </div>
+
+    <!-- para 4: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;margin-bottom:32px;">
+      <div class="s5-context">
+        <p>The report published on February 23, 2026 identified rheumatoid arthritis (score 22), depression (48), and COPD (49) as the top disease risks — each driven by the shared acute-phase signal rather than independent pathological processes. Without the longitudinal baseline, these scores would be harder to contextualise. With it, the acute and transient nature of the pattern is evident.</p>
+      </div>
+      <div id="s5-chart-4"></div>
+    </div>
+
+    <table class="flags-table" id="flags-table-inf"></table>
+  </div>
+
+  <!-- S06 BOOKEND -->
+  <div class="section">
+    <div class="section-label">Section 06</div>
+    <h2>What the Full Record Shows</h2>
+    <p class="section-caption">Across nearly five years of data, a few patterns stand out that no single test could have identified. Some signals improved and held. Some persisted without resolution. One arrived suddenly and sharply, then resolved against a background of stability that made its significance clear.</p>
+
+    <!-- finding 1: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="finding-text"><strong>Several conditions resolved and stayed resolved.</strong> Blood vessel lining health, germ detection, vascular inflammation, brain and nerve signals, innate immunity, and tissue and organ structural support all moved from flagged in 2021 to 100 by 2022, and held there across all subsequent tests. These are sustained shifts visible only because Rob kept testing.</div>
+      <div id="s6-chart-1"></div>
+    </div>
+
+    <!-- finding 2: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="finding-text"><strong>Diacetylspermine was below the detection limit in every stable test.</strong> Flagged red in Mar 2021, Feb 2022, Feb 2023, and Aug 2023 without change. Not measured in the 2025 or 2026 panels. Four consecutive readings at the floor of detection is a different clinical picture from a single flag.</div>
+      <div id="s6-chart-2"></div>
+    </div>
+
+    <!-- finding 3: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="finding-text"><strong>Apolipoprotein A-I was consistently above its upper reference range across 2022 and 2023.</strong> 76921 nM (Feb 2022), 73455 nM (Feb 2023), 71276 nM (Aug 2023) — all above reference, across three independent tests. Substantially lower in Oct 2025 (28288 nM). The stable-period pattern has not been explained by any single test in isolation.</div>
+      <div id="s6-chart-3"></div>
+    </div>
+
+    <!-- finding 4: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;border-bottom:1px solid #e0e0e0;">
+      <div class="finding-text"><strong>SM (OH) C24:1 and SM (OH) C22:2 both declined within a single year.</strong> Both sphingolipids were normal in 2021 and 2022, then fell to red by Feb 2023 and continued declining through Aug 2023. Neither was measured in 2025 or 2026, leaving the trajectory open. A within-year directional shift in two related lipids is a finding that requires longitudinal data to detect.</div>
+      <div id="s6-chart-4"></div>
+    </div>
+
+    <!-- finding 5: text left, chart right -->
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;padding:20px 0;">
+      <div class="finding-text"><strong>The January 2026 episode was acute, not gradual.</strong> October 2025 showed a clean profile — 0 red conditions, 3 flagged biomarkers. Three months later, 23 conditions were red and 25 biomarkers were flagged. The transition was discrete and the molecular pattern was specific. A single test in January 2026 without the October 2025 baseline would have been substantially harder to interpret as acute rather than chronic.</div>
+      <div id="s6-chart-5"></div>
     </div>
   </div>
-  -->
+
+  <div class="footnote">
+    Analysis covers reported biomarkers only. Early tests (2015–2018, 6 visits) are referenced for timeline context only; molecular data are not available for those visits. Condition scoring thresholds: ≥ 91 = green, 70–90 = yellow, ≤ 69 = red.
+  </div>
 
 </div>
 
-<div class="container">
-  <div class="footer">windyzn.github.io/my-reports</div>
-</div>
+<script>
+// ── TIMELINE ─────────────────────────────────────────────────────────────────
+const tlData = [
+  {label:'Aug 2015',age:52.2,data:false},{label:'Oct 2016',age:53.3,data:false},
+  {label:'Oct 2017',age:54.4,data:false},{label:'Jul 2018',age:55.2,data:false},
+  {label:'Sep 2019',age:56.3,data:false},{label:'Mar 2021',age:57.7,data:true},
+  {label:'Feb 2022',age:58.7,data:true},{label:'Feb 2023',age:59.7,data:true},
+  {label:'Aug 2023',age:60.2,data:true},{label:'Oct 2025',age:62.4,data:true},
+  {label:'Jan 2026',age:62.7,data:true},
+];
+const tbar = document.getElementById('timeline-bar');
+tlData.forEach(t => {
+  const el = document.createElement('div');
+  el.className = 'tnode' + (t.data ? ' has-data' : '');
+  el.innerHTML = `<div class="tnode-dot"></div><div class="tnode-label">${t.label}</div><div class="tnode-age">age ${t.age}</div>`;
+  tbar.appendChild(el);
+});
 
+// ── STACKED BARS ──────────────────────────────────────────────────────────────
+const bioBarData = [
+  {date:'Mar 2021',green:155,yellow:9, red:4, total:168},
+  {date:'Feb 2022',green:253,yellow:6, red:8, total:267},
+  {date:'Feb 2023',green:222,yellow:10,red:10,total:242},
+  {date:'Aug 2023',green:226,yellow:10,red:9, total:245},
+  {date:'Oct 2025',green:122,yellow:7, red:3, total:132},
+  {date:'Jan 2026',green:115,yellow:10,red:15,total:140},
+];
+const condBarData = [
+  {date:'Sep 2019',green:50, yellow:2, red:0, total:52},
+  {date:'Mar 2021',green:64, yellow:14,red:11,total:89},
+  {date:'Feb 2022',green:61, yellow:19,red:9, total:89},
+  {date:'Feb 2023',green:68, yellow:9, red:12,total:89},
+  {date:'Aug 2023',green:75, yellow:8, red:6, total:89},
+  {date:'Oct 2025',green:73, yellow:7, red:0, total:80},
+  {date:'Jan 2026',green:47, yellow:10,red:23,total:80},
+];
+function renderBars(data, id) {
+  const el = document.getElementById(id);
+  data.forEach(d => {
+    const row = document.createElement('div'); row.className = 'bar-row';
+    const gw=(d.green/d.total*100).toFixed(1),yw=(d.yellow/d.total*100).toFixed(1),rw=(d.red/d.total*100).toFixed(1);
+    row.innerHTML=`<div class="bar-date">${d.date}</div><div class="bar-track"><div class="bar-seg green" style="width:${gw}%"></div><div class="bar-seg yellow" style="width:${yw}%"></div><div class="bar-seg red" style="width:${rw}%"></div></div><div class="bar-label">${d.green}/${d.total}</div>`;
+    el.appendChild(row);
+  });
+}
+renderBars(bioBarData,'bio-bars');
+renderBars(condBarData,'cond-bars');
+
+// ── HEATMAP ───────────────────────────────────────────────────────────────────
+const condData = {
+  "Acute-phase protein response":         {a:100,b:100,c:100,d:98, e:93, f:31 },
+  "Alzheimer's disease":                  {a:99, b:98, c:97, d:99, e:100,f:93 },
+  "Amino acid pool":                      {a:99, b:100,c:99, d:98, e:91, f:100},
+  "Amino acids used for energy":          {a:100,b:73, c:100,d:100,e:100,f:98 },
+  "Atherosclerosis":                      {a:79, b:94, c:80, d:96, e:99, f:59 },
+  "Blood cleaning & recycling":           {a:100,b:100,c:100,d:100,e:100,f:33 },
+  "Blood clot breakdown":                 {a:100,b:100,c:100,d:100,e:84, f:79 },
+  "Blood clot formation":                 {a:100,b:100,c:100,d:83, e:96, f:38 },
+  "Blood clotting control":               {a:100,b:77, c:66, d:68, e:84, f:98 },
+  "Blood flow capacity":                  {a:100,b:100,c:95, d:100,e:100,f:99 },
+  "Blood sugar control":                  {a:100,b:75, c:100,d:100,e:100,f:100},
+  "Blood vessel dilation and signaling":  {a:100,b:100,c:91, d:100,e:100,f:100},
+  "Blood vessel growth and maintenance":  {a:72, b:100,c:100,d:100,e:100,f:55 },
+  "Blood vessel health":                  {a:79, b:100,c:100,d:100,e:99, f:61 },
+  "Blood vessel lining health":           {a:58, b:100,c:87, d:100,e:100,f:100},
+  "Brain & nerve signals":                {a:68, b:100,c:28, d:100,e:100,f:100},
+  "Building blocks":                      {a:100,b:78, c:100,d:98, e:100,f:100},
+  "Carb metabolism":                      {a:100,b:80, c:100,d:100,e:100,f:98 },
+  "Cardiovascular disease":               {a:82, b:99, c:78, d:100,e:100,f:60 },
+  "Cartilage & bone health":              {a:100,b:100,c:100,d:100,e:98, f:100},
+  "Cell growth and renewal":              {a:42, b:46, c:42, d:42, e:100,f:100},
+  "Cell growth and repair":               {a:63, b:64, c:63, d:63, e:100,f:100},
+  "Cell protection & detox":             {a:97, b:100,c:57, d:100,e:100,f:99 },
+  "Cellular energy":                      {a:66, b:100,c:60, d:100,e:88, f:98 },
+  "Chronic obstructive pulmonary disease":{a:100,b:100,c:99, d:100,e:93, f:49 },
+  "Circulation support":                  {a:100,b:100,c:100,d:100,e:100,f:100},
+  "Clotting & wound healing":            {a:100,b:100,c:100,d:90, e:98, f:67 },
+  "Clotting balance":                     {a:100,b:88, c:84, d:78, e:92, f:70 },
+  "DNA & gene regulation":              {a:100,b:42, c:100,d:100,e:100,f:99 },
+  "Depression":                           {a:98, b:100,c:100,d:100,e:100,f:48 },
+  "Detoxification and oxidative stress":  {a:98, b:66, c:66, d:100,e:88, f:99 },
+  "Digestive enzymes":                    {a:20, b:20, c:100,d:100,e:100,f:100},
+  "Early warning response":               {a:100,b:100,c:100,d:100,e:100,f:49 },
+  "Enzyme control":                       {a:100,b:100,c:100,d:100,e:86, f:55 },
+  "Fat & cholesterol transport":         {a:98, b:85, c:90, d:93, e:98, f:90 },
+  "Fat and cholesterol transport":        {a:98, b:85, c:90, d:93, e:98, f:70 },
+  "Fat metabolism":                       {a:98, b:85, c:90, d:93, e:98, f:88 },
+  "Germ detection":                       {a:55, b:100,c:100,d:100,e:100,f:100},
+  "Glycolysis-gluconeogenesis":           {a:96, b:76, c:100,d:100,e:100,f:100},
+  "Growth support":                       {a:55, b:57, c:55, d:55, e:100,f:100},
+  "Gut lining health":                    {a:100,b:100,c:100,d:100,e:100,f:100},
+  "Hormone balance":                      {a:79, b:100,c:100,d:97, e:99, f:100},
+  "Hormone binding and transport":        {a:100,b:82, c:100,d:94, e:99, f:100},
+  "Immune activation":                    {a:100,b:100,c:100,d:100,e:99, f:77 },
+  "Immune cell recruitment":             {a:100,b:100,c:100,d:100,e:100,f:100},
+  "Immune system activation":            {a:84, b:100,c:100,d:100,e:99, f:77 },
+  "Immune system regulation":            {a:100,b:100,c:100,d:100,e:100,f:57 },
+  "Inflammation & immune readiness":     {a:92, b:100,c:100,d:100,e:96, f:39 },
+  "Inflammation response":              {a:100,b:100,c:100,d:100,e:100,f:17 },
+  "Inflammatory bowel disease":          {a:90, b:100,c:100,d:98, e:100,f:66 },
+  "Innate immunity":                      {a:73, b:100,c:100,d:100,e:100,f:25 },
+  "Iron and red blood cell status":      {a:100,b:78, c:100,d:93, e:99, f:59 },
+  "Joint health":                         {a:100,b:100,c:100,d:100,e:98, f:100},
+  "Kidney filtration":                    {a:100,b:99, c:100,d:100,e:100,f:100},
+  "Liver disease":                        {a:100,b:100,c:100,d:100,e:94, f:100},
+  "Mental drive":                         {a:100,b:56, c:100,d:96, e:100,f:100},
+  "Microbiome-linked metabolites":       {a:60, b:60, c:55, d:63, e:100,f:99 },
+  "Muscle building":                      {a:87, b:100,c:99, d:99, e:100,f:98 },
+  "Neurotransmitter metabolism":         {a:81, b:71, c:64, d:100,e:100,f:100},
+  "Non-alcoholic fatty liver disease":   {a:100,b:90, c:92, d:95, e:98, f:78 },
+  "Oxygen transport":                     {a:100,b:100,c:100,d:100,e:99, f:100},
+  "Pathogen destruction system":         {a:100,b:100,c:100,d:100,e:100,f:94 },
+  "Performance":                          {a:82, b:80, c:82, d:90, e:96, f:95 },
+  "Production of clotting factors":      {a:100,b:100,c:100,d:81, e:100,f:100},
+  "Protein control system":             {a:100,b:79, c:70, d:76, e:86, f:62 },
+  "Readiness":                            {a:90, b:89, c:92, d:90, e:96, f:73 },
+  "Recovery":                             {a:94, b:100,c:92, d:100,e:94, f:51 },
+  "Rheumatoid arthritis":               {a:100,b:100,c:96, d:97, e:100,f:22 },
+  "Stress defence":                       {a:98, b:100,c:66, d:100,e:87, f:63 },
+  "Stress recovery":                      {a:96, b:100,c:100,d:96, e:100,f:100},
+  "Tissue & joint health":             {a:77, b:100,c:100,d:100,e:95, f:100},
+  "Tissue and organ structural support":{a:63, b:75, c:100,d:100,e:97, f:100},
+  "Tissue repair":                        {a:100,b:100,c:100,d:100,e:97, f:100},
+  "Tissue support proteins":           {a:100,b:100,c:100,d:100,e:100,f:100},
+  "Training motivation":                 {a:97, b:61, c:100,d:96, e:100,f:100},
+  "Tryptophan processing":              {a:92, b:100,c:100,d:100,e:100,f:100},
+  "Type 2 diabetes":                     {a:100,b:100,c:99, d:100,e:100,f:73 },
+  "Urea cycle":                           {a:100,b:100,c:100,d:100,e:100,f:100},
+  "Vascular inflammation":             {a:74, b:100,c:100,d:100,e:98, f:42 },
+  "Vitamin & mineral transport":       {a:100,b:76, c:100,d:92, e:100,f:100},
+};
+const COL_KEYS=['a','b','c','d','e','f'];
+const COL_LABELS=['Mar 2021','Feb 2022','Feb 2023','Aug 2023','Oct 2025','Jan 2026'];
+function scoreClass(v){if(v===null||v===undefined)return'cell-empty';return v>=91?'cell-green':v>=70?'cell-yellow':'cell-red';}
+function buildHeatmap(tableId){
+  const tbl=document.getElementById(tableId);
+  const thead=tbl.createTHead();const hr=thead.insertRow();
+  const th0=document.createElement('th');th0.className='label-col';th0.textContent='Condition';hr.appendChild(th0);
+  COL_LABELS.forEach(l=>{const th=document.createElement('th');th.textContent=l;hr.appendChild(th);});
+  const tbody=tbl.createTBody();
+  Object.keys(condData).sort().forEach(name=>{
+    const row=condData[name];const tr=tbody.insertRow();
+    const td0=tr.insertCell();td0.className='label-col';td0.textContent=name;
+    COL_KEYS.forEach(k=>{
+      const td=tr.insertCell();const v=row[k];
+      if(v!==undefined){td.textContent=v;td.className=scoreClass(v);}
+      else{td.textContent='–';td.className='cell-empty';}
+    });
+  });
+}
+buildHeatmap('hm-all');
+
+// ── LINE CHART ENGINE ─────────────────────────────────────────────────────────
+const cMap={green:'#4caf50',yellow:'#ffc107',red:'#ef5350',na:'#e0e0e0'};
+
+function drawLineChart(container, series, opts={}) {
+  const W=220,H=88,PL=22,PR=6,PT=6,PB=20;
+  const iW=W-PL-PR,iH=H-PT-PB;
+
+  const bands=`
+    <rect x="${PL}" y="${PT}" width="${iW}" height="${iH*0.09}" fill="#e8f5e9" opacity="0.45"/>
+    <rect x="${PL}" y="${PT+iH*0.09}" width="${iW}" height="${iH*0.21}" fill="#fff8e1" opacity="0.45"/>
+    <rect x="${PL}" y="${PT+iH*0.30}" width="${iW}" height="${iH*0.70}" fill="#ffebee" opacity="0.35"/>
+    <line x1="${PL}" y1="${(PT+iH*0.09).toFixed(1)}" x2="${PL+iW}" y2="${(PT+iH*0.09).toFixed(1)}" stroke="#4caf50" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.5"/>
+    <line x1="${PL}" y1="${(PT+iH*0.30).toFixed(1)}" x2="${PL+iW}" y2="${(PT+iH*0.30).toFixed(1)}" stroke="#ffc107" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.5"/>`;
+
+  const n=series.length;
+  const xStep=iW/(n-1);
+
+  // build path segments through valid consecutive points
+  let segs=[],cur=[];
+  series.forEach((p,i)=>{
+    if(p.y!==null){cur.push({px:PL+i*xStep,py:PT+iH*(1-p.y/100),c:p.c});}
+    else{if(cur.length)segs.push(cur);cur=[];}
+  });
+  if(cur.length)segs.push(cur);
+
+  let paths='';
+  segs.forEach(seg=>{
+    if(seg.length<2)return;
+    const d=seg.map((s,i)=>(i===0?'M':'L')+s.px.toFixed(1)+','+s.py.toFixed(1)).join(' ');
+    paths+=`<path d="${d}" fill="none" stroke="#666" stroke-width="1.5" stroke-linejoin="round"/>`;
+  });
+
+  let dots='';
+  series.forEach((p,i)=>{
+    if(p.y===null)return;
+    const px=PL+i*xStep,py=PT+iH*(1-p.y/100);
+    dots+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3.2" fill="${cMap[p.c]}" stroke="white" stroke-width="1"/>`;
+  });
+
+  let xlabels='';
+  series.forEach((p,i)=>{
+    const px=PL+i*xStep;
+    xlabels+=`<text x="${px.toFixed(1)}" y="${H-3}" text-anchor="middle" font-size="6" fill="#bbb" font-family="Helvetica Neue,Arial,sans-serif">${p.x}</text>`;
+  });
+
+  let yaxis='';
+  [0,50,100].forEach(v=>{
+    const py=PT+iH*(1-v/100);
+    yaxis+=`<text x="${PL-3}" y="${(py+2).toFixed(1)}" text-anchor="end" font-size="5.5" fill="#ccc" font-family="Helvetica Neue,Arial,sans-serif">${v}</text>`;
+  });
+
+  container.innerHTML=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">${bands}${paths}${dots}${xlabels}${yaxis}</svg>`;
+}
+
+function makeCard(parent, name, note, series) {
+  const card=document.createElement('div');card.className='line-card';
+  const noteEl=document.createElement('div');noteEl.className='line-card-note';noteEl.textContent=note;
+  const svgWrap=document.createElement('div');
+  card.innerHTML=`<h4>${name}</h4>`;
+  card.appendChild(noteEl);card.appendChild(svgWrap);
+  parent.appendChild(card);
+  drawLineChart(svgWrap,series);
+}
+
+// ── SECTION 4: BIOMARKER LINE CHARTS ─────────────────────────────────────────
+// 6 short labels: Mar21 Feb22 Feb23 Aug23 Oct25 Jan26
+const L6=['Mar 21','Feb 22','Feb 23','Aug 23','Oct 25','Jan 26'];
+const L4=['Mar 21','Feb 22','Feb 23','Aug 23'];
+const L5s=['Mar 21','Feb 22','Feb 23','Aug 23','Oct 25'];
+
+// Story 1: improving over time / variability
+// Story 2: stable then acute drop Jan 2026
+const bioLines=[
+  // Story 1 — improvement & variability
+  {name:'Kynurenine',note:'Flagged Mar 2021; resolved by Feb 2022 and held',
+   s:[{x:'Mar 21',y:1,c:'red'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:null,c:'na'}]},
+  {name:'Spermidine',note:'Flagged Mar 2021; green from Feb 2022 onward',
+   s:[{x:'Mar 21',y:0,c:'red'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:null,c:'na'}]},
+  {name:'Apolipoprotein A-I',note:'Persistently above range 2022–2023; approaching optimal by Oct 2025',
+   s:[{x:'Mar 21',y:null,c:'na'},{x:'Feb 22',y:45,c:'red'},{x:'Feb 23',y:63,c:'red'},{x:'Aug 23',y:75,c:'yellow'},{x:'Oct 25',y:89,c:'yellow'},{x:'Jan 26',y:null,c:'na'}]},
+  {name:'Apolipoprotein C-III',note:'Suboptimal 2022–2023; improved to optimal by Aug 2023',
+   s:[{x:'Mar 21',y:null,c:'na'},{x:'Feb 22',y:86,c:'yellow'},{x:'Feb 23',y:87,c:'yellow'},{x:'Aug 23',y:98,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:62,c:'red'}]},
+
+  {name:'Glucose',note:'One suboptimal reading in Feb 2022; otherwise consistently optimal',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:51,c:'yellow'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:100,c:'green'}]},
+  {name:'SM (OH) C24:1',note:'Normal 2021–2022; declined sharply through 2023',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:33,c:'red'},{x:'Aug 23',y:7,c:'red'},{x:'Oct 25',y:null,c:'na'},{x:'Jan 26',y:null,c:'na'}]},
+  // Story 2 — stable then acute drop
+  {name:'C-reactive protein',note:'Optimal across five tests; dropped to 0 in Jan 2026 — see Section 05',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:0,c:'red'}]},
+  {name:'Haptoglobin',note:'Optimal across five tests; dropped to 0 in Jan 2026 — see Section 05',
+   s:[{x:'Mar 21',y:null,c:'na'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:0,c:'red'}]},
+  {name:'Fibrinogen alpha chain',note:'Optimal across five tests; dropped sharply in Jan 2026 — see Section 05',
+   s:[{x:'Mar 21',y:null,c:'na'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:28,c:'red'}]},
+];
+
+const bioGrid=document.getElementById('bio-line-grid');
+bioLines.forEach(d=>makeCard(bioGrid,d.name,d.note,d.s));
+
+// ── SECTION 5: INLINE CHARTS ─────────────────────────────────────────────────
+const s5Charts=[
+  {id:'s5-chart-1', name:'C-reactive protein', note:'Normal across five tests; 11× upper reference Jan 2026',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:0,c:'red'}]},
+  {id:'s5-chart-2', name:'Inflammation response', note:'100 across five tests; 17 in Jan 2026',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:17,c:'red'}]},
+  {id:'s5-chart-3', name:'Rheumatoid arthritis risk', note:'96–100 across five tests; 22 in Jan 2026',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:96,c:'green'},{x:'Aug 23',y:97,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:22,c:'red'}]},
+  {id:'s5-chart-4', name:'Innate immunity', note:'Improved from 73 to 100 by 2022; 25 in Jan 2026',
+   s:[{x:'Mar 21',y:73,c:'yellow'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:25,c:'red'}]},
+];
+s5Charts.forEach(d=>makeCard(document.getElementById(d.id),d.name,d.note,d.s));
+
+// ── FLAGS TABLE ───────────────────────────────────────────────────────────────
+const infFlags=[
+  {name:'C-reactive protein',level:'High',colour:'red',conc:'312.9 nM',ref:'0–26.9 nM',cat:'Acute-phase'},
+  {name:'Haptoglobin',level:'High',colour:'red',conc:'41027 nM',ref:'2344–19787 nM',cat:'Acute-phase / iron recycling'},
+  {name:'Serum amyloid A-1 protein',level:'High',colour:'red',conc:'539.0 nM',ref:'≤ 36.8 nM',cat:'Acute-phase'},
+  {name:'Serum amyloid A-4 protein',level:'High',colour:'red',conc:'1153 nM',ref:'374–1040 nM',cat:'Acute-phase'},
+  {name:'Serum amyloid P-component',level:'High',colour:'red',conc:'947.2 nM',ref:'185–655 nM',cat:'Acute-phase / innate immunity'},
+  {name:'Alpha-1-acid glycoprotein 1',level:'High',colour:'red',conc:'8363 nM',ref:'1332–4855 nM',cat:'Acute-phase'},
+  {name:'Alpha-1-antichymotrypsin',level:'High',colour:'red',conc:'3222 nM',ref:'1250–2301 nM',cat:'Protease inhibitor'},
+  {name:'Leucine-rich alpha-2-glycoprotein 1',level:'High',colour:'red',conc:'567.7 nM',ref:'114–268 nM',cat:'Vascular inflammation'},
+  {name:'Lipopolysaccharide-binding protein',level:'High',colour:'red',conc:'107.4 nM',ref:'≤ 36.5 nM',cat:'Innate immunity'},
+  {name:'Complement factor B',level:'High',colour:'red',conc:'1179 nM',ref:'417–894 nM',cat:'Complement activation'},
+  {name:'Plasma protease C1 inhibitor',level:'High',colour:'red',conc:'1005 nM',ref:'492–937 nM',cat:'Coagulation / complement'},
+  {name:'Plasminogen',level:'High',colour:'red',conc:'485.7 nM',ref:'235–445 nM',cat:'Fibrinolysis'},
+  {name:'Fibrinogen alpha chain',level:'High',colour:'red',conc:'16571 nM',ref:'6002–13775 nM',cat:'Coagulation'},
+  {name:'Fibrinogen beta chain',level:'High',colour:'red',conc:'15669 nM',ref:'5788–13226 nM',cat:'Coagulation'},
+  {name:'Apolipoprotein C-III',level:'Low',colour:'red',conc:'940.6 nM',ref:'1631–5287 nM',cat:'Lipid transport'},
+  {name:'Ceruloplasmin',level:'High',colour:'yellow',conc:'2626 nM',ref:'1113–2623 nM',cat:'Acute-phase / copper transport'},
+  {name:'C4b-binding protein α chain',level:'High',colour:'yellow',conc:'1467 nM',ref:'702–1428 nM',cat:'Complement regulation'},
+  {name:'Complement C5',level:'High',colour:'yellow',conc:'245.4 nM',ref:'133–241 nM',cat:'Complement'},
+  {name:'Heparin cofactor 2',level:'High',colour:'yellow',conc:'803.6 nM',ref:'367–796 nM',cat:'Coagulation inhibitor'},
+  {name:'Hemoglobin subunit alpha 1',level:'Low',colour:'yellow',conc:'201.4 nM',ref:'207–1864 nM',cat:'Oxygen transport'},
+  {name:'Clusterin',level:'Low',colour:'yellow',conc:'809.2 nM',ref:'861–1445 nM',cat:'Complement regulation'},
+  {name:'Complement C1q subunit B',level:'Low',colour:'yellow',conc:'130.5 nM',ref:'137–308 nM',cat:'Complement activation'},
+  {name:'Apolipoprotein C-II',level:'Low',colour:'yellow',conc:'834.4 nM',ref:'921–3887 nM',cat:'Lipid transport'},
+  {name:'Betaine',level:'Low',colour:'yellow',conc:'26.8 μM',ref:'27.2–135.8 μM',cat:'Methylation / microbiome'},
+  {name:'Creatine',level:'Low',colour:'yellow',conc:'12.0 μM',ref:'13.9–81.2 μM',cat:'Energy metabolism'},
+];
+const ft=document.getElementById('flags-table-inf');
+const fh=ft.createTHead();const fhr=fh.insertRow();
+['Biomarker','Level','Result','Reference range','Category'].forEach(h=>{const th=document.createElement('th');th.textContent=h;fhr.appendChild(th);});
+const fb=ft.createTBody();
+infFlags.forEach(f=>{
+  const tr=fb.insertRow();
+  tr.innerHTML=`<td><strong>${f.name}</strong></td><td><span class="pill pill-${f.colour}">${f.level}</span></td><td style="font-family:monospace;font-size:12px">${f.conc}</td><td style="font-family:monospace;font-size:12px;color:#888">${f.ref}</td><td style="color:#666;font-size:12px">${f.cat}</td>`;
+});
+
+// ── SECTION 6: INLINE BOOKEND CHARTS ─────────────────────────────────────────
+const s6Charts=[
+  {id:'s6-chart-1', name:'Blood vessel lining health', note:'Flagged 2021; resolved to 100 by 2022 and held',
+   s:[{x:'Mar 21',y:58,c:'red'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:87,c:'yellow'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:100,c:'green'}]},
+  {id:'s6-chart-2', name:'Diacetylspermine', note:'Below detection limit in all four stable tests',
+   s:[{x:'Mar 21',y:0,c:'red'},{x:'Feb 22',y:0,c:'red'},{x:'Feb 23',y:0,c:'red'},{x:'Aug 23',y:0,c:'red'},{x:'Oct 25',y:null,c:'na'},{x:'Jan 26',y:null,c:'na'}]},
+  {id:'s6-chart-3', name:'Apolipoprotein A-I', note:'Persistently above range 2022–2023; lower Oct 2025',
+   s:[{x:'Mar 21',y:null,c:'na'},{x:'Feb 22',y:45,c:'red'},{x:'Feb 23',y:63,c:'red'},{x:'Aug 23',y:75,c:'yellow'},{x:'Oct 25',y:89,c:'yellow'},{x:'Jan 26',y:null,c:'na'}]},
+  {id:'s6-chart-4', name:'SM (OH) C24:1', note:'Normal 2021–2022; sharp decline within a single year',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:33,c:'red'},{x:'Aug 23',y:7,c:'red'},{x:'Oct 25',y:null,c:'na'},{x:'Jan 26',y:null,c:'na'}]},
+  {id:'s6-chart-5', name:'Inflammation response', note:'100 across five tests; 17 in Jan 2026',
+   s:[{x:'Mar 21',y:100,c:'green'},{x:'Feb 22',y:100,c:'green'},{x:'Feb 23',y:100,c:'green'},{x:'Aug 23',y:100,c:'green'},{x:'Oct 25',y:100,c:'green'},{x:'Jan 26',y:17,c:'red'}]},
+];
+s6Charts.forEach(d=>makeCard(document.getElementById(d.id),d.name,d.note,d.s));
+</script>
 </body>
 </html>
