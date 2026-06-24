@@ -15,14 +15,14 @@
     --dark-blue-grey: #4a4a4a;
     --serenity: #f0f0f0;
     --light-blue: #fafafa;
-    --gym: #78350F;
-    --gym-light: #FEF3C7;
-    --dtc: #0D5E3F;
-    --dtc-light: #D1FAE5;
-    --clinic: #1E3A5F;
-    --clinic-light: #DBEAFE;
-    --male: #2563EB;
-    --female: #BE185D;
+    --gym: #C17A2A;
+    --gym-light: #F5E6D0;
+    --dtc: #3B7A7A;
+    --dtc-light: #D0EBEB;
+    --clinic: #4B5563;
+    --clinic-light: #E2E5EA;
+    --male: #5B7FA6;
+    --female: #A6667A;
     --text: #1a1a1a;
     --text-light: #888;
     --border: #e0e0e0;
@@ -52,6 +52,10 @@
   .header-nav { margin-bottom: 20px; }
   .back-link { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #666; text-decoration: none; transition: color .15s; }
   .back-link:hover { color: #fff; }
+  .sticky-back { position: sticky; top: 0; z-index: 200; background: #fff; border-bottom: 1px solid var(--border); height: 37px; display: flex; align-items: center; }
+  .sticky-back-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; width: 100%; }
+  .sticky-back .back-link { color: var(--text-light); }
+  .sticky-back .back-link:hover { color: var(--dark-blue); }
   .report-category {
     font-size: 11px;
     font-weight: 700;
@@ -84,7 +88,7 @@
     background: #fff;
     border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 0;
+    top: 37px;
     z-index: 100;
   }
   .nav-inner {
@@ -205,9 +209,9 @@
   .pill-gym { background: var(--gym-light); color: var(--gym); }
   .pill-dtc { background: var(--dtc-light); color: var(--dtc); }
   .pill-clinic { background: var(--clinic-light); color: var(--clinic); }
-  .pill-all { background: #EDE9FE; color: #5B21B6; }
-  .pill-male { background: #DBEAFE; color: #1E40AF; }
-  .pill-female { background: #FCE7F3; color: #9D174D; }
+  .pill-all { background: #E5E7EB; color: #374151; }
+  .pill-male { background: #D9E5F0; color: var(--male); }
+  .pill-female { background: #EDD9DF; color: var(--female); }
 
   /* ── DEMO TABLE ── */
   .demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
@@ -278,6 +282,12 @@
 </style>
 </head>
 <body>
+
+<div class="sticky-back">
+  <div class="sticky-back-inner">
+    <a class="back-link" href="../../">← All Reports</a>
+  </div>
+</div>
 
 <header>
   <div class="header-inner">
@@ -390,8 +400,8 @@
       <div class="chart-title">OOR direction — high vs low (%)</div>
       <div class="chart-wrap" style="height:180px;"><canvas id="dirChart"></canvas></div>
       <div class="legend">
-        <div class="leg"><div class="leg-dot" style="background:#EF4444;"></div>High OOR</div>
-        <div class="leg"><div class="leg-dot" style="background:#3B82F6;"></div>Low OOR</div>
+        <div class="leg"><div class="leg-dot" style="background:#C46B5A;"></div>High OOR</div>
+        <div class="leg"><div class="leg-dot" style="background:#5B7FA6;"></div>Low OOR</div>
       </div>
     </div>
     <div class="chart-card">
@@ -448,7 +458,7 @@
       <div class="leg"><div class="leg-circle" style="background:var(--clinic);"></div>Clinic</div>
       <div class="leg"><div class="leg-circle" style="background:var(--dtc);"></div>DTC</div>
       <div class="leg"><div class="leg-circle" style="background:var(--gym);"></div>Gym</div>
-      <div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>
+      <div class="leg"><div class="leg-circle" style="background:#8B7A9E;"></div>957B845 (outlier)</div>
     </div>
     <div class="chart-caption">Hover over any point to see the barcode, cohort, sex, and age. 957B845 (★) is a strong outlier at PC1=−17.7, PC2=+25.3, consistent across all three dataset versions.</div>
   </div>
@@ -590,7 +600,7 @@
           <div id="outlierCats"></div>
         </div>
         <div>
-          <div class="bar-section-title">Most unique to this sample (Gym peer OOR &lt;20%)</div>
+          <div class="bar-section-title">Rarely OOR in gym peers (&lt;20%)</div>
           <div id="outlierUnique"></div>
         </div>
       </div>
@@ -795,14 +805,14 @@ const sexRows = {
 };
 
 const outlierCats = [
-  {l:'Ether-linked PCs (PC ae)',n:18,col:'var(--gym)'},
-  {l:'Sphingomyelins (SM / SM OH)',n:14,col:'var(--gym)'},
-  {l:'Diacyl PCs (PC aa)',n:11,col:'var(--gym)'},
-  {l:'Coagulation / acute phase',n:8,col:'var(--clinic)'},
-  {l:'Amino acids & metabolites',n:6,col:'var(--gym)'},
-  {l:'Apolipoproteins',n:6,col:'var(--clinic)'},
-  {l:'Complement proteins',n:5,col:'var(--clinic)'},
-  {l:'LysoPCs',n:4,col:'var(--gym)'},
+  {l:'Ether-linked PCs (PC ae)',n:18,col:'#C17A2A'},
+  {l:'Sphingomyelins (SM / SM OH)',n:14,col:'#C17A2A'},
+  {l:'Diacyl PCs (PC aa)',n:11,col:'#C17A2A'},
+  {l:'Coagulation / acute phase',n:8,col:'#4B5563'},
+  {l:'Amino acids & metabolites',n:6,col:'#C17A2A'},
+  {l:'Apolipoproteins',n:6,col:'#4B5563'},
+  {l:'Complement proteins',n:5,col:'#4B5563'},
+  {l:'LysoPCs',n:4,col:'#C17A2A'},
 ];
 const outlierUnique = [
   {b:'Apolipoprotein A-I',v:0.062},{b:'Apolipoprotein A-II',v:0.125},
@@ -837,21 +847,21 @@ window.addEventListener('scroll', () => {
 new Chart(document.getElementById('dirChart'),{
   type:'bar',
   data:{labels:['Gym','Clinic','DTC'],datasets:[
-    {label:'High OOR %',data:[10.3,6.6,6.9],backgroundColor:'#EF4444bb',borderRadius:3},
-    {label:'Low OOR %',data:[4.2,11.9,10.0],backgroundColor:'#3B82F6bb',borderRadius:3},
+    {label:'High OOR %',data:[10.3,6.6,6.9],backgroundColor:'#C46B5Abb',borderRadius:3},
+    {label:'Low OOR %',data:[4.2,11.9,10.0],backgroundColor:'#5B7FA6bb',borderRadius:3},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}%`}}},
-    scales:{x:{grid:{display:false}},y:{title:{display:true,text:'%',font:{size:10},color:'#61859D'},grid:{color:'#D5E6EE'}}}}
+    scales:{x:{grid:{display:false}},y:{title:{display:true,text:'%',font:{size:10},color:'#888'},grid:{color:'#e0e0e0'}}}}
 });
 new Chart(document.getElementById('assayChart'),{
   type:'bar',
   data:{labels:['mrm 1.1','myco 1.2 hqe','mymet 2.0'],datasets:[
-    {label:'Clinic',data:[11.5,0,22.9],backgroundColor:'#1E3A5Fbb',borderRadius:3},
-    {label:'DTC',data:[10.1,26.8,21.4],backgroundColor:'#0D5E3Fbb',borderRadius:3},
-    {label:'Gym',data:[12.1,0,16.2],backgroundColor:'#78350Fbb',borderRadius:3},
+    {label:'Clinic',data:[11.5,0,22.9],backgroundColor:'#4B5563bb',borderRadius:3},
+    {label:'DTC',data:[10.1,26.8,21.4],backgroundColor:'#3B7A7Abb',borderRadius:3},
+    {label:'Gym',data:[12.1,0,16.2],backgroundColor:'#C17A2Abb',borderRadius:3},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}%`}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{title:{display:true,text:'%',font:{size:10},color:'#61859D'},grid:{color:'#D5E6EE'}}}}
+    scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{title:{display:true,text:'%',font:{size:10},color:'#888'},grid:{color:'#e0e0e0'}}}}
 });
 
 // ── OOR BARS ──────────────────────────────────────────────────────────────
@@ -862,11 +872,11 @@ function showOorTab(cohort, btn){
 }
 function renderOorBars(cohort){
   const data = cohort==='gym'?gymDom:cohort==='clinic'?clinicDom:dtcDom;
-  const col = cohort==='gym'?'#78350F':cohort==='clinic'?'#1E3A5F':'#0D5E3F';
+  const col = cohort==='gym'?'#C17A2A':cohort==='clinic'?'#4B5563':'#3B7A7A';
   document.getElementById('oorBars').innerHTML = data.map(d=>`
     <div class="bar-row">
       <div class="bar-label" title="${d.b}">${d.b}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.v*100)}%;background:${col}cc;"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.v*100)}%;background:${col};"></div></div>
       <div class="bar-val">${Math.round(d.v*100)}%</div>
     </div>`).join('');
 }
@@ -899,9 +909,9 @@ function showPca(mode, btn){
   renderPCA(mode);
   const leg = document.getElementById('pcaLegend');
   if(mode==='cohort'){
-    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--clinic);"></div>Clinic</div><div class="leg"><div class="leg-circle" style="background:var(--dtc);"></div>DTC</div><div class="leg"><div class="leg-circle" style="background:var(--gym);"></div>Gym</div><div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>`;
+    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--clinic);"></div>Clinic</div><div class="leg"><div class="leg-circle" style="background:var(--dtc);"></div>DTC</div><div class="leg"><div class="leg-circle" style="background:var(--gym);"></div>Gym</div><div class="leg"><div class="leg-circle" style="background:#8B7A9E;"></div>957B845 (outlier)</div>`;
   } else {
-    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--male);"></div>Male</div><div class="leg"><div class="leg-circle" style="background:var(--female);"></div>Female</div><div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>`;
+    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--male);"></div>Male</div><div class="leg"><div class="leg-circle" style="background:var(--female);"></div>Female</div><div class="leg"><div class="leg-circle" style="background:#8B7A9E;"></div>957B845 (outlier)</div>`;
   }
 }
 function renderPCA(mode){
@@ -912,23 +922,23 @@ function renderPCA(mode){
     datasets = ['Clinic','DTC','Gym'].map(g=>({
       label:g,
       data:normal.filter(d=>d.Cohort===g).map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · ${d.SEX}, ${d.AGE}`})),
-      backgroundColor:{'Clinic':'#1E3A5F99','DTC':'#0D5E3F99','Gym':'#78350F99'}[g],
-      borderColor:{'Clinic':'#1E3A5F','DTC':'#0D5E3F','Gym':'#78350F'}[g],
+      backgroundColor:{'Clinic':'#4B556399','DTC':'#3B7A7A99','Gym':'#C17A2A99'}[g],
+      borderColor:{'Clinic':'#4B5563','DTC':'#3B7A7A','Gym':'#C17A2A'}[g],
       borderWidth:1.5,pointRadius:6,pointHoverRadius:8
     }));
   } else {
     datasets = ['male','female'].map(s=>({
       label:s,
       data:normal.filter(d=>d.SEX===s).map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · ${d.Cohort}, ${d.AGE}`})),
-      backgroundColor:s==='male'?'#2563EB99':'#BE185D99',
-      borderColor:s==='male'?'#2563EB':'#BE185D',
+      backgroundColor:s==='male'?'#5B7FA699':'#A6667A99',
+      borderColor:s==='male'?'#5B7FA6':'#A6667A',
       borderWidth:1.5,pointRadius:6,pointHoverRadius:8
     }));
   }
   datasets.push({
     label:'957B845',
     data:outlier.map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · Gym, F, 64`})),
-    backgroundColor:'#7C3AEDcc',borderColor:'#7C3AED',borderWidth:2,
+    backgroundColor:'#8B7A9Ecc',borderColor:'#8B7A9E',borderWidth:2,
     pointRadius:10,pointHoverRadius:12,pointStyle:'star'
   });
   _pcaChart = new Chart(document.getElementById('pcaChart'),{
@@ -936,8 +946,8 @@ function renderPCA(mode){
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw.tip} | PC1=${c.parsed.x.toFixed(1)}, PC2=${c.parsed.y.toFixed(1)}`}}},
       scales:{
-        x:{title:{display:true,text:'PC1 — 12.2% variance explained',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}},
-        y:{title:{display:true,text:'PC2 — 6.5% variance explained',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}}
+        x:{title:{display:true,text:'PC1 — 12.2% variance explained',color:'#888',font:{size:11}},grid:{color:'#e0e0e0'}},
+        y:{title:{display:true,text:'PC2 — 6.5% variance explained',color:'#888',font:{size:11}},grid:{color:'#e0e0e0'}}
       }
     }
   });
@@ -952,19 +962,19 @@ renderPCA('cohort');
     type:'scatter',
     data:{datasets:[
       {label:'Not significant',data:nsPts,backgroundColor:'#9CA3AF55',borderColor:'#9CA3AF88',borderWidth:1,pointRadius:4},
-      {label:'Significant (FDR 5%)',data:sigPts,backgroundColor:'#78350Fbb',borderColor:'#78350F',borderWidth:1.5,pointRadius:6},
+      {label:'Significant (FDR 5%)',data:sigPts,backgroundColor:'#C17A2Abb',borderColor:'#C17A2A',borderWidth:1.5,pointRadius:6},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.label} | log2FC=${c.parsed.x.toFixed(2)}, −log10p=${c.parsed.y.toFixed(1)}`}}},
       scales:{
-        x:{title:{display:true,text:'log2(Gym / DTC median fold change)',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}},
-        y:{title:{display:true,text:'−log10(Kruskal-Wallis p-value)',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'},
+        x:{title:{display:true,text:'log2(Gym / DTC median fold change)',color:'#888',font:{size:11}},grid:{color:'#e0e0e0'}},
+        y:{title:{display:true,text:'−log10(Kruskal-Wallis p-value)',color:'#888',font:{size:11}},grid:{color:'#e0e0e0'},
           afterDraw(chart){
             const ctx2=chart.ctx,ya=chart.scales.y,xa=chart.scales.x;
             const yPx=ya.getPixelForValue(-Math.log10(0.005));
-            ctx2.save();ctx2.setLineDash([5,5]);ctx2.strokeStyle='#61859D';ctx2.lineWidth=1;
+            ctx2.save();ctx2.setLineDash([5,5]);ctx2.strokeStyle='#888';ctx2.lineWidth=1;
             ctx2.beginPath();ctx2.moveTo(xa.left,yPx);ctx2.lineTo(xa.right,yPx);ctx2.stroke();
-            ctx2.fillStyle='#61859D';ctx2.font='10px Lato,sans-serif';ctx2.fillText('FDR 5% threshold',xa.left+4,yPx-4);
+            ctx2.fillStyle='#888';ctx2.font='10px Lato,sans-serif';ctx2.fillText('FDR 5% threshold',xa.left+4,yPx-4);
             ctx2.restore();
           }
         }
@@ -980,7 +990,7 @@ renderPCA('cohort');
   document.getElementById('top20Bars').innerHTML = top.map(d=>`
     <div class="bar-row">
       <div class="bar-label" title="${d.b}">${d.b}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.fc/maxFC*100)}%;background:#78350Fcc;"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.fc/maxFC*100)}%;background:#C17A2Acc;"></div></div>
       <div class="bar-val">${d.fc}×</div>
       ${pillTag(d.c)}
     </div>`).join('');
@@ -1006,13 +1016,13 @@ function renderTable(){
   });
   document.getElementById('tableBody').innerHTML = sorted.map((d,i)=>`
     <tr>
-      <td style="color:#61859D;">${i+1}</td>
+      <td style="color:#888;">${i+1}</td>
       <td><strong>${d.b}</strong></td>
       <td>${fmtP(d.p)}</td>
       <td>${fmtP(d.ap)}${d.ap>0.05?' ⚠':''}</td>
       <td>${fmtN(d.mc)}</td>
       <td>${fmtN(d.md)}</td>
-      <td style="font-weight:600;color:#78350F;">${fmtN(d.mg)}</td>
+      <td style="font-weight:600;color:#C17A2A;">${fmtN(d.mg)}</td>
       <td style="font-weight:600;">${d.fc}×</td>
       <td>${pillTag(d.c)}</td>
     </tr>`).join('');
@@ -1025,23 +1035,23 @@ renderTable();
   html += `<tr class="table-section"><td colspan="7">Higher in males (${sexRows.male.length} biomarkers)</td></tr>`;
   sexRows.male.forEach((d,i)=>{
     html+=`<tr>
-      <td style="color:#61859D;">${i+1}</td><td><strong>${d.b}</strong></td>
+      <td style="color:#888;">${i+1}</td><td><strong>${d.b}</strong></td>
       <td>${fmtP(d.p)}</td>
-      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#2563EBbb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
-      <td style="font-weight:600;color:#1E40AF;">${d.fc.toFixed(2)}×</td>
-      <td style="color:#2563EB;font-weight:500;">${fmtN(d.mm)}</td>
-      <td style="color:#BE185D;">${fmtN(d.fm)}</td>
+      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#5B7FA6bb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
+      <td style="font-weight:600;color:#5B7FA6;">${d.fc.toFixed(2)}×</td>
+      <td style="color:#5B7FA6;font-weight:500;">${fmtN(d.mm)}</td>
+      <td style="color:#A6667A;">${fmtN(d.fm)}</td>
     </tr>`;
   });
   html += `<tr class="table-section"><td colspan="7">Higher in females (${sexRows.female.length} biomarkers)</td></tr>`;
   sexRows.female.forEach((d,i)=>{
     html+=`<tr>
-      <td style="color:#61859D;">${i+sexRows.male.length+1}</td><td><strong>${d.b}</strong></td>
+      <td style="color:#888;">${i+sexRows.male.length+1}</td><td><strong>${d.b}</strong></td>
       <td>${fmtP(d.p)}</td>
-      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#BE185Dbb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
-      <td style="font-weight:600;color:#9D174D;">${d.fc.toFixed(2)}×</td>
-      <td style="color:#2563EB;font-weight:500;">${fmtN(d.mm)}</td>
-      <td style="color:#BE185D;">${fmtN(d.fm)}</td>
+      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#A6667Abb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
+      <td style="font-weight:600;color:#A6667A;">${d.fc.toFixed(2)}×</td>
+      <td style="color:#5B7FA6;font-weight:500;">${fmtN(d.mm)}</td>
+      <td style="color:#A6667A;">${fmtN(d.fm)}</td>
     </tr>`;
   });
   document.getElementById('sexTable').innerHTML = html;
@@ -1053,15 +1063,14 @@ renderTable();
   document.getElementById('outlierCats').innerHTML = outlierCats.map(d=>`
     <div class="bar-row">
       <div class="bar-label" title="${d.l}">${d.l}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/maxN*100)}%;background:${d.col}cc;"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/maxN*100)}%;background:${d.col};"></div></div>
       <div class="bar-val">${d.n}</div>
     </div>`).join('');
   document.getElementById('outlierUnique').innerHTML = outlierUnique.map(d=>`
-    <div class="bar-row">
-      <div class="bar-label" title="${d.b}">${d.b}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(Math.round(d.v*100),3)}%;background:#78350Fcc;"></div></div>
-      <div class="bar-val" title="Gym avg OOR%">${Math.round(d.v*100)}%</div>
-    </div>`).join('');
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:11px;color:var(--text);">${d.b}</span>
+      <span style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;color:var(--text-light);flex-shrink:0;margin-left:8px;">Gym peers: ${Math.round(d.v*100)}%</span>
+    </div>`).join('') + '<p style="font-size:10px;color:var(--text-light);font-family:\'Helvetica Neue\',Arial,sans-serif;padding-top:6px;font-style:italic;">This barcode: 100% OOR for all listed</p>';
 })();
 </script>
 </body>

@@ -114,6 +114,11 @@
 
   .footnote { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--ink-light); padding-top: 12px; margin-top: 20px; line-height: 1.6; border-top: 1px solid var(--rule); }
 
+  .sticky-back { position: sticky; top: 0; z-index: 200; background: #fff; border-bottom: 1px solid var(--rule); height: 37px; display: flex; align-items: center; }
+  .sticky-back-inner { max-width: 1140px; margin: 0 auto; padding: 0 40px; width: 100%; }
+  .sticky-back .back-link { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color .15s; }
+  .sticky-back .back-link:hover { color: var(--ink); }
+
   @media (max-width: 900px) {
     .header-inner { padding: 0 20px; }
     .container { padding: 0 20px 60px; }
@@ -124,6 +129,12 @@
 </style>
 </head>
 <body>
+
+<div class="sticky-back">
+  <div class="sticky-back-inner">
+    <a href="../../index.html" class="back-link">← All Reports</a>
+  </div>
+</div>
 
 <div class="header">
   <div class="header-inner">
