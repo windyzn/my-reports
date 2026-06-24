@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molecular You — Analysis Reports</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-mid: #4a4a4a;
+    --ink-light: #888;
+    --rule: #e0e0e0;
+    --bg: #fafafa;
+    --card: #ffffff;
+    --accent: #1565c0;
+    --accent-light: #e3f0ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: #fff;
+    padding: 48px 64px 40px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 34px;
+    font-weight: normal;
+    letter-spacing: -.02em;
+    margin-bottom: 10px;
+  }
+  .header-sub {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* ── CATEGORY SECTION ── */
+  .category {
+    margin-top: 56px;
+  }
+  .category-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 20px;
+  }
+
+  /* ── REPORT CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .report-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px 28px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .report-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px rgba(21,101,192,.08);
+  }
+
+  .card-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .card-title {
+    font-size: 17px;
+    font-weight: normal;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .card-meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  .card-arrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 80px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--ink-light);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 32px 24px 28px; }
+    .container { padding: 0 20px 60px; }
+    .header h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Molecular You</div>
+  <h1>Analysis Reports</h1>
+  <div class="header-sub">Internal case studies and analytical summaries</div>
+</div>
+
+<div class="container">
+
+  <!-- ── LONGITUDINAL ANALYSIS ── -->
+  <div class="category">
+    <div class="category-label">Longitudinal Analysis</div>
+    <div class="card-grid">
+
+      <a class="report-card" href="longitudinal-analysis/rob-fraser/">
+        <div class="card-tag">Case Study</div>
+        <div class="card-title">Rob Fraser — Longitudinal Health Case Study</div>
+        <div class="card-meta">
+          MY2228526 &nbsp;·&nbsp; 13 tests &nbsp;·&nbsp; 2015–2026
+        </div>
+        <div class="card-arrow">View report →</div>
+      </a>
+
+      <!-- ADD MORE CARDS BELOW following the same pattern -->
+
+    </div>
+  </div>
+
+  <!-- ADD MORE CATEGORIES BELOW following the same pattern:
+  <div class="category">
+    <div class="category-label">Cohort Analysis</div>
+    <div class="card-grid">
+      <a class="report-card" href="cohort-analysis/gym-dtc-clinic/">
+        ...
+      </a>
+    </div>
+  </div>
+  -->
+
+</div>
+
+<div class="container">
+  <div class="footer">windyzn.github.io/my-reports</div>
+</div>
+
+</body>
+</html>
