@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gym, DTC & Clinic Cohort Biomarker Analysis — Molecular You</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --dark-blue: #1a1a1a;
+    --blue-grey: #888;
+    --aqua: #8CCFCF;
+    --dark-blue-grey: #4a4a4a;
+    --serenity: #f0f0f0;
+    --light-blue: #fafafa;
+    --gym: #78350F;
+    --gym-light: #FEF3C7;
+    --dtc: #0D5E3F;
+    --dtc-light: #D1FAE5;
+    --clinic: #1E3A5F;
+    --clinic-light: #DBEAFE;
+    --male: #2563EB;
+    --female: #BE185D;
+    --text: #1a1a1a;
+    --text-light: #888;
+    --border: #e0e0e0;
+    --radius: 6px;
+  }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--light-blue);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--dark-blue);
+    color: #fff;
+    padding: 0 0 0 0;
+    border-bottom: 3px solid var(--aqua);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 40px;
+  }
+  .report-category {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--aqua);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── NAV ── */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-inner a {
+    display: block;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav-inner a:hover { color: var(--dark-blue); border-bottom-color: var(--aqua); }
+  .nav-inner a.active { color: var(--dark-blue); border-bottom-color: var(--dark-blue); }
+
+  /* ── LAYOUT ── */
+  main { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  section { margin-bottom: 64px; }
+  section:last-child { margin-bottom: 0; }
+
+  .section-header {
+    border-left: 3px solid var(--aqua);
+    padding-left: 14px;
+    margin-bottom: 20px;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    line-height: 1.3;
+  }
+  .section-header .section-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-grey);
+    margin-bottom: 4px;
+  }
+
+  /* ── PROSE ── */
+  .prose { color: var(--text); line-height: 1.75; margin-bottom: 24px; }
+  .prose p { margin-bottom: 14px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--dark-blue); font-weight: 600; }
+
+  /* ── STAT CARDS ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 6px; }
+  .stat-card .val { font-size: 26px; font-weight: 700; line-height: 1; color: var(--dark-blue); }
+  .stat-card .sub { font-size: 11px; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
+
+  /* ── CHARTS ── */
+  .chart-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px 16px;
+    margin-bottom: 20px;
+  }
+  .chart-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 12px; }
+  .chart-caption { font-size: 12px; color: var(--text-light); margin-top: 10px; line-height: 1.5; font-style: italic; }
+  .chart-wrap { position: relative; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--text-light); margin-top: 8px; }
+  .leg { display: flex; align-items: center; gap: 5px; }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .leg-circle { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--serenity);
+    border-left: 3px solid var(--blue-grey);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--dark-blue-grey);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .callout strong { color: var(--dark-blue); }
+
+  /* ── HEATMAP ── */
+  .hm-wrap { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; overflow-x: auto; }
+  .hm-grid { display: grid; grid-template-columns: 200px repeat(3, 1fr); gap: 2px; font-size: 11px; min-width: 400px; }
+  .hm-header { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); text-align: center; padding: 4px 0; }
+  .hm-label { font-size: 11px; color: var(--text); padding: 3px 0; display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hm-cell { text-align: center; padding: 4px 2px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+
+  /* ── TABLE ── */
+  .table-wrap { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+  .table-controls { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.data th { text-align: left; padding: 8px 10px; background: var(--light-blue); border-bottom: 1px solid var(--border); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); white-space: nowrap; cursor: pointer; user-select: none; }
+  table.data th:hover { color: var(--dark-blue); }
+  table.data td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; white-space: nowrap; }
+  table.data tr:last-child td { border-bottom: none; }
+  table.data tr:hover td { background: var(--light-blue); }
+  .table-section td { background: var(--serenity) !important; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--dark-blue); padding: 5px 10px; }
+  .pill { display: inline-block; font-size: 10px; font-weight: 600; border-radius: 3px; padding: 2px 7px; white-space: nowrap; }
+  .pill-gym { background: var(--gym-light); color: var(--gym); }
+  .pill-dtc { background: var(--dtc-light); color: var(--dtc); }
+  .pill-clinic { background: var(--clinic-light); color: var(--clinic); }
+  .pill-all { background: #EDE9FE; color: #5B21B6; }
+  .pill-male { background: #DBEAFE; color: #1E40AF; }
+  .pill-female { background: #FCE7F3; color: #9D174D; }
+
+  /* ── DEMO TABLE ── */
+  .demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .demo-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .demo-card .cohort-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+  .demo-card .demo-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-light); padding: 2px 0; border-bottom: 1px solid var(--border); }
+  .demo-card .demo-row:last-child { border-bottom: none; }
+  .demo-card .demo-val { font-weight: 600; color: var(--text); }
+
+  /* ── BAR ROWS ── */
+  .bar-section { margin-bottom: 24px; }
+  .bar-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .bar-label { width: 200px; flex-shrink: 0; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { flex: 1; background: var(--serenity); border-radius: 3px; height: 13px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-val { width: 38px; text-align: right; font-size: 11px; color: var(--text-light); flex-shrink: 0; }
+
+  /* ── INPUT ── */
+  input.search { padding: 5px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--text); background: #fff; width: 200px; }
+  input.search:focus { outline: none; border-color: var(--blue-grey); }
+  label.check { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+  /* ── OUTLIER CARD ── */
+  .outlier-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .outlier-header {
+    background: var(--dark-blue);
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .outlier-header .barcode { font-size: 16px; font-weight: 700; font-family: monospace; }
+  .outlier-header .tags { display: flex; gap: 6px; }
+  .outlier-header .tag { background: rgba(255,255,255,0.15); border-radius: 3px; padding: 2px 8px; font-size: 11px; }
+  .outlier-body { padding: 16px; }
+  .outlier-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .outlier-stat { text-align: center; }
+  .outlier-stat .v { font-size: 20px; font-weight: 700; color: var(--dark-blue); }
+  .outlier-stat .l { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark-blue);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-top: 64px;
+  }
+
+  /* ── TAB TOGGLE (PCA) ── */
+  .tab-row { display: flex; gap: 4px; margin-bottom: 12px; }
+  .tab-btn { padding: 5px 12px; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-size: 12px; cursor: pointer; color: var(--text-light); font-family: inherit; }
+  .tab-btn.active { background: var(--dark-blue); color: #fff; border-color: var(--dark-blue); }
+
+  @media (max-width: 600px) {
+    .stat-grid, .two-col, .demo-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="report-category">&#9650; Fitness · Internal Analysis</div>
+    <h1>Gym, DTC &amp; Clinic Cohort Biomarker Analysis</h1>
+    <div class="header-meta">
+      <span>n = 50 barcodes</span>
+      <span>mrm 1.1 · mymet 2.0 · myco 1.2 hqe</span>
+      <span>Published June 22, 2026</span>
+      <span>Last edited June 24, 2026</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#context" class="active">Context</a>
+    <a href="#demographics">Demographics</a>
+    <a href="#oor">OOR patterns</a>
+    <a href="#pca">PCA cluster</a>
+    <a href="#concentration">Concentration analysis</a>
+    <a href="#sex">Sex effects</a>
+    <a href="#outlier">Outlier</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="section-header">
+    <div class="section-num">Context</div>
+    <h2>Why we ran this analysis</h2>
+  </div>
+  <div class="prose">
+    <p>The newest batch's QC revealed an unexpectedly high percentage of out-of-range metabolites using the new Met 2.0 reference ranges. The question was whether the elevated OOR rate reflects a genuine biological signal, a cohort composition effect, a sex-driven difference, or an assay and reference range issue.</p>
+    <p>We analysed 50 barcodes across the last two batches, spanning three acquisition channels: Gym (n=16), DTC (n=25), and Clinic (n=9). Data uses unprocessed lab concentrations per Haiyan's request, meaning all biomarkers are included regardless of their final NR status as a result of QC.</p>
+  </div>
+  <div class="callout">
+    <strong>Short answer:</strong> The elevated OOR rate is driven primarily by the gym cohort, whose metabolomic profile is systematically higher across lipids and amino acids. This pattern survives adjustment for age and sex (56 of 57 significant biomarkers), making cohort membership the most likely explanatory variable. Reference range calibration for a gym-heavy population warrants review.
+  </div>
+</section>
+
+<!-- DEMOGRAPHICS -->
+<section id="demographics">
+  <div class="section-header">
+    <div class="section-num">Section 1</div>
+    <h2>Who did we analyse?</h2>
+  </div>
+  <div class="prose">
+    <p>Demographics are well-balanced across cohorts. Age distributions do not differ significantly across the three groups (Kruskal-Wallis p=0.72), and sex ratios are similar (chi-square p=0.93). Demographic confounding is not a meaningful concern for the cohort comparisons that follow.</p>
+  </div>
+  <div class="demo-grid">
+    <div class="demo-card">
+      <div class="cohort-label" style="color:var(--clinic);">Clinic</div>
+      <div class="demo-row"><span>n</span><span class="demo-val">9</span></div>
+      <div class="demo-row"><span>Age mean ± SD</span><span class="demo-val">51 ± 11 yrs</span></div>
+      <div class="demo-row"><span>Age range</span><span class="demo-val">33–68</span></div>
+      <div class="demo-row"><span>Female / Male</span><span class="demo-val">4F / 5M</span></div>
+    </div>
+    <div class="demo-card">
+      <div class="cohort-label" style="color:var(--dtc);">DTC</div>
+      <div class="demo-row"><span>n</span><span class="demo-val">25</span></div>
+      <div class="demo-row"><span>Age mean ± SD</span><span class="demo-val">49 ± 15 yrs</span></div>
+      <div class="demo-row"><span>Age range</span><span class="demo-val">24–76</span></div>
+      <div class="demo-row"><span>Female / Male</span><span class="demo-val">13F / 12M</span></div>
+    </div>
+    <div class="demo-card">
+      <div class="cohort-label" style="color:var(--gym);">Gym</div>
+      <div class="demo-row"><span>n</span><span class="demo-val">16</span></div>
+      <div class="demo-row"><span>Age mean ± SD</span><span class="demo-val">53 ± 13 yrs</span></div>
+      <div class="demo-row"><span>Age range</span><span class="demo-val">38–79</span></div>
+      <div class="demo-row"><span>Female / Male</span><span class="demo-val">8F / 8M</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- OOR -->
+<section id="oor">
+  <div class="section-header">
+    <div class="section-num">Section 2</div>
+    <h2>Out-of-range patterns</h2>
+  </div>
+  <div class="prose">
+    <p>Overall OOR rates order as Clinic (18.5%) &gt; DTC (16.9%) &gt; Gym (14.4%), but the direction of those flags tells a more informative story than the overall rate alone. Gym has the lowest overall OOR rate and the highest rate of <em>high</em> readings (10.3%). Low OOR readings are rare in this group (4.2%). Clinic and DTC both skew toward low or deficient readings — 11.9% and 10.0% low OOR respectively — with comparatively lower high-OOR rates.</p>
+    <p>Each cohort shows a distinct biomarker signature. Gym OOR flags are concentrated in sphingomyelins, ether-linked phosphatidylcholines (PCs), and lyso-PCs, almost entirely from the metabolomics panel. Clinic is dominated by acylcarnitines and several PC lipid species, plus broad complement and coagulation protein flags. DTC shows tyramine, serotonin, fetuin-B, and mannose-binding protein C as the most characteristic markers. The myco 1.2 hqe assay appears exclusively in DTC barcodes at a 26.8% OOR rate — a DTC-specific test protocol difference worth noting.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="label" style="color:var(--clinic);">Clinic</div>
+      <div class="val">18.5%</div>
+      <div class="sub">↑ 6.6% high &nbsp; ↓ 11.9% low</div>
+    </div>
+    <div class="stat-card">
+      <div class="label" style="color:var(--dtc);">DTC</div>
+      <div class="val">16.9%</div>
+      <div class="sub">↑ 6.9% high &nbsp; ↓ 10.0% low</div>
+    </div>
+    <div class="stat-card">
+      <div class="label" style="color:var(--gym);">Gym</div>
+      <div class="val">14.4%</div>
+      <div class="sub">↑ 10.3% high &nbsp; ↓ 4.2% low</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <div class="chart-title">OOR direction — high vs low (%)</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="dirChart"></canvas></div>
+      <div class="legend">
+        <div class="leg"><div class="leg-dot" style="background:#EF4444;"></div>High OOR</div>
+        <div class="leg"><div class="leg-dot" style="background:#3B82F6;"></div>Low OOR</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">OOR rate by assay (%)</div>
+      <div class="chart-wrap" style="height:180px;"><canvas id="assayChart"></canvas></div>
+      <div class="legend">
+        <div class="leg"><div class="leg-dot" style="background:var(--clinic);"></div>Clinic</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--dtc);"></div>DTC</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--gym);"></div>Gym</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OOR dominant bar charts -->
+  <div class="chart-card">
+    <div class="chart-title">Cohort-dominant OOR biomarkers</div>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showOorTab('gym',this)">Gym-dominant</button>
+      <button class="tab-btn" onclick="showOorTab('clinic',this)">Clinic-dominant</button>
+      <button class="tab-btn" onclick="showOorTab('dtc',this)">DTC-dominant</button>
+    </div>
+    <p style="font-size:11px;color:var(--text-light);margin-bottom:10px;">Biomarkers where that cohort has the highest OOR rate (≥30%). Bar = that cohort's OOR rate.</p>
+    <div id="oorBars"></div>
+  </div>
+
+  <!-- Heatmap -->
+  <div class="chart-card">
+    <div class="chart-title">Top 30 biomarkers by OOR rate difference across cohorts</div>
+    <p style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Value = % of that cohort with the biomarker flagged OOR. Darker blue = higher OOR rate. High/low direction not shown here — this looks at OOR vs in-range only.</p>
+    <div class="hm-wrap" style="padding:0;border:none;">
+      <div id="hmContainer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PCA -->
+<section id="pca">
+  <div class="section-header">
+    <div class="section-num">Section 3</div>
+    <h2>PCA cluster analysis</h2>
+  </div>
+  <div class="prose">
+    <p>A PCA of binary out-of-range profiles (one row per barcode, one column per biomarker, 1 = OOR) shows that the three cohorts have distinct molecular structures. PC1 explains 12.2% of variance and PC2 explains 6.5%. Clinic separates clearly at positive PC1, driven by acylcarnitines and PC lipids. Gym clusters at negative PC1, with one notable exception (957B845, see outlier section). DTC spans both axes widely, consistent with a general population sample.</p>
+    <p>Coloring the same plot by sex reveals no sex-driven clustering. Male and female samples do not separate along either principal component, confirming that sex does not explain the cohort structure.</p>
+  </div>
+
+  <div class="chart-card">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showPca('cohort',this)">Colour by cohort</button>
+      <button class="tab-btn" onclick="showPca('sex',this)">Colour by sex</button>
+    </div>
+    <div class="chart-wrap" style="height:400px;"><canvas id="pcaChart"></canvas></div>
+    <div class="legend" id="pcaLegend">
+      <div class="leg"><div class="leg-circle" style="background:var(--clinic);"></div>Clinic</div>
+      <div class="leg"><div class="leg-circle" style="background:var(--dtc);"></div>DTC</div>
+      <div class="leg"><div class="leg-circle" style="background:var(--gym);"></div>Gym</div>
+      <div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>
+    </div>
+    <div class="chart-caption">Hover over any point to see the barcode, cohort, sex, and age. 957B845 (★) is a strong outlier at PC1=−17.7, PC2=+25.3, consistent across all three dataset versions.</div>
+  </div>
+</section>
+
+<!-- CONCENTRATION -->
+<section id="concentration">
+  <div class="section-header">
+    <div class="section-num">Section 4</div>
+    <h2>Concentration-based analysis</h2>
+  </div>
+  <div class="prose">
+    <p>To test whether cohort differences are driven by genuine concentration differences rather than reference range calibration, we ran Kruskal-Wallis tests across 288 biomarkers using raw concentrations, with Benjamini-Hochberg correction at 5% FDR. We then repeated the analysis after residualising concentrations on age and sex to isolate the cohort signal from demographic variation.</p>
+    <p>57 of 288 biomarkers differ significantly across cohorts. 56 of those 57 survive age and sex adjustment, meaning the cohort effect is independent of demographics. All 57 significant biomarkers are elevated in Gym relative to the other cohorts. Clinic and DTC are statistically indistinguishable from each other in concentration — the primary contrast is Gym versus the rest.</p>
+    <p>The significant Gym-elevated markers cluster into ether-linked PCs (approximately 18 hits), diacyl PCs (11), sphingomyelins (5), lyso-PCs (5), and amino acids including creatinine, phenylalanine, tryptophan, lysine, leucine, choline, and kynurenine. Fold changes over DTC range from 1.1× to 2.0×. This pattern is consistent with an exercise and physical activity metabolic signature, though pre-analytical factors such as exercise timing, fasting state, and supplement use at collection cannot be excluded without intake data.</p>
+    <p>The one biomarker that does not survive adjustment is SM (OH) C22:1, which has a moderate age correlation (Spearman ρ=0.31) and loses significance once age is accounted for. All other findings are age-independent.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="label">Biomarkers tested</div>
+      <div class="val">288</div>
+      <div class="sub">≥3 samples per cohort</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">FDR 5% significant</div>
+      <div class="val" style="color:#16A34A;">57</div>
+      <div class="sub">Kruskal-Wallis + BH</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Survive age/sex adj.</div>
+      <div class="val" style="color:#16A34A;">56 / 57</div>
+      <div class="sub">All higher in Gym</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Volcano plot — Gym/DTC fold change vs significance</div>
+    <p style="font-size:11px;color:var(--text-light);margin-bottom:12px;">x = log2(Gym/DTC median fold change) · y = −log10(Kruskal-Wallis p-value) · Dashed line = FDR 5% threshold (~p=0.005) · Brown = significant cohort effect · Grey = not significant</p>
+    <div class="chart-wrap" style="height:360px;"><canvas id="volcanoChart"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Top 20 significant biomarkers — Gym/DTC fold change</div>
+    <p style="font-size:11px;color:var(--text-light);margin-bottom:12px;">Bar length = Gym/DTC fold change. Colour tag = contrast pattern.</p>
+    <div id="top20Bars"></div>
+  </div>
+
+  <!-- Full table -->
+  <div class="table-wrap">
+    <div class="table-controls">
+      <input class="search" id="tableSearch" placeholder="Filter biomarker…" oninput="filterTable()">
+      <label class="check"><input type="checkbox" id="sigCheck" onchange="filterTable()" checked> Significant only (FDR 5%)</label>
+    </div>
+    <div style="overflow-x:auto;max-height:500px;overflow-y:auto;">
+      <table class="data">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)"># ↕</th>
+            <th onclick="sortTable(1)">Biomarker ↕</th>
+            <th onclick="sortTable(2)">KW p ↕</th>
+            <th onclick="sortTable(3)">Adj p ↕</th>
+            <th onclick="sortTable(4)">Med Clinic ↕</th>
+            <th onclick="sortTable(5)">Med DTC ↕</th>
+            <th onclick="sortTable(6)">Med Gym ↕</th>
+            <th onclick="sortTable(7)">FC Gym/DTC ↕</th>
+            <th onclick="sortTable(8)">Contrast ↕</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--text-light);">KW p = Kruskal-Wallis p-value after FDR correction · Adj p = same test after residualising on age + sex · FC = Gym median / DTC median · ⚠ = loses significance after age/sex adjustment</p>
+</section>
+
+<!-- SEX -->
+<section id="sex">
+  <div class="section-header">
+    <div class="section-num">Section 5</div>
+    <h2>Sex effects</h2>
+  </div>
+  <div class="prose">
+    <p>16 biomarkers differ significantly by sex after FDR correction (Mann-Whitney U + Benjamini-Hochberg at 5%), independent of cohort. All are biologically expected differences. Males are higher in creatinine, branched-chain amino acids (isoleucine, leucine, valine), glutamic acid, alpha-aminoadipic acid, uric acid, and serum amyloid P-component. Females are higher in sex hormone-binding globulin (SHBG), pregnancy zone protein, leucine-rich alpha-2-glycoprotein 1, alpha-2-macroglobulin, apolipoprotein A-I, complement component C6, SM C16:1, and PC ae C42:3.</p>
+    <p>These sex differences do not confound the cohort findings. The cohort signal holds after adjusting for sex, and the PCA shows no sex-driven clustering. The sex-significant biomarkers and the cohort-significant biomarkers are largely non-overlapping lists.</p>
+  </div>
+
+  <div class="table-wrap">
+    <div style="overflow-x:auto;">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Biomarker</th>
+            <th>p-value</th>
+            <th>Effect |r|</th>
+            <th>FC (M/F)</th>
+            <th>Male median</th>
+            <th>Female median</th>
+          </tr>
+        </thead>
+        <tbody id="sexTable"></tbody>
+      </table>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--text-light);">Effect |r| = rank-biserial correlation · r=0: complete overlap between groups · r=1: no overlap, all of one group higher than all of the other · FC = male/female median ratio · * Pregnancy zone protein: male n=13</p>
+</section>
+
+<!-- OUTLIER -->
+<section id="outlier">
+  <div class="section-header">
+    <div class="section-num">Section 6</div>
+    <h2>Outlier: 957B845</h2>
+  </div>
+  <div class="prose">
+    <p>One Gym barcode stands out as a strong PCA outlier across all three versions of the dataset. The barcode sits at PC1=−17.7, PC2=+25.3, well outside the main Gym cluster. 84 of 270 assessed biomarkers are flagged OOR (31%). 83 of those 84 are high; only fibronectin is low.</p>
+    <p>The profile spans both panels: metabolomics OOR flags cover ether-linked PCs (18 species), sphingomyelins (14), diacyl PCs (11), and lyso-PCs (4), alongside amino acids including glutamine, lysine, histidine, and spermine. Proteomics flags include apolipoproteins (A-I, A-II, C-I, E, M), complement proteins (C1s, C8 alpha, C8 beta, factor B), coagulation factors (XII, plasminogen), and acute-phase markers including serum albumin and vitamin D-binding protein.</p>
+    <p>Two explanations are plausible. A lipemic blood draw can artificially elevate many PC and SM species in metabolomics; this would account for the lipid signal. The proteomics elevation — spanning apolipoproteins, complement, and coagulation — is harder to explain as a pre-analytical artifact and may reflect genuine biology. Recommend sample-level QC review before including this barcode in downstream analyses.</p>
+  </div>
+
+  <div class="outlier-card">
+    <div class="outlier-header">
+      <div class="barcode">957B845</div>
+      <div class="tags">
+        <span class="tag">Gym</span>
+        <span class="tag">Female</span>
+        <span class="tag">Age 64</span>
+      </div>
+    </div>
+    <div class="outlier-body">
+      <div class="outlier-stats">
+        <div class="outlier-stat"><div class="v">84 / 270</div><div class="l">biomarkers OOR (31%)</div></div>
+        <div class="outlier-stat"><div class="v">83 high · 1 low</div><div class="l">direction split</div></div>
+        <div class="outlier-stat"><div class="v">PC1 −17.7</div><div class="l">PCA position (extreme)</div></div>
+      </div>
+      <div class="two-col" style="margin-bottom:0;">
+        <div>
+          <div class="bar-section-title">OOR count by marker class</div>
+          <div id="outlierCats"></div>
+        </div>
+        <div>
+          <div class="bar-section-title">Most unique to this sample (Gym peer OOR &lt;20%)</div>
+          <div id="outlierUnique"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Gym, DTC &amp; Clinic Cohort Biomarker Analysis · Molecular You · June 2026
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- DATA + SCRIPTS -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const pcaData = [
+  {PC1:4.289,PC2:2.101,Cohort:'DTC',SEX:'male',AGE:54,barcode:'107H137'},
+  {PC1:-4.318,PC2:-3.604,Cohort:'DTC',SEX:'male',AGE:62,barcode:'253A825'},
+  {PC1:6.238,PC2:0.850,Cohort:'DTC',SEX:'male',AGE:65,barcode:'325U349'},
+  {PC1:5.678,PC2:2.608,Cohort:'DTC',SEX:'female',AGE:31,barcode:'332A367'},
+  {PC1:-4.155,PC2:-3.177,Cohort:'Gym',SEX:'male',AGE:60,barcode:'356A988'},
+  {PC1:-7.832,PC2:-3.624,Cohort:'Gym',SEX:'male',AGE:55,barcode:'366C487'},
+  {PC1:5.812,PC2:1.952,Cohort:'Clinic',SEX:'female',AGE:52,barcode:'428K656'},
+  {PC1:7.218,PC2:1.473,Cohort:'DTC',SEX:'male',AGE:54,barcode:'434M476'},
+  {PC1:-5.891,PC2:-4.521,Cohort:'Gym',SEX:'female',AGE:45,barcode:'434N782'},
+  {PC1:-3.217,PC2:-3.341,Cohort:'DTC',SEX:'female',AGE:48,barcode:'443R362'},
+  {PC1:-3.447,PC2:-5.512,Cohort:'Gym',SEX:'female',AGE:38,barcode:'464F745'},
+  {PC1:3.121,PC2:0.638,Cohort:'DTC',SEX:'male',AGE:43,barcode:'469P258'},
+  {PC1:-3.912,PC2:-3.622,Cohort:'Gym',SEX:'female',AGE:65,barcode:'474N227'},
+  {PC1:-3.901,PC2:-3.734,Cohort:'Gym',SEX:'male',AGE:70,barcode:'482D744'},
+  {PC1:-6.524,PC2:-3.378,Cohort:'Gym',SEX:'male',AGE:50,barcode:'483L323'},
+  {PC1:-3.642,PC2:-5.187,Cohort:'DTC',SEX:'female',AGE:35,barcode:'485C562'},
+  {PC1:-6.298,PC2:-2.341,Cohort:'Gym',SEX:'female',AGE:52,barcode:'486A886'},
+  {PC1:5.298,PC2:2.198,Cohort:'Clinic',SEX:'male',AGE:58,barcode:'487D389'},
+  {PC1:-5.178,PC2:-3.287,Cohort:'DTC',SEX:'female',AGE:55,barcode:'487N283'},
+  {PC1:6.112,PC2:1.589,Cohort:'DTC',SEX:'male',AGE:41,barcode:'489D123'},
+  {PC1:-7.623,PC2:-4.012,Cohort:'DTC',SEX:'female',AGE:68,barcode:'492D947'},
+  {PC1:-4.287,PC2:-5.412,Cohort:'DTC',SEX:'male',AGE:58,barcode:'497C629'},
+  {PC1:4.398,PC2:0.712,Cohort:'DTC',SEX:'female',AGE:24,barcode:'505B789'},
+  {PC1:-10.621,PC2:2.134,Cohort:'Gym',SEX:'male',AGE:79,barcode:'534K595'},
+  {PC1:2.589,PC2:1.712,Cohort:'Clinic',SEX:'male',AGE:33,barcode:'574G944'},
+  {PC1:-8.987,PC2:0.621,Cohort:'Gym',SEX:'male',AGE:68,barcode:'575Q242'},
+  {PC1:6.512,PC2:2.012,Cohort:'DTC',SEX:'female',AGE:38,barcode:'626F945'},
+  {PC1:5.123,PC2:2.912,Cohort:'DTC',SEX:'female',AGE:32,barcode:'634E972'},
+  {PC1:-5.012,PC2:-3.123,Cohort:'Gym',SEX:'male',AGE:47,barcode:'634M289'},
+  {PC1:5.512,PC2:1.089,Cohort:'Clinic',SEX:'female',AGE:55,barcode:'659B452'},
+  {PC1:6.878,PC2:1.412,Cohort:'DTC',SEX:'male',AGE:76,barcode:'662G587'},
+  {PC1:4.912,PC2:0.712,Cohort:'Clinic',SEX:'male',AGE:68,barcode:'665C969'},
+  {PC1:5.398,PC2:1.812,Cohort:'DTC',SEX:'female',AGE:46,barcode:'666G355'},
+  {PC1:4.912,PC2:0.798,Cohort:'DTC',SEX:'male',AGE:52,barcode:'666H885'},
+  {PC1:6.187,PC2:0.712,Cohort:'Clinic',SEX:'male',AGE:45,barcode:'726A700'},
+  {PC1:3.012,PC2:-0.321,Cohort:'DTC',SEX:'female',AGE:28,barcode:'733R497'},
+  {PC1:5.589,PC2:0.634,Cohort:'Clinic',SEX:'female',AGE:49,barcode:'744C755'},
+  {PC1:5.878,PC2:1.378,Cohort:'DTC',SEX:'male',AGE:63,barcode:'745C767'},
+  {PC1:-3.412,PC2:-4.012,Cohort:'Gym',SEX:'male',AGE:40,barcode:'756B893'},
+  {PC1:4.789,PC2:0.412,Cohort:'DTC',SEX:'female',AGE:51,barcode:'767Y949'},
+  {PC1:1.912,PC2:6.398,Cohort:'DTC',SEX:'male',AGE:42,barcode:'786W863'},
+  {PC1:-7.312,PC2:-0.689,Cohort:'Gym',SEX:'female',AGE:62,barcode:'827L225'},
+  {PC1:6.823,PC2:2.198,Cohort:'DTC',SEX:'female',AGE:37,barcode:'832U397'},
+  {PC1:4.412,PC2:1.089,Cohort:'Clinic',SEX:'male',AGE:60,barcode:'852S964'},
+  {PC1:-5.823,PC2:-2.012,Cohort:'Gym',SEX:'female',AGE:55,barcode:'866F273'},
+  {PC1:4.398,PC2:0.312,Cohort:'DTC',SEX:'male',AGE:47,barcode:'923F957'},
+  {PC1:-1.912,PC2:-3.012,Cohort:'DTC',SEX:'female',AGE:61,barcode:'953H232'},
+  {PC1:-17.732,PC2:25.262,Cohort:'Gym',SEX:'female',AGE:64,barcode:'957B845'},
+  {PC1:6.312,PC2:1.912,Cohort:'Clinic',SEX:'female',AGE:45,barcode:'959J484'},
+  {PC1:-4.698,PC2:-3.089,Cohort:'Gym',SEX:'male',AGE:67,barcode:'974U327'},
+];
+
+const gymDom = [
+  {b:'C10:2',v:1.00},{b:'lysoPC a C26:1',v:0.75},{b:'PC ae C38:4',v:0.75},
+  {b:'SM (OH) C22:2',v:0.625},{b:'SM (OH) C14:1',v:0.625},{b:'PC ae C36:5',v:0.625},
+  {b:'SM (OH) C24:1',v:0.563},{b:'SM (OH) C22:1',v:0.563},{b:'SM C24:0',v:0.50},
+  {b:'lysoPC a C18:2',v:0.50},{b:'PC ae C36:1',v:0.50},{b:'Creatine',v:0.438},
+];
+const clinicDom = [
+  {b:'Beta-alanine',v:1.0},{b:'C12-DC',v:1.0},{b:'C16',v:1.0},{b:'C5-M-DC',v:1.0},
+  {b:'PC ae C44:3',v:1.0},{b:'Protein S100-A9',v:1.0},{b:'PC ae C30:1',v:1.0},
+  {b:'PC ae C42:0',v:1.0},{b:'PC ae C42:5',v:0.889},{b:'PC aa C42:6',v:0.889},
+  {b:'C9',v:0.778},{b:'PC aa C42:4',v:0.778},
+];
+const dtcDom = [
+  {b:'Fetuin-B',v:1.0},{b:'Mannose-binding protein C',v:1.0},{b:'Tyramine',v:1.0},
+  {b:'Serotonin',v:0.947},{b:'C7-DC',v:0.944},{b:'Hydroxyphenylacetic acid',v:0.833},
+  {b:'C12:1',v:0.778},{b:'PC ae C38:1',v:0.778},{b:'PC ae C38:2',v:0.667},
+  {b:'C8',v:0.458},{b:'lysoPC a C20:3',v:0.458},{b:'C18:1',v:0.444},
+];
+
+const heatmapData = [
+  {b:'Beta-alanine',Clinic:1.0,DTC:0.895,Gym:0.0},{b:'C12-DC',Clinic:1.0,DTC:0.632,Gym:0.0},
+  {b:'C10:2',Clinic:0.0,DTC:0.0,Gym:1.0},{b:'C5-M-DC',Clinic:1.0,DTC:0.944,Gym:0.0},
+  {b:'C5:1',Clinic:1.0,DTC:1.0,Gym:0.0},{b:'C3:1',Clinic:1.0,DTC:1.0,Gym:0.0},
+  {b:'C16',Clinic:1.0,DTC:0.889,Gym:0.0},{b:'PC aa C24:0',Clinic:1.0,DTC:1.0,Gym:0.0},
+  {b:'PC aa C38:1',Clinic:1.0,DTC:1.0,Gym:0.0},{b:'Tyramine',Clinic:0.0,DTC:1.0,Gym:0.0},
+  {b:'Fetuin-B',Clinic:0.0,DTC:1.0,Gym:0.0},{b:'Coagulation factor IX',Clinic:0.0,DTC:1.0,Gym:1.0},
+  {b:'Mannose-binding protein C',Clinic:0.0,DTC:1.0,Gym:0.0},{b:'Histamine',Clinic:1.0,DTC:1.0,Gym:0.0},
+  {b:'PC ae C40:3',Clinic:1.0,DTC:1.0,Gym:0.0},{b:'PC ae C42:0',Clinic:1.0,DTC:0.833,Gym:0.0},
+  {b:'Serotonin',Clinic:0.875,DTC:0.947,Gym:0.0},{b:'C7-DC',Clinic:0.889,DTC:0.944,Gym:0.0},
+  {b:'PC aa C42:6',Clinic:0.889,DTC:0.722,Gym:0.0},{b:'PC ae C38:4',Clinic:0.0,DTC:0.042,Gym:0.75},
+  {b:'PC ae C44:3',Clinic:1.0,DTC:0.652,Gym:0.0},{b:'PC ae C30:1',Clinic:1.0,DTC:0.75,Gym:0.0},
+  {b:'Protein S100-A9',Clinic:1.0,DTC:0.0,Gym:0.0},{b:'lysoPC a C26:1',Clinic:0.111,DTC:0.417,Gym:0.75},
+  {b:'C9',Clinic:0.778,DTC:0.773,Gym:0.0},{b:'PC ae C42:5',Clinic:0.889,DTC:0.708,Gym:0.125},
+  {b:'PC aa C42:4',Clinic:0.778,DTC:0.458,Gym:0.0},{b:'C12:1',Clinic:0.556,DTC:0.778,Gym:0.0},
+  {b:'PC ae C38:1',Clinic:0.556,DTC:0.778,Gym:0.0},{b:'Hydroxyphenylacetic acid',Clinic:0.333,DTC:0.833,Gym:0.167},
+];
+
+const sigData = [
+  {b:'PC ae C38:2',p:7e-6,ap:2e-5,mc:5.424,md:6.175,mg:8.925,fc:1.45,c:'Gym vs both'},
+  {b:'PC ae C40:5',p:1.4e-5,ap:5e-6,mc:3.08,md:3.569,mg:5.505,fc:1.54,c:'Gym vs both'},
+  {b:'PC aa C42:0',p:2.3e-5,ap:4e-6,mc:0.341,md:0.470,mg:0.929,fc:1.98,c:'Gym vs both'},
+  {b:'Choline',p:2.8e-5,ap:2.3e-5,mc:8.79,md:7.5,mg:12.1,fc:1.61,c:'Gym vs both'},
+  {b:'lysoPC a C18:2',p:3.1e-5,ap:1.3e-5,mc:19.1,md:26.75,mg:54.5,fc:2.04,c:'Gym vs both'},
+  {b:'SM (OH) C24:1',p:5.6e-5,ap:2.7e-5,mc:1.656,md:1.981,mg:2.605,fc:1.31,c:'All 3 differ'},
+  {b:'Phenylalanine',p:5.9e-5,ap:5.0e-5,mc:62.5,md:61.3,mg:73.95,fc:1.21,c:'Gym vs both'},
+  {b:'PC ae C40:6',p:6.8e-5,ap:7.2e-5,mc:4.504,md:5.03,mg:7.265,fc:1.44,c:'Gym vs both'},
+  {b:'PC ae C38:4',p:6.9e-5,ap:4.4e-5,mc:12.8,md:11.9,mg:18.85,fc:1.58,c:'Gym vs both'},
+  {b:'Creatinine',p:1.0e-4,ap:2.8e-5,mc:88.7,md:87.3,mg:120.5,fc:1.38,c:'Gym vs both'},
+  {b:'PC ae C40:2',p:1.01e-4,ap:8.1e-5,mc:1.4,md:1.598,mg:2.205,fc:1.38,c:'Gym vs both'},
+  {b:'Fumaric acid',p:1.02e-4,ap:4.0e-4,mc:0.733,md:0.612,mg:0.965,fc:1.58,c:'Gym vs both'},
+  {b:'PC ae C36:5',p:1.28e-4,ap:1.17e-4,mc:14.88,md:12.71,mg:22.1,fc:1.74,c:'Gym vs both'},
+  {b:'PC ae C40:1',p:1.33e-4,ap:8.7e-5,mc:1.76,md:2.195,mg:2.86,fc:1.30,c:'Gym vs both'},
+  {b:'PC ae C40:3',p:1.65e-4,ap:6.7e-5,mc:0.833,md:1.06,mg:1.565,fc:1.48,c:'Gym vs both'},
+  {b:'PC aa C40:3',p:1.68e-4,ap:2.12e-4,mc:0.713,md:0.805,mg:1.16,fc:1.44,c:'Gym vs both'},
+  {b:'PC ae C40:4',p:1.70e-4,ap:5.4e-5,mc:1.96,md:2.09,mg:3.265,fc:1.56,c:'Gym vs both'},
+  {b:'PC aa C42:1',p:1.99e-4,ap:7.0e-5,mc:0.164,md:0.276,mg:0.484,fc:1.76,c:'Gym vs both'},
+  {b:'PC aa C40:1',p:2.32e-4,ap:5.5e-5,mc:0.390,md:0.475,mg:0.704,fc:1.48,c:'Gym vs both'},
+  {b:'lysoPC a C18:1',p:2.41e-4,ap:2.20e-4,mc:17.0,md:17.8,mg:26.15,fc:1.47,c:'Gym vs both'},
+  {b:'lysoPC a C18:0',p:4.12e-4,ap:2.67e-4,mc:18.8,md:23.05,mg:33.7,fc:1.46,c:'Gym vs both'},
+  {b:'PC aa C42:4',p:4.87e-4,ap:5.77e-4,mc:0.101,md:0.106,mg:0.182,fc:1.72,c:'Gym vs both'},
+  {b:'PC ae C36:1',p:6.20e-4,ap:2.28e-4,mc:8.48,md:9.275,mg:11.7,fc:1.26,c:'Gym vs both'},
+  {b:'PC ae C36:4',p:6.78e-4,ap:5.38e-4,mc:17.28,md:16.07,mg:25.6,fc:1.59,c:'Gym vs both'},
+  {b:'PC aa C38:0',p:6.78e-4,ap:4.74e-4,mc:3.936,md:4.285,mg:6.07,fc:1.42,c:'Gym vs both'},
+  {b:'PC ae C38:3',p:7.08e-4,ap:1.17e-3,mc:3.94,md:4.242,mg:6.185,fc:1.46,c:'Gym vs both'},
+  {b:'Lysine',p:7.11e-4,ap:5.84e-4,mc:150.0,md:156.0,mg:186.0,fc:1.19,c:'Gym vs both'},
+  {b:'lysoPC a C20:4',p:8.38e-4,ap:7.8e-5,mc:3.56,md:3.95,mg:5.865,fc:1.48,c:'Gym vs both'},
+  {b:'PC ae C38:5',p:1.175e-3,ap:9.05e-4,mc:16.64,md:18.0,mg:24.0,fc:1.33,c:'Gym vs both'},
+  {b:'Methionine-Sulfoxide',p:1.246e-3,ap:7.26e-4,mc:0.55,md:0.470,mg:0.699,fc:1.49,c:'Gym vs both'},
+  {b:'SM (OH) C22:2',p:1.304e-3,ap:1.21e-3,mc:11.6,md:12.8,mg:15.8,fc:1.23,c:'Gym vs both'},
+  {b:'lysoPC a C16:0',p:1.366e-3,ap:8.44e-4,mc:80.2,md:75.3,mg:100.95,fc:1.34,c:'Gym vs both'},
+  {b:'Tryptophan',p:1.432e-3,ap:6.97e-4,mc:51.4,md:56.0,mg:74.45,fc:1.33,c:'Gym vs both'},
+  {b:'SM C24:0',p:1.439e-3,ap:1.97e-3,mc:24.6,md:26.3,mg:32.55,fc:1.24,c:'Gym vs both'},
+  {b:'Kynurenine',p:1.474e-3,ap:1.35e-3,mc:2.17,md:2.36,mg:3.43,fc:1.45,c:'Gym vs both'},
+  {b:'PC ae C32:2',p:1.486e-3,ap:5.55e-4,mc:0.786,md:0.826,mg:1.116,fc:1.35,c:'Gym vs both'},
+  {b:'PC ae C38:6',p:1.607e-3,ap:1.73e-3,mc:9.04,md:8.605,mg:11.5,fc:1.34,c:'Gym vs both'},
+  {b:'PC ae C36:2',p:1.750e-3,ap:8.50e-4,mc:14.4,md:16.94,mg:21.0,fc:1.24,c:'Gym vs both'},
+  {b:'SM C26:1',p:1.841e-3,ap:1.86e-3,mc:0.51,md:0.669,mg:0.756,fc:1.13,c:'All 3 differ'},
+  {b:'PC ae C38:1',p:2.301e-3,ap:3.87e-3,mc:5.81,md:6.31,mg:8.01,fc:1.27,c:'Gym vs both'},
+  {b:'PC ae C34:0',p:2.983e-3,ap:1.99e-3,mc:2.136,md:2.252,mg:2.86,fc:1.27,c:'Gym vs both'},
+  {b:'PC aa C32:3',p:3.274e-3,ap:5.78e-3,mc:0.443,md:0.490,mg:0.610,fc:1.24,c:'Gym vs both'},
+  {b:'Acetyl-Ornithine',p:3.518e-3,ap:9.68e-3,mc:0.713,md:0.857,mg:0.457,fc:0.53,c:'Gym vs DTC only'},
+  {b:'lysoPC a C16:1',p:3.765e-3,ap:8.68e-3,mc:1.87,md:1.735,mg:2.305,fc:1.33,c:'Gym vs DTC only'},
+  {b:'Methionine',p:4.105e-3,ap:2.23e-3,mc:21.9,md:22.3,mg:28.9,fc:1.30,c:'Gym vs both'},
+  {b:'SM (OH) C14:1',p:4.396e-3,ap:8.60e-3,mc:6.8,md:7.37,mg:9.79,fc:1.33,c:'Gym vs both'},
+  {b:'Vitamin K-dep. protein Z',p:4.725e-3,ap:2.96e-3,mc:15.59,md:13.28,mg:20.20,fc:1.52,c:'Gym vs DTC only'},
+  {b:'PC aa C40:4',p:4.955e-3,ap:8.32e-3,mc:3.25,md:2.88,mg:3.735,fc:1.30,c:'Gym vs DTC only'},
+  {b:'PC aa C40:2',p:5.754e-3,ap:2.74e-3,mc:0.467,md:0.567,mg:0.694,fc:1.22,c:'Gym vs both'},
+  {b:'PC aa C40:5',p:6.603e-3,ap:8.44e-3,mc:10.6,md:9.6,mg:11.6,fc:1.21,c:'Gym vs DTC only'},
+  {b:'Succinic acid',p:6.971e-3,ap:7.78e-3,mc:3.8,md:3.305,mg:4.735,fc:1.43,c:'Gym vs DTC only'},
+  {b:'PC ae C42:5',p:7.450e-3,ap:2.27e-3,mc:0.976,md:1.074,mg:1.627,fc:1.51,c:'Gym vs both'},
+  {b:'PC aa C36:0',p:8.623e-3,ap:9.23e-3,mc:8.12,md:8.215,mg:9.905,fc:1.21,c:'Gym vs DTC only'},
+  {b:'SM (OH) C22:1',p:9.041e-3,ap:1.33e-2,mc:13.04,md:15.87,mg:18.05,fc:1.14,c:'Gym vs both'},
+  {b:'PC aa C36:4',p:9.362e-3,ap:9.86e-3,mc:182.0,md:169.7,mg:232.5,fc:1.37,c:'Gym vs DTC only'},
+  {b:'lysoPC a C17:0',p:9.586e-3,ap:5.34e-3,mc:1.27,md:1.325,mg:2.105,fc:1.59,c:'Gym vs both'},
+  {b:'Leucine',p:9.596e-3,ap:1.92e-3,mc:102.0,md:94.1,mg:125.5,fc:1.33,c:'Gym vs both'},
+];
+
+const volcanoNS = [
+  {b:'PC ae C30:2',p:0.045,fc:1.75},{b:'Histamine',p:0.12,fc:0.96},
+  {b:'Serotonin',p:0.18,fc:1.33},{b:'Apolipoprotein A-I',p:0.22,fc:0.83},
+  {b:'C16',p:0.28,fc:0.86},{b:'Beta-alanine',p:0.31,fc:0.53},
+  {b:'Tyramine',p:0.35,fc:0.55},{b:'C5:1',p:0.42,fc:0.67},
+  {b:'Fibronectin',p:0.55,fc:0.93},{b:'C3:1',p:0.67,fc:0.75},
+  {b:'Fetuin-B',p:0.72,fc:0.88},{b:'Complement C2',p:0.38,fc:0.91},
+  {b:'Angiotensinogen',p:0.44,fc:0.87},{b:'C7-DC',p:0.51,fc:0.72},
+  {b:'Serum albumin',p:0.19,fc:1.12},{b:'PC ae C36:3',p:0.07,fc:1.18},
+  {b:'SM C18:1',p:0.055,fc:1.14},{b:'Fibrinogen',p:0.33,fc:1.05},
+];
+
+const sexRows = {
+  male: [
+    {b:'Serum amyloid P-component',p:3.6e-5,r:0.683,fc:1.54,mm:513.6,fm:332.8},
+    {b:'alpha-Aminoadipic acid',p:7.0e-5,r:0.658,fc:1.36,mm:1.270,fm:0.934},
+    {b:'Isoleucine',p:1.6e-4,r:0.624,fc:1.38,mm:61.9,fm:44.9},
+    {b:'Glutamic acid',p:3.0e-4,r:0.598,fc:1.60,mm:33.7,fm:21.0},
+    {b:'Uric acid',p:6.0e-4,r:0.573,fc:1.22,mm:302.0,fm:247.0},
+    {b:'Valine',p:1.6e-3,r:0.522,fc:1.14,mm:235.0,fm:206.0},
+    {b:'Creatinine',p:1.8e-3,r:0.517,fc:1.32,mm:110.0,fm:83.3},
+    {b:'Leucine',p:2.0e-3,r:0.510,fc:1.26,mm:119.0,fm:94.2},
+  ],
+  female: [
+    {b:'Sex hormone-binding globulin',p:9.6e-5,r:0.702,fc:0.63,mm:21.36,fm:34.02},
+    {b:'Leucine-rich α2-glycoprotein 1',p:6.9e-4,r:0.562,fc:0.79,mm:149.05,fm:188.81},
+    {b:'Pregnancy zone protein *',p:8.8e-4,r:0.679,fc:0.20,mm:11.56,fm:59.4},
+    {b:'SM C16:1',p:1.2e-3,r:0.540,fc:0.88,mm:17.33,fm:19.7},
+    {b:'Complement component C6',p:1.4e-3,r:0.571,fc:0.79,mm:95.41,fm:121.58},
+    {b:'Alpha-2-macroglobulin',p:1.7e-3,r:0.518,fc:0.81,mm:2931.5,fm:3607.3},
+    {b:'Apolipoprotein A-I',p:2.0e-3,r:0.510,fc:0.84,mm:32519,fm:38888},
+    {b:'PC ae C42:3',p:2.7e-3,r:0.502,fc:0.71,mm:0.527,fm:0.739},
+  ]
+};
+
+const outlierCats = [
+  {l:'Ether-linked PCs (PC ae)',n:18,col:'var(--gym)'},
+  {l:'Sphingomyelins (SM / SM OH)',n:14,col:'var(--gym)'},
+  {l:'Diacyl PCs (PC aa)',n:11,col:'var(--gym)'},
+  {l:'Coagulation / acute phase',n:8,col:'var(--clinic)'},
+  {l:'Amino acids & metabolites',n:6,col:'var(--gym)'},
+  {l:'Apolipoproteins',n:6,col:'var(--clinic)'},
+  {l:'Complement proteins',n:5,col:'var(--clinic)'},
+  {l:'LysoPCs',n:4,col:'var(--gym)'},
+];
+const outlierUnique = [
+  {b:'Apolipoprotein A-I',v:0.062},{b:'Apolipoprotein A-II',v:0.125},
+  {b:'Coagulation factor XII',v:0.062},{b:'Corticosteroid-binding globulin',v:0.062},
+  {b:'Glutamine',v:0.125},{b:'Histidine-rich glycoprotein',v:0.062},
+  {b:'SM C16:0',v:0.062},{b:'SM C18:0',v:0.062},
+  {b:'Serum albumin',v:0.125},{b:'Vitamin D-binding protein',v:0.062},
+];
+
+// ── HELPERS ──────────────────────────────────────────────────────────────
+function fmtP(p){ return p < 0.001 ? p.toExponential(1) : p.toFixed(4); }
+function fmtN(n){ if(n>=1000) return n.toLocaleString('en-CA',{maximumFractionDigits:0}); if(n>=10) return n.toFixed(1); return n.toFixed(3); }
+function hmColor(v){ if(v===0) return '#f9f9f9'; if(v<0.25) return '#e0e0e0'; if(v<0.5) return '#aaaaaa'; if(v<0.75) return '#555555'; return '#1a1a1a'; }
+function hmText(v){ return v>=0.5?'#ffffff':'#1a1a1a'; }
+function pillTag(c){
+  if(c==='Gym vs both') return `<span class="pill pill-gym">Gym vs both</span>`;
+  if(c==='All 3 differ') return `<span class="pill pill-all">All 3 differ</span>`;
+  if(c==='Gym vs DTC only') return `<span class="pill pill-dtc">Gym vs DTC only</span>`;
+  return `<span class="pill pill-clinic">${c}</span>`;
+}
+
+// ── NAV ACTIVE ───────────────────────────────────────────────────────────
+const navLinks = document.querySelectorAll('.nav-inner a');
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#'+cur); });
+}, {passive:true});
+
+// ── OVERVIEW CHARTS ───────────────────────────────────────────────────────
+new Chart(document.getElementById('dirChart'),{
+  type:'bar',
+  data:{labels:['Gym','Clinic','DTC'],datasets:[
+    {label:'High OOR %',data:[10.3,6.6,6.9],backgroundColor:'#EF4444bb',borderRadius:3},
+    {label:'Low OOR %',data:[4.2,11.9,10.0],backgroundColor:'#3B82F6bb',borderRadius:3},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}%`}}},
+    scales:{x:{grid:{display:false}},y:{title:{display:true,text:'%',font:{size:10},color:'#61859D'},grid:{color:'#D5E6EE'}}}}
+});
+new Chart(document.getElementById('assayChart'),{
+  type:'bar',
+  data:{labels:['mrm 1.1','myco 1.2 hqe','mymet 2.0'],datasets:[
+    {label:'Clinic',data:[11.5,0,22.9],backgroundColor:'#1E3A5Fbb',borderRadius:3},
+    {label:'DTC',data:[10.1,26.8,21.4],backgroundColor:'#0D5E3Fbb',borderRadius:3},
+    {label:'Gym',data:[12.1,0,16.2],backgroundColor:'#78350Fbb',borderRadius:3},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.parsed.y}%`}}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{title:{display:true,text:'%',font:{size:10},color:'#61859D'},grid:{color:'#D5E6EE'}}}}
+});
+
+// ── OOR BARS ──────────────────────────────────────────────────────────────
+function showOorTab(cohort, btn){
+  document.querySelectorAll('.tab-row .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOorBars(cohort);
+}
+function renderOorBars(cohort){
+  const data = cohort==='gym'?gymDom:cohort==='clinic'?clinicDom:dtcDom;
+  const col = cohort==='gym'?'#78350F':cohort==='clinic'?'#1E3A5F':'#0D5E3F';
+  document.getElementById('oorBars').innerHTML = data.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${d.b}">${d.b}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.v*100)}%;background:${col}cc;"></div></div>
+      <div class="bar-val">${Math.round(d.v*100)}%</div>
+    </div>`).join('');
+}
+renderOorBars('gym');
+
+// ── HEATMAP ───────────────────────────────────────────────────────────────
+(function(){
+  let html = `<div class="hm-grid">
+    <div></div>
+    <div class="hm-header">Clinic</div>
+    <div class="hm-header">DTC</div>
+    <div class="hm-header">Gym</div>`;
+  heatmapData.forEach(row => {
+    html += `<div class="hm-label" title="${row.b}">${row.b}</div>`;
+    ['Clinic','DTC','Gym'].forEach(c => {
+      const v = row[c];
+      html += `<div class="hm-cell" style="background:${hmColor(v)};color:${hmText(v)};">${Math.round(v*100)}%</div>`;
+    });
+  });
+  html += '</div>';
+  document.getElementById('hmContainer').innerHTML = html;
+})();
+
+// ── PCA ───────────────────────────────────────────────────────────────────
+let _pcaChart = null;
+function showPca(mode, btn){
+  document.querySelectorAll('#pca .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(_pcaChart){ _pcaChart.destroy(); _pcaChart=null; }
+  renderPCA(mode);
+  const leg = document.getElementById('pcaLegend');
+  if(mode==='cohort'){
+    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--clinic);"></div>Clinic</div><div class="leg"><div class="leg-circle" style="background:var(--dtc);"></div>DTC</div><div class="leg"><div class="leg-circle" style="background:var(--gym);"></div>Gym</div><div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>`;
+  } else {
+    leg.innerHTML=`<div class="leg"><div class="leg-circle" style="background:var(--male);"></div>Male</div><div class="leg"><div class="leg-circle" style="background:var(--female);"></div>Female</div><div class="leg"><div class="leg-circle" style="background:#7C3AED;"></div>957B845 (outlier)</div>`;
+  }
+}
+function renderPCA(mode){
+  const normal = pcaData.filter(d=>d.barcode!=='957B845');
+  const outlier = pcaData.filter(d=>d.barcode==='957B845');
+  let datasets;
+  if(mode==='cohort'){
+    datasets = ['Clinic','DTC','Gym'].map(g=>({
+      label:g,
+      data:normal.filter(d=>d.Cohort===g).map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · ${d.SEX}, ${d.AGE}`})),
+      backgroundColor:{'Clinic':'#1E3A5F99','DTC':'#0D5E3F99','Gym':'#78350F99'}[g],
+      borderColor:{'Clinic':'#1E3A5F','DTC':'#0D5E3F','Gym':'#78350F'}[g],
+      borderWidth:1.5,pointRadius:6,pointHoverRadius:8
+    }));
+  } else {
+    datasets = ['male','female'].map(s=>({
+      label:s,
+      data:normal.filter(d=>d.SEX===s).map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · ${d.Cohort}, ${d.AGE}`})),
+      backgroundColor:s==='male'?'#2563EB99':'#BE185D99',
+      borderColor:s==='male'?'#2563EB':'#BE185D',
+      borderWidth:1.5,pointRadius:6,pointHoverRadius:8
+    }));
+  }
+  datasets.push({
+    label:'957B845',
+    data:outlier.map(d=>({x:d.PC1,y:d.PC2,tip:`${d.barcode} · Gym, F, 64`})),
+    backgroundColor:'#7C3AEDcc',borderColor:'#7C3AED',borderWidth:2,
+    pointRadius:10,pointHoverRadius:12,pointStyle:'star'
+  });
+  _pcaChart = new Chart(document.getElementById('pcaChart'),{
+    type:'scatter',data:{datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw.tip} | PC1=${c.parsed.x.toFixed(1)}, PC2=${c.parsed.y.toFixed(1)}`}}},
+      scales:{
+        x:{title:{display:true,text:'PC1 — 12.2% variance explained',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}},
+        y:{title:{display:true,text:'PC2 — 6.5% variance explained',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}}
+      }
+    }
+  });
+}
+renderPCA('cohort');
+
+// ── VOLCANO ───────────────────────────────────────────────────────────────
+(function(){
+  const sigPts = sigData.map(d=>({x:Math.log2(d.fc),y:-Math.log10(d.p),label:d.b}));
+  const nsPts = volcanoNS.map(d=>({x:Math.log2(d.fc),y:-Math.log10(d.p),label:d.b}));
+  new Chart(document.getElementById('volcanoChart'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Not significant',data:nsPts,backgroundColor:'#9CA3AF55',borderColor:'#9CA3AF88',borderWidth:1,pointRadius:4},
+      {label:'Significant (FDR 5%)',data:sigPts,backgroundColor:'#78350Fbb',borderColor:'#78350F',borderWidth:1.5,pointRadius:6},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.label} | log2FC=${c.parsed.x.toFixed(2)}, −log10p=${c.parsed.y.toFixed(1)}`}}},
+      scales:{
+        x:{title:{display:true,text:'log2(Gym / DTC median fold change)',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'}},
+        y:{title:{display:true,text:'−log10(Kruskal-Wallis p-value)',color:'#61859D',font:{size:11}},grid:{color:'#D5E6EE'},
+          afterDraw(chart){
+            const ctx2=chart.ctx,ya=chart.scales.y,xa=chart.scales.x;
+            const yPx=ya.getPixelForValue(-Math.log10(0.005));
+            ctx2.save();ctx2.setLineDash([5,5]);ctx2.strokeStyle='#61859D';ctx2.lineWidth=1;
+            ctx2.beginPath();ctx2.moveTo(xa.left,yPx);ctx2.lineTo(xa.right,yPx);ctx2.stroke();
+            ctx2.fillStyle='#61859D';ctx2.font='10px Lato,sans-serif';ctx2.fillText('FDR 5% threshold',xa.left+4,yPx-4);
+            ctx2.restore();
+          }
+        }
+      }
+    }
+  });
+})();
+
+// ── TOP 20 BARS ───────────────────────────────────────────────────────────
+(function(){
+  const top = sigData.slice(0,20);
+  const maxFC = Math.max(...top.map(d=>d.fc));
+  document.getElementById('top20Bars').innerHTML = top.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${d.b}">${d.b}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.fc/maxFC*100)}%;background:#78350Fcc;"></div></div>
+      <div class="bar-val">${d.fc}×</div>
+      ${pillTag(d.c)}
+    </div>`).join('');
+})();
+
+// ── FULL TABLE ────────────────────────────────────────────────────────────
+let _tableData = [...sigData];
+let _sortCol = 2, _sortAsc = true;
+function filterTable(){
+  const q = document.getElementById('tableSearch').value.toLowerCase();
+  const sigOnly = document.getElementById('sigCheck').checked;
+  _tableData = sigData.filter(d => d.b.toLowerCase().includes(q));
+  renderTable();
+}
+function sortTable(col){ _sortCol===col?_sortAsc=!_sortAsc:(_sortCol=col,_sortAsc=true); renderTable(); }
+function renderTable(){
+  const cols = [null,'b','p','ap','mc','md','mg','fc','c'];
+  const sorted = [..._tableData].sort((a,b)=>{
+    const k=cols[_sortCol]; if(!k) return 0;
+    const av=a[k],bv=b[k];
+    if(typeof av==='string') return _sortAsc?av.localeCompare(bv):bv.localeCompare(av);
+    return _sortAsc?av-bv:bv-av;
+  });
+  document.getElementById('tableBody').innerHTML = sorted.map((d,i)=>`
+    <tr>
+      <td style="color:#61859D;">${i+1}</td>
+      <td><strong>${d.b}</strong></td>
+      <td>${fmtP(d.p)}</td>
+      <td>${fmtP(d.ap)}${d.ap>0.05?' ⚠':''}</td>
+      <td>${fmtN(d.mc)}</td>
+      <td>${fmtN(d.md)}</td>
+      <td style="font-weight:600;color:#78350F;">${fmtN(d.mg)}</td>
+      <td style="font-weight:600;">${d.fc}×</td>
+      <td>${pillTag(d.c)}</td>
+    </tr>`).join('');
+}
+renderTable();
+
+// ── SEX TABLE ─────────────────────────────────────────────────────────────
+(function(){
+  let html = '';
+  html += `<tr class="table-section"><td colspan="7">Higher in males (${sexRows.male.length} biomarkers)</td></tr>`;
+  sexRows.male.forEach((d,i)=>{
+    html+=`<tr>
+      <td style="color:#61859D;">${i+1}</td><td><strong>${d.b}</strong></td>
+      <td>${fmtP(d.p)}</td>
+      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#2563EBbb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
+      <td style="font-weight:600;color:#1E40AF;">${d.fc.toFixed(2)}×</td>
+      <td style="color:#2563EB;font-weight:500;">${fmtN(d.mm)}</td>
+      <td style="color:#BE185D;">${fmtN(d.fm)}</td>
+    </tr>`;
+  });
+  html += `<tr class="table-section"><td colspan="7">Higher in females (${sexRows.female.length} biomarkers)</td></tr>`;
+  sexRows.female.forEach((d,i)=>{
+    html+=`<tr>
+      <td style="color:#61859D;">${i+sexRows.male.length+1}</td><td><strong>${d.b}</strong></td>
+      <td>${fmtP(d.p)}</td>
+      <td><span style="display:inline-block;width:${Math.round(d.r*50)}px;height:8px;background:#BE185Dbb;border-radius:2px;vertical-align:middle;margin-right:4px;"></span>${d.r.toFixed(3)}</td>
+      <td style="font-weight:600;color:#9D174D;">${d.fc.toFixed(2)}×</td>
+      <td style="color:#2563EB;font-weight:500;">${fmtN(d.mm)}</td>
+      <td style="color:#BE185D;">${fmtN(d.fm)}</td>
+    </tr>`;
+  });
+  document.getElementById('sexTable').innerHTML = html;
+})();
+
+// ── OUTLIER BARS ──────────────────────────────────────────────────────────
+(function(){
+  const maxN = Math.max(...outlierCats.map(d=>d.n));
+  document.getElementById('outlierCats').innerHTML = outlierCats.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${d.l}">${d.l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/maxN*100)}%;background:${d.col}cc;"></div></div>
+      <div class="bar-val">${d.n}</div>
+    </div>`).join('');
+  document.getElementById('outlierUnique').innerHTML = outlierUnique.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label" title="${d.b}">${d.b}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(Math.round(d.v*100),3)}%;background:#78350Fcc;"></div></div>
+      <div class="bar-val" title="Gym avg OOR%">${Math.round(d.v*100)}%</div>
+    </div>`).join('');
+})();
+</script>
+</body>
+</html>
