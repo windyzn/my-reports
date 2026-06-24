@@ -12,8 +12,8 @@
     --rule: #e0e0e0;
     --bg: #fafafa;
     --card: #ffffff;
-    --accent: #D5E6EE;
-    --accent-light: #eef5f9;
+    --accent: #8CCFCF;
+    --accent-light: #E6F7F7;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,8 +30,12 @@
   .header {
     background: var(--ink);
     color: #fff;
-    padding: 48px 64px 40px;
-    border-bottom: 3px solid var(--accent);
+    padding: 48px 0 40px;
+  }
+  .header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 40px;
   }
   .header-eyebrow {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -85,20 +89,20 @@
   }
 
   .report-card {
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 4px;
+    background: var(--accent-light);
+    border: none;
+    border-radius: 6px;
     padding: 24px 28px;
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    transition: border-color 0.15s, box-shadow 0.15s;
+    transition: box-shadow 0.15s, background 0.15s;
   }
   .report-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 2px 12px rgba(21,101,192,.08);
+    background: #d6f0f0;
+    box-shadow: 0 2px 14px rgba(0,0,0,.07);
   }
 
   .card-tag {
@@ -145,7 +149,8 @@
   }
 
   @media (max-width: 600px) {
-    .header { padding: 32px 24px 28px; }
+    .header { padding: 32px 0 28px; }
+    .header-inner { padding: 0 20px; }
     .container { padding: 0 20px 60px; }
     .header h1 { font-size: 26px; }
   }
@@ -154,9 +159,11 @@
 <body>
 
 <div class="header">
-  <div class="header-eyebrow">Molecular You</div>
-  <h1>Analysis Reports</h1>
-  <div class="header-sub">Internal case studies and analytical summaries</div>
+  <div class="header-inner">
+    <div class="header-eyebrow">Molecular You</div>
+    <h1>Analysis Reports</h1>
+    <div class="header-sub">Internal case studies and analytical summaries</div>
+  </div>
 </div>
 
 <div class="container">
