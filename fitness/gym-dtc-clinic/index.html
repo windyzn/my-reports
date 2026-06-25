@@ -576,7 +576,7 @@
       </div>
       <div class="two-col" style="margin-bottom:0;">
         <div>
-          <div class="bar-section-title">OOR count by marker class</div>
+          <div class="bar-section-title">Biomarker OOR profile (270 assessed)</div>
           <div id="outlierCats"></div>
         </div>
         <div>
@@ -1037,33 +1037,25 @@ renderTable();
   document.getElementById('sexTable').innerHTML = html;
 })();
 
-// ── OUTLIER BARS ──────────────────────────────────────────────────────────
+// ── OUTLIER WAFFLE ────────────────────────────────────────────────────────
 (function(){
-  const gym    = outlierCats.filter(d=>d.col==='#C17A2A');
-  const clinic = outlierCats.filter(d=>d.col==='#4B5563');
-  function rows(arr){
-    return arr.map(d=>`
-      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);">
-        <span style="font-size:12px;color:var(--text);">${d.l}</span>
-        <span style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:700;color:${d.col};flex-shrink:0;margin-left:12px;">${d.n}</span>
-      </div>`).join('');
-  }
+  const total = 270, high = 83, low = 1;
+  const dots = Array.from({length: total}, (_,i) => {
+    const col = i < high ? '#C17A2A' : i < high + low ? '#5B7FA6' : '#e8e8e8';
+    return `<div style="width:11px;height:11px;border-radius:2px;background:${col};flex-shrink:0;"></div>`;
+  }).join('');
   document.getElementById('outlierCats').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
-      <div style="background:#FDF6EE;border-radius:6px;padding:16px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#C17A2A;margin-bottom:10px;">Gym cohort · Lipid classes</div>
-        ${rows(gym)}
-      </div>
-      <div style="background:#EDEEF0;border-radius:6px;padding:16px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4B5563;margin-bottom:10px;">Clinic cohort · Protein classes</div>
-        ${rows(clinic)}
-      </div>
+    <div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:6px;">${dots}</div>
+    <div style="display:flex;gap:16px;margin-top:10px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;color:var(--text-light);">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C17A2A;vertical-align:middle;margin-right:4px;"></span>83 high OOR</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#5B7FA6;vertical-align:middle;margin-right:4px;"></span>1 low OOR</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#e8e8e8;vertical-align:middle;margin-right:4px;"></span>186 in range</span>
     </div>`;
   document.getElementById('outlierUnique').innerHTML = outlierUnique.map(d=>`
     <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);">
       <span style="font-size:11px;color:var(--text);">${d.b}</span>
       <span style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;color:var(--text-light);flex-shrink:0;margin-left:8px;">Gym peers: ${Math.round(d.v*100)}%</span>
-    </div>`).join('') + '<p style="font-size:10px;color:var(--text-light);font-family:\'Helvetica Neue\',Arial,sans-serif;padding-top:6px;font-style:italic;">This barcode: 100% OOR for all listed</p>';
+    </div>`).join('');
 })();
 </script>
 </body>
