@@ -805,8 +805,8 @@ const outlierUnique = [
 // ── HELPERS ──────────────────────────────────────────────────────────────
 function fmtP(p){ return p < 0.001 ? p.toExponential(1) : p.toFixed(4); }
 function fmtN(n){ if(n>=1000) return n.toLocaleString('en-CA',{maximumFractionDigits:0}); if(n>=10) return n.toFixed(1); return n.toFixed(3); }
-function hmColor(v){ if(v===0) return '#f9f9f9'; if(v<0.25) return '#e0e0e0'; if(v<0.5) return '#aaaaaa'; if(v<0.75) return '#555555'; return '#1a1a1a'; }
-function hmText(v){ return v>=0.5?'#ffffff':'#1a1a1a'; }
+function hmColor(v){ if(v===0) return '#f9f9f9'; if(v<0.25) return '#dce8f0'; if(v<0.5) return '#8fb3cf'; if(v<0.75) return '#4a7fa6'; return '#1e4060'; }
+function hmText(v){ return v>=0.5?'#ffffff':'#2a2a2a'; }
 function pillTag(c){
   if(c==='Gym vs both') return `<span class="pill pill-gym">Gym vs both</span>`;
   if(c==='All 3 differ') return `<span class="pill pill-all">All 3 differ</span>`;
