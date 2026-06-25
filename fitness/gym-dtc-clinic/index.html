@@ -1039,13 +1039,26 @@ renderTable();
 
 // ── OUTLIER BARS ──────────────────────────────────────────────────────────
 (function(){
-  const maxN = Math.max(...outlierCats.map(d=>d.n));
-  document.getElementById('outlierCats').innerHTML = outlierCats.map(d=>`
-    <div class="bar-row">
-      <div class="bar-label" title="${d.l}">${d.l}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.n/maxN*100)}%;background:${d.col};"></div></div>
-      <div class="bar-val">${d.n}</div>
-    </div>`).join('');
+  const gym    = outlierCats.filter(d=>d.col==='#C17A2A');
+  const clinic = outlierCats.filter(d=>d.col==='#4B5563');
+  function rows(arr){
+    return arr.map(d=>`
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);">
+        <span style="font-size:12px;color:var(--text);">${d.l}</span>
+        <span style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:14px;font-weight:700;color:${d.col};flex-shrink:0;margin-left:12px;">${d.n}</span>
+      </div>`).join('');
+  }
+  document.getElementById('outlierCats').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+      <div style="background:#FDF6EE;border-radius:6px;padding:16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#C17A2A;margin-bottom:10px;">Gym cohort · Lipid classes</div>
+        ${rows(gym)}
+      </div>
+      <div style="background:#EDEEF0;border-radius:6px;padding:16px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4B5563;margin-bottom:10px;">Clinic cohort · Protein classes</div>
+        ${rows(clinic)}
+      </div>
+    </div>`;
   document.getElementById('outlierUnique').innerHTML = outlierUnique.map(d=>`
     <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);">
       <span style="font-size:11px;color:var(--text);">${d.b}</span>
