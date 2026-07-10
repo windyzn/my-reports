@@ -102,26 +102,16 @@
   table.data td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
   table.data tr:last-child td { border-bottom: none; }
   table.data tr:hover td { background: var(--light-blue); }
+  table.data tr.bonus-row td { background: var(--light-blue); font-style: italic; }
 
   /* ── BAR ROWS ── */
   .bar-section { margin-bottom: 24px; }
   .bar-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
   .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-  .bar-label { width: 210px; flex-shrink: 0; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-label { width: 220px; flex-shrink: 0; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bar-track { flex: 1; background: var(--serenity); border-radius: 3px; height: 13px; overflow: hidden; }
   .bar-fill { height: 100%; border-radius: 3px; }
   .bar-val { width: 44px; text-align: right; font-size: 11px; color: var(--text-light); flex-shrink: 0; }
-
-  /* ── STACK BAR ── */
-  .stack-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .stack-label { width: 90px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--text); }
-  .stack-track { flex: 1; height: 22px; border-radius: 4px; overflow: hidden; display: flex; background: var(--serenity); }
-  .stack-seg { height: 100%; }
-  .stack-total { width: 50px; text-align: right; font-size: 11px; color: var(--text-light); flex-shrink: 0; }
-
-  /* ── WAFFLE ── */
-  .waffle-grid { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 6px; max-width: 220px; }
-  .waffle-dot { width: 16px; height: 16px; border-radius: 2px; flex-shrink: 0; }
 
   footer { background: var(--dark-blue); color: rgba(255,255,255,0.5); font-size: 12px; padding: 24px; text-align: center; margin-top: 64px; }
 
@@ -145,8 +135,8 @@
     <div class="header-eyebrow">Molecular You — Product Analysis</div>
     <h1>Protein-Only Product<br><em>Data Validation Against Live Results</em></h1>
     <div class="header-meta">
-      <span>n = 1,406 patients · 1,447 barcodes</span>
-      <span>mrm 1.1 / hqe · myco 1.1 / 1.2 / hqe · mymet 2.0</span>
+      <span>n = 1,678 patients · 1,998 barcodes</span>
+      <span>12 conditions · 37 processes · 81 mapped metabolites</span>
       <span>Companion to: Protein-Only Product Feasibility Analysis</span>
     </div>
     <div class="header-dates">
@@ -160,8 +150,7 @@
   <div class="nav-inner">
     <a href="#context" class="active">Context</a>
     <a href="#composition">Panel composition</a>
-    <a href="#rates">Real-world flag rates</a>
-    <a href="#patient">Per-patient signal</a>
+    <a href="#impact">Impact on conditions</a>
     <a href="#reconcile">Reconciling the estimate</a>
     <a href="#verdict">Verdict</a>
   </div>
@@ -176,11 +165,11 @@
     <h2>Checking the feasibility estimate against live data</h2>
   </div>
   <div class="prose">
-    <p>The <em>Protein-Only Product Feasibility Analysis</em> estimated that a protein-only assay would retain 70–80% of report value and ~85–90% of risk-detection value, based on a process-level count: whether each of the 37 body-system processes retains at least one protein marker. That's a structural estimate — it counts <em>coverage</em>, not how often each marker actually fires in real patients.</p>
-    <p>This page runs the same question against <code style="font-family:Georgia,serif;font-style:italic;">biomarker_explorer_full.csv</code> — 460,194 result rows across 1,406 patients and 1,447 barcodes — using the <code style="font-style:italic;">ASSAY_NAME</code> column to split every result into protein (<code style="font-style:italic;">mrm*</code>) or metabolite (<code style="font-style:italic;">myco*</code>, <code style="font-style:italic;">mymet*</code>). Exposome-panel rows (2,664 rows, a separate environmental-toxin assay) are excluded — they're neither protein nor metabolite in the sense the proposal means.</p>
+    <p>The <em>Protein-Only Product Feasibility Analysis</em> estimated that a protein-only assay would retain 70–80% of report value and ~85–90% of risk-detection value, based on a process-level count: whether each of the 37 body-system processes retains at least one protein marker. That's a structural estimate — it counts <em>coverage</em>, not how often each marker actually fires in real patients, or how a condition's score actually moves when the metabolites behind it are removed.</p>
+    <p>This page runs that question against live results and the biomarker-to-process-to-disease mappings behind the report, across 1,678 patients.</p>
   </div>
   <div class="callout">
-    <strong>Headline:</strong> the marker-count math checks out almost exactly (140 protein markers, matching the proposal's Panel B count). But at the level of what real patients actually see flagged, protein-only is a thinner slice than the process-level estimate implies — see <a href="#patient" style="color:var(--dark-blue);">Per-patient signal</a>.
+    <strong>Headline:</strong> the marker-count math checks out almost exactly against the proposal. But composite condition scores move — sometimes enough to flip a genuinely elevated-risk patient into "looks optimal" — once metabolites are removed. See <a href="#impact" style="color:var(--dark-blue);">Impact on conditions</a>.
   </div>
 </section>
 
@@ -191,152 +180,82 @@
     <h2>What's actually in the panel</h2>
   </div>
   <div class="prose">
-    <p>Across all reported results, 140 distinct markers run on protein (mrm) assays and 218 distinct markers run on metabolomics (myco/mymet) assays. The protein count lines up exactly with the proposal's Panel B figure. The metabolite count doesn't: the proposal's process-mapped panel uses 81 metabolites, but the live panel actually tests 218 — roughly 137 metabolites are measured and reported but don't feed into the 37 mapped processes the current report copy is built on.</p>
-    <p>That gap doesn't change the protein-only math directly, but it means the "mappable panel" in the proposal is a curated subset of a broader metabolomics panel already in production — worth knowing before sizing engineering or QC effort for either tier.</p>
+    <p>140 distinct protein markers and 259 distinct metabolite markers are tested and reported. The protein count lines up exactly with the proposal's Panel B figure. The metabolite count doesn't: only 81 of the 259 tested metabolites feed into one of the 37 processes the report's condition logic is built on. The other 179 are measured and returned to patients today, but don't connect to any disease or system score.</p>
   </div>
   <div class="stat-grid">
     <div class="stat-card">
       <div class="label" style="color:var(--protein);">Protein markers</div>
       <div class="val">140</div>
-      <div class="sub">mrm 1.1 / hqe · matches proposal exactly</div>
+      <div class="sub">matches proposal's Panel B exactly</div>
     </div>
     <div class="stat-card">
-      <div class="label" style="color:var(--metabolite);">Metabolite markers</div>
-      <div class="val">218</div>
-      <div class="sub">myco 1.1/1.2/hqe, mymet 2.0 · vs. 81 mapped in proposal</div>
+      <div class="label" style="color:var(--metabolite);">Metabolites mapped</div>
+      <div class="val">81 <span style="font-size:15px;color:var(--text-light);">/ 259</span></div>
+      <div class="sub">only 31% of tested metabolites feed a condition score</div>
     </div>
     <div class="stat-card">
       <div class="label">Result rows analysed</div>
-      <div class="val">457,530</div>
-      <div class="sub">excludes 2,664 exposome-panel rows</div>
+      <div class="val">511,937</div>
+      <div class="sub">reported results across the full cohort</div>
     </div>
   </div>
-</section>
 
-<!-- RATES -->
-<section id="rates">
-  <div class="section-header">
-    <div class="section-num">Section 2</div>
-    <h2>Real-world flag rates by marker type</h2>
-  </div>
-  <div class="prose">
-    <p>Per-result, metabolites flag more often than proteins. Across every result with a level assigned, 13.2% of metabolite results land outside the reference range vs. 9.7% of protein results — and metabolites carry a higher red (critical) rate too, 6.2% vs 4.7%.</p>
-  </div>
   <div class="chart-card">
-    <div class="chart-title">Result distribution — normal / yellow / red, by marker type</div>
-    <div id="stackChart"></div>
-    <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:var(--green);"></div>Normal</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--yellow);"></div>Yellow (borderline)</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--red);"></div>Red (critical)</div>
-    </div>
-    <div class="chart-caption">n = 175,775 protein results, 202,238 metabolite results with a level assigned.</div>
+    <div class="chart-title">The 179 mismatched metabolites — tested, but not connected to any condition</div>
+    <div id="mismatchBars"></div>
+    <div class="chart-caption">These are legitimate parts of the metabolomics panel (mostly lipid-class chemistry) — they simply were never wired into the 37-process, 12-condition framework the report narrative uses. Three markers (ADMA, HPHPA, phosphocreatine) don't fit a clean chemical class and are grouped as "other."</div>
   </div>
 
   <div class="callout">
-    <strong>When metabolites flag red, they tend to flag harder.</strong> Mean biomarker score for a red protein result is 37.9 (median 42.8); for a red metabolite result it's 26.1 (median 10.5) on the same 0–100 scale, where 100 is optimal. Metabolite red flags in this panel run further out of range on average than protein red flags.
+    <strong>The 81 that do map</strong> skew toward the markers driving the "consumer wellness" narrative in the original proposal: amino acids and acylcarnitine derivatives tied to energy metabolism, sphingomyelins and phosphatidylcholines tied to gut/lipid processes, and neurotransmitter precursors (5HIAA, TMAO, ADMA). Losing them is exactly as disruptive to those processes as the proposal described — the new finding is <em>how much</em>, in the next section.
   </div>
-
-  <div class="callout warn">
-    <strong>Calibration caveat.</strong> OOR rate isn't uniform within metabolites: myco 1.1 runs 18.7%, myco 1.2 runs 13.2%, myco 1.2 hqe runs 10.0%, and mymet 2.0 runs 25.5% — vs. 9.8% and 8.2% for the two mrm protein assay versions. This tracks the reference-range calibration issue already flagged in the <em>Gym, DTC &amp; Clinic Cohort</em> analysis for newer metabolomics batches. Some of the metabolite-flag gap below is real biology; some of it may shrink once that calibration question is resolved. Treat the per-patient numbers in the next section as a current-state measurement, not a permanent ceiling.
-  </div>
-
-  <div class="table-wrap">
-    <table class="data">
-      <thead><tr><th>Highest-flagging protein markers</th><th>n</th><th>OOR rate</th></tr></thead>
-      <tbody>
-        <tr><td>Antithrombin-III</td><td>1,072</td><td style="color:var(--red);font-weight:600;">71.7%</td></tr>
-        <tr><td>Pregnancy zone protein</td><td>783</td><td style="color:var(--red);font-weight:600;">31.4%</td></tr>
-        <tr><td>Ficolin-2</td><td>1,527</td><td>20.1%</td></tr>
-        <tr><td>Complement factor D</td><td>956</td><td>19.5%</td></tr>
-        <tr><td>Hemoglobin subunit alpha 1</td><td>1,453</td><td>18.6%</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="table-wrap">
-    <table class="data">
-      <thead><tr><th>Highest-flagging metabolite markers</th><th>n</th><th>OOR rate</th></tr></thead>
-      <tbody>
-        <tr><td>Diacetylspermine</td><td>1,345</td><td style="color:var(--red);font-weight:600;">100%</td></tr>
-        <tr><td>C6:1</td><td>924</td><td style="color:var(--red);font-weight:600;">49.5%</td></tr>
-        <tr><td>C12-DC</td><td>1,393</td><td>35.0%</td></tr>
-        <tr><td>Hippuric acid</td><td>1,402</td><td>32.1%</td></tr>
-        <tr><td>beta-Hydroxybutyric acid</td><td>1,403</td><td>28.9%</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="font-size:11px;color:var(--text-light);">n ≥ 20 results; a handful of near-100% metabolites (Diacetylspermine, Tyramine, Histamine, Cotinine) look more like reference-range or assay artifacts than universal pathology and would be worth a QC pass before citing externally.</p>
 </section>
 
-<!-- PATIENT -->
-<section id="patient">
+<!-- IMPACT -->
+<section id="impact">
   <div class="section-header">
-    <div class="section-num">Section 3</div>
-    <h2>What a real patient would actually see</h2>
+    <div class="section-num">Section 2</div>
+    <h2>Impact on conditions when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>This is the number that matters for the feasibility call. For each of the 1,406 patients, we counted every yellow/red flag they carry across their available results, split by marker type. Every patient (100%) has at least one flag of some kind — that's expected, given the panel's breadth. The question is how many of those flags survive a protein-only cut.</p>
-    <p><strong>93.7%</strong> of patients (1,317 of 1,406) keep at least one protein-driven flag — consistent with the proposal's "hooks survive" claim. But that's a low bar. Looking at the <em>share</em> of each patient's flags that are protein vs. metabolite, the mean is 41.7% and the median is 37.5% — meaning a typical patient's flagged results are metabolite-majority, not protein-majority.</p>
-  </div>
-
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="label">Retain ≥1 protein flag</div>
-      <div class="val" style="color:var(--protein);">93.7%</div>
-      <div class="sub">1,317 of 1,406 patients</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Mean protein share of flags</div>
-      <div class="val">41.7%</div>
-      <div class="sub">median 37.5% · 31.2 flags/patient on average</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Zero protein flags at all</div>
-      <div class="val" style="color:var(--red);">6.3%</div>
-      <div class="sub">89 of 1,406 patients</div>
-    </div>
+    <p>Conditions are made up of a group of biomarkers: each of the 12 conditions maps to a set of processes, and each process maps to a set of markers. For every patient, we built a composite condition score — the average marker score (0–100, 100 = optimal) across every mapped marker they have results for — and recomputed it twice: once with the full mapped panel, once with metabolites removed.</p>
+    <p>Averaged across everyone, the composite score barely moves — it rises by 0.1 to 2.5 points depending on the condition, because metabolites flag out-of-range more often and more severely than proteins do, so dropping them quietly removes some of the "drag" on the average. That's a small, easy-to-miss effect at the population level. It's not small for the patients it actually matters to.</p>
+    <p><strong>Isolating patients who are genuinely flagged</strong> — the worst-scoring quarter of the cohort for each condition — changes the picture. For several conditions, roughly 4 in 10 of these already-elevated-risk patients would see their composite score cross into optimal territory (≥90) purely by dropping metabolites from the average, with no change in their actual biology.</p>
   </div>
 
   <div class="chart-card">
-    <div class="chart-title">Distribution of patients by protein share of their own flags</div>
-    <div id="shareHist"></div>
-    <div class="chart-caption">65% of patients (910 of 1,406) have a panel where less than half of their flagged results are protein-driven. A flat distribution here would look like a bell centered near 50% — this one leans left.</div>
+    <div class="chart-title">Of at-risk patients, % who'd cross into "looks optimal" (≥90) once metabolites are dropped</div>
+    <div id="crossBars"></div>
+    <div class="chart-caption">"At-risk" = the worst-scoring 25% of the cohort for that condition on the full mapped panel. Conditions ordered by impact — least affected at top.</div>
   </div>
 
-  <div class="two-col">
-    <div class="chart-card">
-      <div class="chart-title">Patients whose most severe result is invisible to protein-only</div>
-      <div class="waffle-grid" id="waffle"></div>
-      <div class="legend" style="margin-top:12px;">
-        <div class="leg"><div class="leg-dot" style="background:var(--metabolite);"></div>No protein flags at all, has metabolite red — 89 (6.3%)</div>
-        <div class="leg"><div class="leg-dot" style="background:#8B7FC9;"></div>Has protein flags but no protein red, has metabolite red — 63 (4.5%)</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--serenity);"></div>Has ≥1 protein red flag — 1,254 (89.2%)</div>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">The two failure modes, in numbers</div>
-      <div class="prose" style="font-size:13px;">
-        <p><strong>89 patients (6.3%)</strong> have zero protein-driven flags whatsoever — a protein-only report would show them a fully clear result. Every single one of these 89 has at least one metabolite <em>red</em> (critical) flag in their full panel.</p>
-        <p><strong>152 patients (10.8%)</strong> have no protein <em>red</em> flag specifically (they may still have protein yellow flags). Of those, 143 (94%) have a metabolite red flag — meaning for roughly 1 in 10 patients, the single most severe finding in their entire panel disappears under a protein-only cut, even though the report wouldn't necessarily read as "all clear."</p>
-      </div>
-    </div>
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Condition</th><th>% protein markers</th><th>Score lift, at-risk patients</th><th>% crossing into optimal</th></tr></thead>
+      <tbody id="conditionTable"></tbody>
+    </table>
   </div>
+  <p style="font-size:11px;color:var(--text-light);">Cancer risk uses a separate direct biomarker-to-process map (not the 37-process/12-condition framework) and is shown for reference, not ranked with the others.</p>
 
   <div class="callout warn">
-    <strong>This is the risk the process-level estimate doesn't surface.</strong> "70% of a disease's processes keep a protein marker" and "10.8% of patients' worst finding disappears" are both true and both real — they're just answering different questions. The proposal's coverage math is a reasonable estimate of structural completeness; this is a measurement of how often that structure actually matters for a given patient.
+    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count — similar to inflammatory bowel disease (83%) — but its at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). The metabolites PCOS depends on carry more of its actual risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
+  </div>
+
+  <div class="callout">
+    <strong>Where this lines up with the proposal.</strong> The five conditions with the steepest score inflation here — Alzheimer's disease, polycystic ovarian syndrome, type 2 diabetes, depression, and non-alcoholic fatty liver disease — are the same conditions the original proposal flagged as degrading most under a protein-only cut. This analysis doesn't change that call; it puts a number on it.
   </div>
 </section>
 
 <!-- RECONCILE -->
 <section id="reconcile">
   <div class="section-header">
-    <div class="section-num">Section 4</div>
+    <div class="section-num">Section 3</div>
     <h2>Reconciling the two estimates</h2>
   </div>
   <div class="prose">
-    <p>The proposal's ~85–90% "actionable clinical value retained" figure comes from counting, per disease, what share of associated <em>processes</em> still have at least one surviving protein marker. That's a binary, per-process test — a process counts as "kept" the moment a single protein marker in it exists, regardless of whether that marker is the one that actually flags for a given patient, or how it compares to the metabolite markers sharing that process.</p>
-    <p>The patient-level data answers a narrower but more concrete question: of the flags a patient's full panel actually produces, what share would still show up on a protein-only report? The answer — a 37.5% median protein share, and a 10.8% "worst finding disappears" rate — is lower than the process-level estimate would suggest, for two compounding reasons visible in the data: metabolites outnumber proteins in the tested panel (218 vs. 140), and metabolites flag at a higher per-marker rate (13.2% vs. 9.7% OOR).</p>
-    <p>Neither number is wrong. The process-level estimate is the right frame for "does the report structure survive" (Chapters 1–4 in the proposal). The patient-level number is the right frame for "how often does a specific person's specific result disappear" — which is the number that matters for support tickets, trust, and any claim made in marketing copy.</p>
+    <p>The proposal's ~85–90% "actionable clinical value retained" figure comes from counting, per condition, what share of associated processes still have at least one surviving protein marker. That's a binary, per-process test — a process counts as "kept" the moment a single protein marker in it exists, regardless of how much of that process's actual score comes from the metabolites sitting alongside it.</p>
+    <p>The score-impact data answers a narrower, more concrete question: for a patient who is actually flagged for a condition, how much does their composite score move — and does it move enough to change the read — once metabolites are gone? For the five hardest-hit conditions, the answer is "often enough to matter": roughly 4 in 10 already-elevated-risk patients would look optimal instead.</p>
+    <p>Neither number is wrong. The process-level estimate is the right frame for "does the report structure survive" (Chapters 1–4 in the proposal). The score-impact number is the right frame for "how often does a specific person's specific result get quietly erased" — which is the number that matters for clinical judgment, support tickets, and any claim made in marketing copy.</p>
   </div>
 </section>
 
@@ -347,63 +266,84 @@
     <h2>Still feasible — with a quantified, not assumed, gap</h2>
   </div>
   <div class="prose">
-    <p>The data supports the proposal's core call: protein-only is feasible, the economics are favorable, and the marker-count math (140 protein, matching Panel B exactly) checks out. What changes is the confidence interval on "how much value survives." The process-level estimate (~85–90%) is a ceiling; the patient-level measurement (37.5% median flag share, 89.2% retain their worst finding) is closer to the floor. Reality for any given patient sits somewhere between those two numbers depending on their specific results.</p>
+    <p>The data supports the proposal's core call: protein-only is feasible, the economics are favorable, and the marker-count math (140 protein, matching Panel B exactly) checks out. What changes is the confidence interval on "how much value survives," and which conditions carry the risk. Seven conditions — rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, inflammatory bowel disease, chronic kidney disease, and liver disease — hold up well: under 10% score-crossing for the first four, 30–32% for the latter three. Five conditions — Alzheimer's disease, PCOS, type 2 diabetes, depression, and non-alcoholic fatty liver disease — do not.</p>
     <p><strong>Recommendations:</strong></p>
-    <p>1. Don't market Core on an aggregate "retains ~90% of value" figure — it's true in the process sense and misleading in the patient sense. Frame Core around what it covers (cardiometabolic, immune, organ-health, as the proposal already suggests), not around a retained-value percentage.</p>
-    <p>2. Treat the 89 zero-protein-flag patients (6.3%) and the 63 additional no-protein-red patients (4.5%) as a known, sized tradeoff — roughly 1 in 9 Core customers will have their most clinically significant full-panel finding be invisible on a protein-only report. Decide now whether that's acceptable as-is, mitigated with a "your results suggest the Complete panel may be worth it" nudge, or reduced by moving specific high-value metabolites (e.g. the acylcarnitines and short-chain fatty acids driving the highest metabolite flag rates) into Core.</p>
-    <p>3. Re-run this analysis after the myco 1.2 hqe / mymet 2.0 reference-range calibration issue is resolved — part of the metabolite flag-rate advantage may be a QC artifact rather than durable biology, and the 10.8% figure should be rechecked once that's settled.</p>
+    <p>1. Don't market Core on an aggregate "retains ~90% of value" figure — it's true in the process sense and misleading in the patient sense. If Core's positioning leans on specific conditions, lean on the seven that hold up, not the five that don't.</p>
+    <p>2. Treat the five high-impact conditions as a known, sized tradeoff rather than an assumption. Decide now whether that's acceptable as-is for Core, mitigated with a "your results suggest the Complete panel may be worth it" nudge for patients who screen borderline on those conditions, or reduced by moving the highest-leverage of the 179 unmapped metabolites (or a subset of the 81 already-mapped ones) into Core.</p>
+    <p>3. Re-examine PCOS specifically — its metabolite dependency is disproportionate to its marker-count share, and it's the kind of mismatch that composition-only estimates (including the original proposal's) will keep missing until it's measured directly, as done here.</p>
   </div>
 </section>
 
 </main>
 
-<footer>Molecular You — Internal Product Analysis · Source: biomarker_explorer_full.csv · Generated 2026-07-10</footer>
+<footer>Molecular You — Internal Product Analysis · Generated 2026-07-10</footer>
 
 <script>
-// ── STACKED BAR: normal/yellow/red by marker type ──────────────────────────
+// ── BAR: mismatch breakdown ──────────────────────────────────────────────
 (function(){
   const rows = [
-    {label:'Protein', green:90.3, yellow:4.9, red:4.7, n:'175,775'},
-    {label:'Metabolite', green:86.8, yellow:7.0, red:6.2, n:'202,238'}
+    {l:'Phosphatidylcholines (PC aa/ae)', n:75},
+    {l:'Acylcarnitines', n:35},
+    {l:'Trace elements & minerals', n:31},
+    {l:'Lyso-phosphatidylcholines', n:14},
+    {l:'Sphingomyelins', n:11},
+    {l:'Vitamins', n:10},
+    {l:'Other (ADMA, HPHPA, phosphocreatine)', n:3},
   ];
-  document.getElementById('stackChart').innerHTML = rows.map(r=>`
-    <div class="stack-row">
-      <div class="stack-label">${r.label}</div>
-      <div class="stack-track">
-        <div class="stack-seg" style="width:${r.green}%;background:var(--green);"></div>
-        <div class="stack-seg" style="width:${r.yellow}%;background:var(--yellow);"></div>
-        <div class="stack-seg" style="width:${r.red}%;background:var(--red);"></div>
-      </div>
-      <div class="stack-total">${r.red}% red</div>
-    </div>`).join('');
-})();
-
-// ── HISTOGRAM: protein share of flags per patient ───────────────────────────
-(function(){
-  const buckets = [
-    {l:'0–10%', n:135}, {l:'10–20%', n:167}, {l:'20–30%', n:212}, {l:'30–40%', n:234},
-    {l:'40–50%', n:162}, {l:'50–60%', n:160}, {l:'60–70%', n:113}, {l:'70–80%', n:57},
-    {l:'80–90%', n:78}, {l:'90–100%', n:88}
-  ];
-  const max = Math.max(...buckets.map(b=>b.n));
-  document.getElementById('shareHist').innerHTML = buckets.map((b,i)=>`
+  const max = Math.max(...rows.map(r=>r.n));
+  document.getElementById('mismatchBars').innerHTML = rows.map(r=>`
     <div class="bar-row">
-      <div class="bar-label">${b.l} protein</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(b.n/max*100).toFixed(1)}%;background:${i<5?'var(--metabolite)':'var(--protein)'};"></div></div>
-      <div class="bar-val">${b.n}</div>
+      <div class="bar-label">${r.l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(r.n/max*100).toFixed(1)}%;background:var(--metabolite);"></div></div>
+      <div class="bar-val">${r.n}</div>
     </div>`).join('');
 })();
 
-// ── WAFFLE: 100-dot, patients whose worst finding disappears ───────────────
+// ── BAR: % at-risk patients crossing into optimal, by condition ─────────────
 (function(){
-  const total = 100, zeroProtein = 6, noProteinRed = 4;
-  const dots = Array.from({length: total}, (_, i) => {
-    let col = 'var(--serenity)';
-    if (i < zeroProtein) col = 'var(--metabolite)';
-    else if (i < zeroProtein + noProteinRed) col = '#8B7FC9';
-    return `<div class="waffle-dot" style="background:${col};"></div>`;
-  }).join('');
-  document.getElementById('waffle').innerHTML = dots;
+  const rows = [
+    {l:'Rheumatoid arthritis', n:0.3},
+    {l:'COPD', n:4.3},
+    {l:'Atherosclerosis', n:5.1},
+    {l:'Cardiovascular disease', n:9.4},
+    {l:'Inflammatory bowel disease', n:30.0},
+    {l:'Chronic kidney disease', n:30.4},
+    {l:'Liver disease', n:32.3},
+    {l:'Non-alcoholic fatty liver disease', n:39.3},
+    {l:'Depression', n:40.3},
+    {l:'Type 2 diabetes', n:40.4},
+    {l:'Polycystic ovarian syndrome', n:41.0},
+    {l:"Alzheimer's disease", n:47.0},
+  ];
+  const max = Math.max(...rows.map(r=>r.n));
+  document.getElementById('crossBars').innerHTML = rows.map(r=>`
+    <div class="bar-row">
+      <div class="bar-label">${r.l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(r.n/max*100).toFixed(1)}%;background:var(--metabolite);"></div></div>
+      <div class="bar-val">${r.n}%</div>
+    </div>`).join('');
+})();
+
+// ── TABLE: condition composition + score impact ────────────────────────────
+(function(){
+  const rows = [
+    {c:'Rheumatoid arthritis', p:98, lift:0.0, cross:0.3},
+    {c:'Chronic obstructive pulmonary disease', p:88, lift:1.0, cross:4.3},
+    {c:'Atherosclerosis', p:87, lift:1.5, cross:5.1},
+    {c:'Cardiovascular disease', p:84, lift:2.1, cross:9.4},
+    {c:'Inflammatory bowel disease', p:83, lift:2.9, cross:30.0},
+    {c:'Chronic kidney disease', p:67, lift:4.2, cross:30.4},
+    {c:'Liver disease', p:65, lift:4.5, cross:32.3},
+    {c:'Non-alcoholic fatty liver disease', p:65, lift:5.7, cross:39.3},
+    {c:'Depression', p:60, lift:5.4, cross:40.3},
+    {c:'Type 2 diabetes', p:49, lift:7.8, cross:40.4},
+    {c:'Polycystic ovarian syndrome', p:80, lift:4.4, cross:41.0},
+    {c:"Alzheimer's disease", p:55, lift:6.7, cross:47.0},
+  ];
+  const bonus = {c:'Cancer risk (composite)', p:59, lift:6.1, cross:34.2};
+  const cells = r => `<td>${r.c}</td><td>${r.p}%</td><td>+${r.lift.toFixed(1)}</td><td style="font-weight:600;color:${r.cross>35?'var(--metabolite)':(r.cross>15?'var(--yellow)':'var(--green)')};">${r.cross.toFixed(1)}%</td>`;
+  document.getElementById('conditionTable').innerHTML =
+    rows.map(r=>`<tr>${cells(r)}</tr>`).join('') + `<tr class="bonus-row">${cells(bonus)}</tr>`;
 })();
 </script>
 </body>
