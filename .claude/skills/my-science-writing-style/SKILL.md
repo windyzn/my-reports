@@ -63,12 +63,26 @@ observation.
 - "Put simply"
 - "This is not a rounding error"
 - "These are not diffuse or non-specific findings"
+- "These are legitimate parts of..." / any use of "legitimate", "genuine", "real", or "valid" to defend a finding's legitimacy
 - Any sentence that negates before asserting ("These are not X. They are Y.") — just assert Y directly
 - "What held up is as informative as what collapsed" → prefer "What held up is equally informative"
 
 **Do not negate before asserting.** Sentences that open with "These are not..." or
 "This is not..." before making the real claim are a common AI pattern. Drop the
 negation and state the finding directly.
+
+**Avoid validating or defensive language.** Words like "legitimate", "genuine",
+"real", "actual", or "valid" used to pre-empt doubt about a finding imply the
+writer is arguing a case rather than describing data. State the observation
+plainly; don't argue for its legitimacy.
+
+**Do:**
+> These are lipid-class markers in the metabolomics panel that were never wired
+> into the 37-process framework.
+
+**Don't:**
+> These are legitimate parts of the metabolomics panel, mostly lipid-class
+> chemistry, that were never wired into the 37-process framework.
 
 **Do:**
 > These findings represent coordinated activation of the liver's acute-phase
@@ -174,4 +188,5 @@ supported by a specific finding in the data being discussed.
 - [ ] Are all claims grounded in a specific number or observation?
 - [ ] Is anything over-claimed or under-hedged?
 - [ ] Does any sentence negate before asserting? Rewrite to assert directly.
+- [ ] Any use of "legitimate"/"genuine"/"real"/"valid" to defend a finding rather than describe it?
 - [ ] Does it read like a scientist presenting, or like a press release?
