@@ -165,11 +165,11 @@
     <h2>Checking the feasibility estimate against live data</h2>
   </div>
   <div class="prose">
-    <p>The <em>Protein-Only Product Feasibility Analysis</em> estimated that a protein-only assay would retain 70–80% of report value and ~85–90% of risk-detection value, based on a process-level count: whether each of the 37 body-system processes retains at least one protein marker. That's a structural estimate — it counts <em>coverage</em>, not how often each marker actually fires in real patients, or how a condition's score actually moves when the metabolites behind it are removed.</p>
+    <p>The <em>Protein-Only Product Feasibility Analysis</em> estimated that a protein-only assay would retain 70–80% of report value and ~85–90% of risk-detection value, based on a process-level count: whether each of the 37 body-system processes retains at least one protein marker. It is a structural estimate: it counts <em>coverage</em>, not how often each marker fires in real patients, or how a condition's score moves when the metabolites behind it are removed.</p>
     <p>This page runs that question against live results and the biomarker-to-process-to-disease mappings behind the report, across 1,678 patients.</p>
   </div>
   <div class="callout">
-    <strong>Headline:</strong> the marker-count math checks out almost exactly against the proposal. But composite condition scores move — sometimes enough to flip a genuinely elevated-risk patient into "looks optimal" — once metabolites are removed. See <a href="#impact" style="color:var(--dark-blue);">Impact on conditions</a>.
+    The marker-count math checks out almost exactly against the proposal. Composite condition scores move once metabolites are removed, in some cases enough to flip an elevated-risk patient into "looks optimal." See <a href="#impact" style="color:var(--dark-blue);">Impact on conditions</a>.
   </div>
 </section>
 
@@ -201,13 +201,13 @@
   </div>
 
   <div class="chart-card">
-    <div class="chart-title">The 179 mismatched metabolites — tested, but not connected to any condition</div>
+    <div class="chart-title">The 179 mismatched metabolites: tested, not connected to any condition</div>
     <div id="mismatchBars"></div>
-    <div class="chart-caption">These are legitimate parts of the metabolomics panel (mostly lipid-class chemistry) — they simply were never wired into the 37-process, 12-condition framework the report narrative uses. Three markers (ADMA, HPHPA, phosphocreatine) don't fit a clean chemical class and are grouped as "other."</div>
+    <div class="chart-caption">These are legitimate parts of the metabolomics panel, mostly lipid-class chemistry, that were never wired into the 37-process, 12-condition framework the report narrative uses. Three markers (ADMA, HPHPA, phosphocreatine) don't fit a clean chemical class and are grouped as "other."</div>
   </div>
 
   <div class="callout">
-    <strong>The 81 that do map</strong> skew toward the markers driving the "consumer wellness" narrative in the original proposal: amino acids and acylcarnitine derivatives tied to energy metabolism, sphingomyelins and phosphatidylcholines tied to gut/lipid processes, and neurotransmitter precursors (5HIAA, TMAO, ADMA). Losing them is exactly as disruptive to those processes as the proposal described — the new finding is <em>how much</em>, in the next section.
+    <strong>The 81 that do map</strong> skew toward the markers driving the "consumer wellness" narrative in the original proposal: amino acids and acylcarnitine derivatives tied to energy metabolism, sphingomyelins and phosphatidylcholines tied to gut/lipid processes, and neurotransmitter precursors (5HIAA, TMAO, ADMA). Losing them is exactly as disruptive to those processes as the proposal described. The next section measures how much.
   </div>
 </section>
 
@@ -218,15 +218,15 @@
     <h2>Impact on conditions when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>Conditions are made up of a group of biomarkers: each of the 12 conditions maps to a set of processes, and each process maps to a set of markers. For every patient, we built a composite condition score — the average marker score (0–100, 100 = optimal) across every mapped marker they have results for — and recomputed it twice: once with the full mapped panel, once with metabolites removed.</p>
-    <p>Averaged across everyone, the composite score barely moves — it rises by 0.1 to 2.5 points depending on the condition, because metabolites flag out-of-range more often and more severely than proteins do, so dropping them quietly removes some of the "drag" on the average. That's a small, easy-to-miss effect at the population level. It's not small for the patients it actually matters to.</p>
-    <p><strong>Isolating patients who are genuinely flagged</strong> — the worst-scoring quarter of the cohort for each condition — changes the picture. For several conditions, roughly 4 in 10 of these already-elevated-risk patients would see their composite score cross into optimal territory (≥90) purely by dropping metabolites from the average, with no change in their actual biology.</p>
+    <p>Conditions are made up of a group of biomarkers: each of the 12 conditions maps to a set of processes, and each process maps to a set of markers. For every patient, we built a composite condition score (the average marker score, 0–100, 100 = optimal, across every mapped marker they have results for) and recomputed it twice: once with the full mapped panel, once with metabolites removed.</p>
+    <p>Averaged across everyone, the composite score barely moves: it rises by 0.1 to 2.5 points depending on the condition, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the average.</p>
+    <p>The worst-scoring quarter of the cohort for each condition tells a different story. For several conditions, roughly 4 in 10 of these already-elevated-risk patients see their composite score cross into optimal territory (≥90) once metabolites are dropped from the average, with no change in their actual biology.</p>
   </div>
 
   <div class="chart-card">
     <div class="chart-title">Of at-risk patients, % who'd cross into "looks optimal" (≥90) once metabolites are dropped</div>
     <div id="crossBars"></div>
-    <div class="chart-caption">"At-risk" = the worst-scoring 25% of the cohort for that condition on the full mapped panel. Conditions ordered by impact — least affected at top.</div>
+    <div class="chart-caption">"At-risk" = the worst-scoring 25% of the cohort for that condition on the full mapped panel. Conditions ordered by impact, least affected at top.</div>
   </div>
 
   <div class="table-wrap">
@@ -238,11 +238,11 @@
   <p style="font-size:11px;color:var(--text-light);">Cancer risk uses a separate direct biomarker-to-process map (not the 37-process/12-condition framework) and is shown for reference, not ranked with the others.</p>
 
   <div class="callout warn">
-    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count — similar to inflammatory bowel disease (83%) — but its at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). The metabolites PCOS depends on carry more of its actual risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
+    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). The metabolites PCOS depends on carry more of its actual risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
   </div>
 
   <div class="callout">
-    <strong>Where this lines up with the proposal.</strong> The five conditions with the steepest score inflation here — Alzheimer's disease, polycystic ovarian syndrome, type 2 diabetes, depression, and non-alcoholic fatty liver disease — are the same conditions the original proposal flagged as degrading most under a protein-only cut. This analysis doesn't change that call; it puts a number on it.
+    <strong>Where this lines up with the proposal.</strong> The five conditions with the steepest score inflation here (Alzheimer's disease, polycystic ovarian syndrome, type 2 diabetes, depression, and non-alcoholic fatty liver disease) are the same conditions the original proposal flagged as degrading most under a protein-only cut. This analysis doesn't change that call; it puts a number on it.
   </div>
 </section>
 
@@ -253,9 +253,9 @@
     <h2>Reconciling the two estimates</h2>
   </div>
   <div class="prose">
-    <p>The proposal's ~85–90% "actionable clinical value retained" figure comes from counting, per condition, what share of associated processes still have at least one surviving protein marker. That's a binary, per-process test — a process counts as "kept" the moment a single protein marker in it exists, regardless of how much of that process's actual score comes from the metabolites sitting alongside it.</p>
-    <p>The score-impact data answers a narrower, more concrete question: for a patient who is actually flagged for a condition, how much does their composite score move — and does it move enough to change the read — once metabolites are gone? For the five hardest-hit conditions, the answer is "often enough to matter": roughly 4 in 10 already-elevated-risk patients would look optimal instead.</p>
-    <p>Neither number is wrong. The process-level estimate is the right frame for "does the report structure survive" (Chapters 1–4 in the proposal). The score-impact number is the right frame for "how often does a specific person's specific result get quietly erased" — which is the number that matters for clinical judgment, support tickets, and any claim made in marketing copy.</p>
+    <p>The proposal's ~85–90% "actionable clinical value retained" figure comes from counting, per condition, what share of associated processes still have at least one surviving protein marker. It is a binary, per-process test: a process counts as "kept" the moment a single protein marker in it exists, regardless of how much of that process's actual score comes from the metabolites sitting alongside it.</p>
+    <p>The score-impact data answers a narrower, more concrete question: for a patient who is actually flagged for a condition, how much does their composite score move once metabolites are gone, and does it move enough to change the read? For the five hardest-hit conditions, the answer is "often enough to matter": roughly 4 in 10 already-elevated-risk patients would look optimal instead.</p>
+    <p>The process-level estimate is the right frame for whether the report structure survives (Chapters 1–4 in the proposal). The score-impact number is the right frame for how often a specific person's specific result gets quietly erased, which is the number that matters for clinical judgment, support tickets, and any claim made in marketing copy.</p>
   </div>
 </section>
 
@@ -266,11 +266,11 @@
     <h2>Still feasible — with a quantified, not assumed, gap</h2>
   </div>
   <div class="prose">
-    <p>The data supports the proposal's core call: protein-only is feasible, the economics are favorable, and the marker-count math (140 protein, matching Panel B exactly) checks out. What changes is the confidence interval on "how much value survives," and which conditions carry the risk. Seven conditions — rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, inflammatory bowel disease, chronic kidney disease, and liver disease — hold up well: under 10% score-crossing for the first four, 30–32% for the latter three. Five conditions — Alzheimer's disease, PCOS, type 2 diabetes, depression, and non-alcoholic fatty liver disease — do not.</p>
+    <p>The data supports the proposal's core call: protein-only is feasible, the economics are favorable, and the marker-count math (140 protein, matching Panel B exactly) checks out. What changes is the confidence interval on "how much value survives," and which conditions carry the risk. Seven conditions (rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, inflammatory bowel disease, chronic kidney disease, and liver disease) hold up well: under 10% score-crossing for the first four, 30–32% for the latter three. Five conditions (Alzheimer's disease, PCOS, type 2 diabetes, depression, and non-alcoholic fatty liver disease) do not.</p>
     <p><strong>Recommendations:</strong></p>
-    <p>1. Don't market Core on an aggregate "retains ~90% of value" figure — it's true in the process sense and misleading in the patient sense. If Core's positioning leans on specific conditions, lean on the seven that hold up, not the five that don't.</p>
+    <p>1. Don't market Core on an aggregate "retains ~90% of value" figure. It's true in the process sense and misleading in the patient sense. If Core's positioning leans on specific conditions, lean on the seven that hold up, not the five that don't.</p>
     <p>2. Treat the five high-impact conditions as a known, sized tradeoff rather than an assumption. Decide now whether that's acceptable as-is for Core, mitigated with a "your results suggest the Complete panel may be worth it" nudge for patients who screen borderline on those conditions, or reduced by moving the highest-leverage of the 179 unmapped metabolites (or a subset of the 81 already-mapped ones) into Core.</p>
-    <p>3. Re-examine PCOS specifically — its metabolite dependency is disproportionate to its marker-count share, and it's the kind of mismatch that composition-only estimates (including the original proposal's) will keep missing until it's measured directly, as done here.</p>
+    <p>3. Re-examine PCOS specifically. Its metabolite dependency is disproportionate to its marker-count share, and composition-only estimates, including the original proposal's, will keep missing that kind of mismatch until it's measured directly, as done here.</p>
   </div>
 </section>
 
