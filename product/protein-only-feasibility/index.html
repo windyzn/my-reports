@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Protein-Only Feasibility — Data Validation — Molecular You</title>
+<title>Protein-Only Product — Impact of Removing Metabolites — Molecular You</title>
 <link rel="icon" href="../../assets/favicon.png" type="image/png">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,6 +79,10 @@
   .stat-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 6px; }
   .stat-card .val { font-size: 26px; font-weight: 700; line-height: 1; color: var(--dark-blue); }
   .stat-card .sub { font-size: 11px; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
+  .stat-grid.highlight { margin-top: 4px; }
+  .stat-grid.highlight .stat-card { border-top: 3px solid var(--metabolite); }
+  .stat-grid.highlight .val { font-size: 30px; }
+  .stat-grid.highlight .val .unit { font-size: 16px; color: var(--text-light); font-weight: 600; }
 
   /* ── CHARTS ── */
   .chart-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 20px 16px; margin-bottom: 20px; }
@@ -133,15 +137,14 @@
 <header>
   <div class="header-inner">
     <div class="header-eyebrow">Molecular You — Product Analysis</div>
-    <h1>Protein-Only Product<br><em>Data Validation Against Live Results</em></h1>
+    <h1>Protein-Only Product<br><em>Impact of Removing Metabolites</em></h1>
     <div class="header-meta">
       <span>n = 1,678 patients · 1,998 barcodes</span>
-      <span>12 conditions · 37 processes · 81 mapped metabolites</span>
-      <span>Companion to: Protein-Only Product Feasibility Analysis</span>
+      <span>12 conditions · 7 body systems · cancer risk</span>
     </div>
     <div class="header-dates">
       <span>Published: 2026-07-10</span>
-      <span>Last edited: 2026-07-10</span>
+      <span>Last edited: 2026-07-13</span>
     </div>
   </div>
 </header>
@@ -150,8 +153,9 @@
   <div class="nav-inner">
     <a href="#context" class="active">Context</a>
     <a href="#composition">Panel composition</a>
-    <a href="#impact">Impact on conditions</a>
-    <a href="#reconcile">Reconciling the estimate</a>
+    <a href="#conditions">Conditions</a>
+    <a href="#systems">Body systems</a>
+    <a href="#cancer">Cancer risk</a>
     <a href="#verdict">Verdict</a>
   </div>
 </nav>
@@ -162,14 +166,13 @@
 <section id="context">
   <div class="section-header">
     <div class="section-num">Context</div>
-    <h2>Checking the feasibility estimate against live data</h2>
+    <h2>What happens to health scores when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>The <em>Protein-Only Product Feasibility Analysis</em> estimated that a protein-only assay would retain 70–80% of report value and ~85–90% of risk-detection value, based on a process-level count: whether each of the 37 body-system processes retains at least one protein marker. It is a structural estimate: it counts <em>coverage</em>, not how often each marker fires in real patients, or how a condition's score moves when the metabolites behind it are removed.</p>
-    <p>This page runs that question against live results and the biomarker-to-process-to-disease mappings behind the report, across 1,678 patients.</p>
+    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, we recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: the 12 disease conditions, the 7 body systems, and cancer risk.</p>
   </div>
   <div class="callout">
-    The marker-count math checks out almost exactly against the proposal. Composite condition scores move once metabolites are removed, in some cases enough to flip an elevated-risk patient into "looks optimal." See <a href="#impact" style="color:var(--dark-blue);">Impact on conditions</a>.
+    Population-wide, health scores barely move when metabolites are dropped. Among patients who are already flagged as at-risk, scores move enough to flip 27% of them into "looks optimal" on average across the 12 conditions, and up to 79% for the hardest-hit body system, with no change in their actual biology. See <a href="#conditions" style="color:var(--dark-blue);">Conditions</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
   </div>
 </section>
 
@@ -180,18 +183,18 @@
     <h2>What's actually in the panel</h2>
   </div>
   <div class="prose">
-    <p>140 distinct protein markers and 259 distinct metabolite markers are tested and reported. The protein count lines up exactly with the proposal's Panel B figure. The metabolite count doesn't: only 81 of the 259 tested metabolites feed into one of the 37 processes the report's condition logic is built on. The other 179 are measured and returned to patients today, but don't connect to any disease or system score.</p>
+    <p>140 distinct protein markers and 259 distinct metabolite markers are tested and reported. Only 81 of the 259 tested metabolites feed into one of the 37 processes the report's condition and system logic is built on. The other 179 are measured and returned to patients today, but don't connect to any condition, system, or cancer-risk score.</p>
   </div>
   <div class="stat-grid">
     <div class="stat-card">
       <div class="label" style="color:var(--protein);">Protein markers</div>
       <div class="val">140</div>
-      <div class="sub">matches proposal's Panel B exactly</div>
+      <div class="sub">distinct markers tested and reported</div>
     </div>
     <div class="stat-card">
       <div class="label" style="color:var(--metabolite);">Metabolites mapped</div>
       <div class="val">81 <span style="font-size:15px;color:var(--text-light);">/ 259</span></div>
-      <div class="sub">only 31% of tested metabolites feed a condition score</div>
+      <div class="sub">only 31% of tested metabolites feed a health score</div>
     </div>
     <div class="stat-card">
       <div class="label">Result rows analysed</div>
@@ -201,61 +204,154 @@
   </div>
 
   <div class="chart-card">
-    <div class="chart-title">The 179 mismatched metabolites: tested, not connected to any condition</div>
+    <div class="chart-title">The 179 mismatched metabolites: tested, not connected to any condition or system</div>
     <div id="mismatchBars"></div>
-    <div class="chart-caption">These are legitimate parts of the metabolomics panel, mostly lipid-class chemistry, that were never wired into the 37-process, 12-condition framework the report narrative uses. Three markers (ADMA, HPHPA, phosphocreatine) don't fit a clean chemical class and are grouped as "other."</div>
+    <div class="chart-caption">These are legitimate parts of the metabolomics panel, mostly lipid-class chemistry, that were never wired into the 37-process framework. Three markers (ADMA, HPHPA, phosphocreatine) don't fit a clean chemical class and are grouped as "other."</div>
   </div>
 
   <div class="callout">
-    <strong>The 81 that do map</strong> skew toward the markers driving the "consumer wellness" narrative in the original proposal: amino acids and acylcarnitine derivatives tied to energy metabolism, sphingomyelins and phosphatidylcholines tied to gut/lipid processes, and neurotransmitter precursors (5HIAA, TMAO, ADMA). Losing them is exactly as disruptive to those processes as the proposal described. The next section measures how much.
+    <strong>The 81 that do map</strong> skew toward markers tied to energy metabolism, gut and lipid processes, and neurotransmitter precursors (5HIAA, TMAO, ADMA). The next three sections measure how much losing them moves health scores, at the condition, system, and cancer-risk level.
   </div>
 </section>
 
-<!-- IMPACT -->
-<section id="impact">
+<!-- CONDITIONS -->
+<section id="conditions">
   <div class="section-header">
     <div class="section-num">Section 2</div>
-    <h2>Impact on conditions when metabolites are removed</h2>
+    <h2>Impact on the 12 conditions</h2>
   </div>
   <div class="prose">
-    <p>Conditions are made up of a group of biomarkers: each of the 12 conditions maps to a set of processes, and each process maps to a set of markers. For every patient, we built a composite condition score (the average marker score, 0–100, 100 = optimal, across every mapped marker they have results for) and recomputed it twice: once with the full mapped panel, once with metabolites removed.</p>
-    <p>Averaged across everyone, the composite score barely moves: it rises by 0.1 to 2.5 points depending on the condition, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the average.</p>
-    <p>The worst-scoring quarter of the cohort for each condition tells a different story. For several conditions, roughly 4 in 10 of these already-elevated-risk patients see their composite score cross into optimal territory (≥90) once metabolites are dropped from the average, with no change in their actual biology.</p>
+    <p>Conditions are made up of a group of biomarkers: each of the 12 conditions maps to a set of processes, and each process maps to a set of markers. For every patient, we recomputed their health score for each condition using every mapped marker they have results for, then again with metabolites removed.</p>
+    <p>Averaged across everyone, health scores barely move: they rise by 0.1 to 2.5 points depending on the condition, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the average.</p>
+    <p>The worst-scoring quarter of the cohort for each condition tells a different story. Across the 12 conditions, this at-risk group's health score lift averages 3.1 times the population-wide lift, and for several conditions, at least 39% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped, with no change in their actual biology.</p>
+  </div>
+
+  <div class="stat-grid highlight">
+    <div class="stat-card">
+      <div class="label">Population-wide lift</div>
+      <div class="val">+1.3</div>
+      <div class="sub">avg points across 12 conditions</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">At-risk patient lift</div>
+      <div class="val">+3.9</div>
+      <div class="sub">3.1x the population-wide lift</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Cross into "optimal"</div>
+      <div class="val">27%</div>
+      <div class="sub">avg of at-risk patients, range 0.3%–47.0%</div>
+    </div>
   </div>
 
   <div class="chart-card">
-    <div class="chart-title">Of at-risk patients, % who'd cross into "looks optimal" (≥90) once metabolites are dropped</div>
-    <div id="crossBars"></div>
+    <div class="chart-title">Of at-risk patients, % who cross into "looks optimal" (≥90) once metabolites are dropped</div>
+    <div id="crossBarsConditions"></div>
     <div class="chart-caption">"At-risk" = the worst-scoring 25% of the cohort for that condition on the full mapped panel. Conditions ordered by impact, least affected at top.</div>
   </div>
 
   <div class="table-wrap">
     <table class="data">
-      <thead><tr><th>Condition</th><th>% protein markers</th><th>Score lift, at-risk patients</th><th>% crossing into optimal</th></tr></thead>
+      <thead><tr><th>Condition</th><th>% protein markers</th><th>Health score lift, at-risk patients</th><th>% crossing into optimal</th></tr></thead>
       <tbody id="conditionTable"></tbody>
     </table>
   </div>
-  <p style="font-size:11px;color:var(--text-light);">Cancer risk uses a separate direct biomarker-to-process map (not the 37-process/12-condition framework) and is shown for reference, not ranked with the others.</p>
 
   <div class="callout warn">
     <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). The metabolites PCOS depends on carry more of its actual risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
   </div>
+</section>
 
-  <div class="callout">
-    <strong>Where this lines up with the proposal.</strong> The five conditions with the steepest score inflation here (Alzheimer's disease, polycystic ovarian syndrome, type 2 diabetes, depression, and non-alcoholic fatty liver disease) are the same conditions the original proposal flagged as degrading most under a protein-only cut. This analysis doesn't change that call; it puts a number on it.
+<!-- SYSTEMS -->
+<section id="systems">
+  <div class="section-header">
+    <div class="section-num">Section 3</div>
+    <h2>Impact on the 7 body systems</h2>
+  </div>
+  <div class="prose">
+    <p>Each of the 7 body systems maps directly to a set of markers. We ran the same health score comparison at the system level: full panel vs. metabolites removed, population-wide and among the worst-scoring quarter of the cohort for each system.</p>
+    <p>The spread here is wider than at the condition level. Immune system & inflammation and tissue repair & healing are 100% protein by marker count, so removing metabolites changes nothing: 0% of at-risk patients cross into "optimal." At the other end, digestion & gut health is 15% protein. Among its at-risk patients, 79% cross into "optimal" once metabolites are dropped, and energy & metabolism, at 2% protein, sends 72% of its at-risk patients into the same territory.</p>
+  </div>
+
+  <div class="stat-grid highlight">
+    <div class="stat-card">
+      <div class="label">Population-wide lift</div>
+      <div class="val">+1.7</div>
+      <div class="sub">avg points across 7 systems</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">At-risk patient lift</div>
+      <div class="val">+6.9</div>
+      <div class="sub">4.0x the population-wide lift</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Cross into "optimal"</div>
+      <div class="val">33%</div>
+      <div class="sub">avg of at-risk patients, range 0%–78.9%</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Of at-risk patients, % who cross into "looks optimal" (≥90) once metabolites are dropped</div>
+    <div id="crossBarsSystems"></div>
+    <div class="chart-caption">Systems ordered by impact, least affected at top.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Body system</th><th>% protein markers</th><th>Health score lift, at-risk patients</th><th>% crossing into optimal</th></tr></thead>
+      <tbody id="systemTable"></tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>The two systems that carry the report's wellness narrative are its most metabolite-dependent.</strong> Energy & metabolism and digestion & gut health post the two highest crossing rates of any group in this analysis, at either the condition or system level. A protein-only version of the report would show these two systems as consistently strong for most already-flagged patients.
   </div>
 </section>
 
-<!-- RECONCILE -->
-<section id="reconcile">
+<!-- CANCER -->
+<section id="cancer">
   <div class="section-header">
-    <div class="section-num">Section 3</div>
-    <h2>Reconciling the two estimates</h2>
+    <div class="section-num">Section 4</div>
+    <h2>Impact on cancer risk</h2>
   </div>
   <div class="prose">
-    <p>The proposal's ~85–90% "actionable clinical value retained" figure comes from counting, per condition, what share of associated processes still have at least one surviving protein marker. It is a binary, per-process test: a process counts as "kept" the moment a single protein marker in it exists, regardless of how much of that process's actual score comes from the metabolites sitting alongside it.</p>
-    <p>The score-impact data answers a narrower, more concrete question: for a patient who is actually flagged for a condition, how much does their composite score move once metabolites are gone, and does it move enough to change the read? For the five hardest-hit conditions, the answer is "often enough to matter": roughly 4 in 10 already-elevated-risk patients would look optimal instead.</p>
-    <p>The process-level estimate is the right frame for whether the report structure survives (Chapters 1–4 in the proposal). The score-impact number is the right frame for how often a specific person's specific result gets quietly erased, which is the number that matters for clinical judgment, support tickets, and any claim made in marketing copy.</p>
+    <p>Cancer risk uses its own biomarker map, organized into 8 cancer-relevant processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) rather than the 37-process framework used for conditions and systems. We ran the same comparison across all 90 mapped cancer-risk markers, and again within each of the 8 processes.</p>
+  </div>
+
+  <div class="stat-grid highlight">
+    <div class="stat-card">
+      <div class="label">Population-wide lift</div>
+      <div class="val">+2.3</div>
+      <div class="sub">overall cancer-risk score</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">At-risk patient lift</div>
+      <div class="val">+6.8</div>
+      <div class="sub">3.0x the population-wide lift</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Cross into "optimal"</div>
+      <div class="val">41%</div>
+      <div class="sub">overall, range 0%–88.0% by process</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Of at-risk patients, % who cross into "looks optimal" (≥90) once metabolites are dropped</div>
+    <div id="crossBarsCancer"></div>
+    <div class="chart-caption">Cancer processes ordered by impact, least affected at top.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Cancer process</th><th>% protein markers</th><th>Health score lift, at-risk patients</th><th>% crossing into optimal</th></tr></thead>
+      <tbody id="cancerTable"></tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>Cell proliferation and oxidative stress are almost entirely metabolite signal.</strong> Both processes are under 17% protein by marker count, and both send more than 80% of their at-risk patients into "looks optimal" once metabolites are removed. Matrix remodelling, by contrast, is 100% protein and shows no effect at all.
   </div>
 </section>
 
@@ -263,88 +359,94 @@
 <section id="verdict">
   <div class="section-header">
     <div class="section-num">Verdict</div>
-    <h2>Still feasible — with a quantified, not assumed, gap</h2>
+    <h2>The effect concentrates hard in specific places</h2>
   </div>
   <div class="prose">
-    <p>The data supports the proposal's core call: protein-only is feasible, the economics are favorable, and the marker-count math (140 protein, matching Panel B exactly) checks out. What changes is the confidence interval on "how much value survives," and which conditions carry the risk. Seven conditions (rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, inflammatory bowel disease, chronic kidney disease, and liver disease) hold up well: under 10% score-crossing for the first four, 30–32% for the latter three. Five conditions (Alzheimer's disease, PCOS, type 2 diabetes, depression, and non-alcoholic fatty liver disease) do not.</p>
+    <p>Removing metabolites leaves health scores nearly unchanged at the population level, across conditions, systems, and cancer risk alike. Among patients who are already flagged, the effect concentrates in specific conditions, systems, and cancer processes, and the concentration is severe where it happens: up to 88% of at-risk patients in the hardest-hit group would score as optimal instead of at-risk, with no change in their actual biology.</p>
+    <p>Rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, immune system & inflammation, tissue repair & healing, matrix remodelling, metastasis, and thromboinflammation all sit under 10% crossing. Alzheimer's disease, PCOS, type 2 diabetes, depression, non-alcoholic fatty liver disease, energy & metabolism, digestion & gut health, hormone & brain function, cell proliferation, and oxidative stress all sit above 40%.</p>
     <p><strong>Recommendations:</strong></p>
-    <p>1. Don't market Core on an aggregate "retains ~90% of value" figure. It's true in the process sense and misleading in the patient sense. If Core's positioning leans on specific conditions, lean on the seven that hold up, not the five that don't.</p>
-    <p>2. Treat the five high-impact conditions as a known, sized tradeoff rather than an assumption. Decide now whether that's acceptable as-is for Core, mitigated with a "your results suggest the Complete panel may be worth it" nudge for patients who screen borderline on those conditions, or reduced by moving the highest-leverage of the 179 unmapped metabolites (or a subset of the 81 already-mapped ones) into Core.</p>
-    <p>3. Re-examine PCOS specifically. Its metabolite dependency is disproportionate to its marker-count share, and composition-only estimates, including the original proposal's, will keep missing that kind of mismatch until it's measured directly, as done here.</p>
+    <p>1. Composition percentage alone is a weak predictor of impact. PCOS and cell proliferation both show a bigger score effect than their protein share suggests. Any condition, system, or process under consideration for a protein-only version of the report should have its score effect measured directly, not estimated from marker counts.</p>
+    <p>2. A protein-only version of the report can stand fully behind the groups that sit under 10% crossing. That set already spans cardiovascular, immune, joint, and lung conditions, three of the seven body systems, and four of the eight cancer processes.</p>
+    <p>3. Energy & metabolism, digestion & gut health, and the five conditions and cancer processes above 40% crossing would need to be excluded from a protein-only report's claims, or supplemented with a subset of the 179 unmapped metabolites, since a large share of already-flagged patients in these groups would otherwise read as optimal.</p>
   </div>
 </section>
 
 </main>
 
-<footer>Molecular You — Internal Product Analysis · Generated 2026-07-10</footer>
+<footer>Molecular You — Internal Product Analysis · Generated 2026-07-13</footer>
 
 <script>
-// ── BAR: mismatch breakdown ──────────────────────────────────────────────
-(function(){
-  const rows = [
-    {l:'Phosphatidylcholines (PC aa/ae)', n:75},
-    {l:'Acylcarnitines', n:35},
-    {l:'Trace elements & minerals', n:31},
-    {l:'Lyso-phosphatidylcholines', n:14},
-    {l:'Sphingomyelins', n:11},
-    {l:'Vitamins', n:10},
-    {l:'Other (ADMA, HPHPA, phosphocreatine)', n:3},
-  ];
+// ── shared bar renderer ─────────────────────────────────────────────────────
+function renderBars(elId, rows, fmt){
   const max = Math.max(...rows.map(r=>r.n));
-  document.getElementById('mismatchBars').innerHTML = rows.map(r=>`
+  document.getElementById(elId).innerHTML = rows.map(r=>`
     <div class="bar-row">
       <div class="bar-label">${r.l}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${(r.n/max*100).toFixed(1)}%;background:var(--metabolite);"></div></div>
-      <div class="bar-val">${r.n}</div>
+      <div class="bar-val">${fmt(r.n)}</div>
     </div>`).join('');
-})();
+}
 
-// ── BAR: % at-risk patients crossing into optimal, by condition ─────────────
-(function(){
-  const rows = [
-    {l:'Rheumatoid arthritis', n:0.3},
-    {l:'COPD', n:4.3},
-    {l:'Atherosclerosis', n:5.1},
-    {l:'Cardiovascular disease', n:9.4},
-    {l:'Inflammatory bowel disease', n:30.0},
-    {l:'Chronic kidney disease', n:30.4},
-    {l:'Liver disease', n:32.3},
-    {l:'Non-alcoholic fatty liver disease', n:39.3},
-    {l:'Depression', n:40.3},
-    {l:'Type 2 diabetes', n:40.4},
-    {l:'Polycystic ovarian syndrome', n:41.0},
-    {l:"Alzheimer's disease", n:47.0},
-  ];
-  const max = Math.max(...rows.map(r=>r.n));
-  document.getElementById('crossBars').innerHTML = rows.map(r=>`
-    <div class="bar-row">
-      <div class="bar-label">${r.l}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${(r.n/max*100).toFixed(1)}%;background:var(--metabolite);"></div></div>
-      <div class="bar-val">${r.n}%</div>
-    </div>`).join('');
-})();
+function renderTable(elId, rows){
+  const cells = r => `<td>${r.c}</td><td>${r.p}%</td><td>+${r.lift.toFixed(1)}</td><td style="font-weight:600;color:${r.cross>40?'var(--metabolite)':(r.cross>10?'var(--yellow)':'var(--green)')};">${r.cross.toFixed(1)}%</td>`;
+  document.getElementById(elId).innerHTML = rows.map(r=>`<tr>${cells(r)}</tr>`).join('');
+}
 
-// ── TABLE: condition composition + score impact ────────────────────────────
-(function(){
-  const rows = [
-    {c:'Rheumatoid arthritis', p:98, lift:0.0, cross:0.3},
-    {c:'Chronic obstructive pulmonary disease', p:88, lift:1.0, cross:4.3},
-    {c:'Atherosclerosis', p:87, lift:1.5, cross:5.1},
-    {c:'Cardiovascular disease', p:84, lift:2.1, cross:9.4},
-    {c:'Inflammatory bowel disease', p:83, lift:2.9, cross:30.0},
-    {c:'Chronic kidney disease', p:67, lift:4.2, cross:30.4},
-    {c:'Liver disease', p:65, lift:4.5, cross:32.3},
-    {c:'Non-alcoholic fatty liver disease', p:65, lift:5.7, cross:39.3},
-    {c:'Depression', p:60, lift:5.4, cross:40.3},
-    {c:'Type 2 diabetes', p:49, lift:7.8, cross:40.4},
-    {c:'Polycystic ovarian syndrome', p:80, lift:4.4, cross:41.0},
-    {c:"Alzheimer's disease", p:55, lift:6.7, cross:47.0},
-  ];
-  const bonus = {c:'Cancer risk (composite)', p:59, lift:6.1, cross:34.2};
-  const cells = r => `<td>${r.c}</td><td>${r.p}%</td><td>+${r.lift.toFixed(1)}</td><td style="font-weight:600;color:${r.cross>35?'var(--metabolite)':(r.cross>15?'var(--yellow)':'var(--green)')};">${r.cross.toFixed(1)}%</td>`;
-  document.getElementById('conditionTable').innerHTML =
-    rows.map(r=>`<tr>${cells(r)}</tr>`).join('') + `<tr class="bonus-row">${cells(bonus)}</tr>`;
-})();
+// ── mismatch breakdown ───────────────────────────────────────────────────────
+renderBars('mismatchBars', [
+  {l:'Phosphatidylcholines (PC aa/ae)', n:75},
+  {l:'Acylcarnitines', n:35},
+  {l:'Trace elements & minerals', n:31},
+  {l:'Lyso-phosphatidylcholines', n:14},
+  {l:'Sphingomyelins', n:11},
+  {l:'Vitamins', n:10},
+  {l:'Other (ADMA, HPHPA, phosphocreatine)', n:3},
+], n => n);
+
+// ── CONDITIONS ───────────────────────────────────────────────────────────────
+const conditionRows = [
+  {c:'Rheumatoid arthritis', p:98, lift:0.0, cross:0.3},
+  {c:'Chronic obstructive pulmonary disease', p:88, lift:1.0, cross:4.3},
+  {c:'Atherosclerosis', p:87, lift:1.5, cross:5.1},
+  {c:'Cardiovascular disease', p:84, lift:2.1, cross:9.4},
+  {c:'Inflammatory bowel disease', p:83, lift:2.9, cross:30.0},
+  {c:'Chronic kidney disease', p:67, lift:4.3, cross:30.4},
+  {c:'Liver disease', p:65, lift:4.5, cross:32.3},
+  {c:'Non-alcoholic fatty liver disease', p:65, lift:5.7, cross:39.3},
+  {c:'Depression', p:60, lift:5.4, cross:40.3},
+  {c:'Type 2 diabetes', p:49, lift:7.8, cross:40.4},
+  {c:'Polycystic ovarian syndrome', p:80, lift:4.4, cross:41.0},
+  {c:"Alzheimer's disease", p:55, lift:6.7, cross:47.0},
+];
+renderBars('crossBarsConditions', conditionRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
+renderTable('conditionTable', conditionRows);
+
+// ── BODY SYSTEMS ─────────────────────────────────────────────────────────────
+const systemRows = [
+  {c:'Immune system & inflammation', p:100, lift:0.0, cross:0.0},
+  {c:'Tissue repair & healing', p:100, lift:0.0, cross:0.0},
+  {c:'Blood flow & vessel health', p:86, lift:1.4, cross:3.3},
+  {c:'Cell defence & detox', p:80, lift:2.6, cross:8.0},
+  {c:'Hormone & brain function', p:47, lift:9.8, cross:67.5},
+  {c:'Energy & metabolism', p:2, lift:16.0, cross:72.3},
+  {c:'Digestion & gut health', p:15, lift:18.3, cross:78.9},
+];
+renderBars('crossBarsSystems', systemRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
+renderTable('systemTable', systemRows);
+
+// ── CANCER PROCESSES ─────────────────────────────────────────────────────────
+const cancerRows = [
+  {c:'Matrix remodelling', p:100, lift:0.0, cross:0.0},
+  {c:'Metastasis', p:92, lift:1.1, cross:5.5},
+  {c:'Thromboinflammation', p:80, lift:0.4, cross:5.9},
+  {c:'Immune system evasion', p:80, lift:1.4, cross:23.8},
+  {c:'Angiogenesis', p:83, lift:6.9, cross:27.4},
+  {c:'Metabolic dysfunction', p:18, lift:10.8, cross:46.2},
+  {c:'Oxidative stress', p:17, lift:22.9, cross:83.7},
+  {c:'Cell proliferation', p:9, lift:25.9, cross:88.0},
+];
+renderBars('crossBarsCancer', cancerRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
+renderTable('cancerTable', cancerRows);
 </script>
 </body>
 </html>
