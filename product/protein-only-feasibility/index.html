@@ -172,7 +172,7 @@
     <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, we recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
   </div>
   <div class="callout">
-Among patients who are already flagged as at-risk, health scores move enough to flip 27% of them into "looks optimal" on average across diseases, and up to 79% for the hardest-hit body system, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
+Among patients who are already flagged as at-risk, health scores move enough to flip 28% of them into "looks optimal" on average across diseases, and up to 99% for the hardest-hit cancer process, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
   </div>
 </section>
 
@@ -212,24 +212,24 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
   <div class="prose">
     <p>Diseases are made up of a group of biomarkers: each disease maps to a set of processes, and each process maps to a set of markers. For every patient, we recomputed their health score for each disease using every mapped marker they have results for, then again with metabolites removed.</p>
-    <p>At-risk patients, defined here as the worst-scoring 25% of the cohort for that disease under the full panel (a health-score percentile, not a yellow or red flag), show a much larger effect than the population as a whole. Across diseases, this group's health score lift averages 3.1 times the population-wide lift, and for several diseases, at least 39% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
-    <p>Averaged across everyone, health scores move far less: 0.1 to 2.5 points depending on the disease, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the population-wide average.</p>
+    <p>At-risk patients, defined here as the worst-scoring 25% of the cohort for that disease under the full panel (a health-score percentile, not a yellow or red flag), show a much larger effect than the population as a whole. Across diseases, this group's health score lift averages 1.4 times the population-wide lift, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
+    <p>Averaged across everyone, health scores move far less: 0.1 to 5.6 points depending on the disease, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the population-wide average.</p>
   </div>
 
   <div class="stat-grid highlight">
     <div class="stat-card">
       <div class="label">Cross into "optimal"</div>
-      <div class="val">27%</div>
-      <div class="sub">avg of at-risk patients, range 0.3%–47.0%</div>
+      <div class="val">28%</div>
+      <div class="sub">avg of at-risk patients, range 2.4%–51.4%</div>
     </div>
     <div class="stat-card">
       <div class="label">At-risk patient lift</div>
-      <div class="val">+3.9</div>
-      <div class="sub">3.1x the population-wide lift</div>
+      <div class="val">+2.2</div>
+      <div class="sub">1.4x the population-wide lift</div>
     </div>
     <div class="stat-card">
       <div class="label">Population-wide lift</div>
-      <div class="val">+1.3</div>
+      <div class="val">+1.6</div>
       <div class="sub">avg points across diseases</div>
     </div>
   </div>
@@ -248,7 +248,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
 
   <div class="callout warn">
-    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
+    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "optimal" at a much higher rate (51% vs. 26%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
   </div>
 </section>
 
@@ -260,23 +260,23 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
   <div class="prose">
     <p>Each of the 7 body systems maps directly to a set of markers. We ran the same health score comparison at the system level: full panel vs. metabolites removed, population-wide and among the worst-scoring quarter of the cohort for each system.</p>
-    <p>Digestion & gut health (15% protein) and energy & metabolism (2% protein) are the most affected: 79% and 72% of their at-risk patients cross into "optimal" once metabolites are dropped. Immune system & inflammation and tissue repair & healing, both 100% protein, show no effect at all.</p>
+    <p>Energy & metabolism (2% protein) and digestion & gut health (15% protein) are the most affected: 81.9% and 75.1% of their at-risk patients cross into "optimal" once metabolites are dropped. Immune system & inflammation and tissue repair & healing, both 100% protein, show no effect at all.</p>
   </div>
 
   <div class="stat-grid highlight">
     <div class="stat-card">
       <div class="label">Cross into "optimal"</div>
-      <div class="val">33%</div>
-      <div class="sub">avg of at-risk patients, range 0%–78.9%</div>
+      <div class="val">35%</div>
+      <div class="sub">avg of at-risk patients, range 0%–81.9%</div>
     </div>
     <div class="stat-card">
       <div class="label">At-risk patient lift</div>
-      <div class="val">+6.9</div>
-      <div class="sub">4.0x the population-wide lift</div>
+      <div class="val">+4.1</div>
+      <div class="sub">1.8x the population-wide lift</div>
     </div>
     <div class="stat-card">
       <div class="label">Population-wide lift</div>
-      <div class="val">+1.7</div>
+      <div class="val">+2.2</div>
       <div class="sub">avg points across 7 systems</div>
     </div>
   </div>
@@ -307,24 +307,24 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
   <div class="prose">
     <p>Cancer risk uses its own biomarker map, organized into 8 cancer-relevant processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) rather than the 37-process framework used for diseases and systems. We ran the same comparison across all 90 mapped cancer-risk markers, and again within each of the 8 processes.</p>
-    <p>Cell proliferation (9% protein) and oxidative stress (17% protein) are the most affected: 88% and 84% of their at-risk patients cross into "optimal" once metabolites are dropped. Matrix remodelling, metastasis, and thromboinflammation, each at least 80% protein, show almost no effect.</p>
+    <p>Cell proliferation (9% protein) and oxidative stress (17% protein) are the most affected: 99.4% and 94.4% of their at-risk patients cross into "optimal" once metabolites are dropped. Matrix remodelling and thromboinflammation, both at least 80% protein, show almost no effect.</p>
   </div>
 
   <div class="stat-grid highlight">
     <div class="stat-card">
       <div class="label">Cross into "optimal"</div>
-      <div class="val">41%</div>
-      <div class="sub">overall, range 0%–88.0% by process</div>
+      <div class="val">42%</div>
+      <div class="sub">overall composite, range 0%–99.4% by process</div>
     </div>
     <div class="stat-card">
       <div class="label">At-risk patient lift</div>
-      <div class="val">+6.8</div>
-      <div class="sub">3.0x the population-wide lift</div>
+      <div class="val">+6.1</div>
+      <div class="sub">3.7x the population-wide lift</div>
     </div>
     <div class="stat-card">
       <div class="label">Population-wide lift</div>
-      <div class="val">+2.3</div>
-      <div class="sub">overall cancer-risk score</div>
+      <div class="val">+1.7</div>
+      <div class="sub">overall cancer-risk composite</div>
     </div>
   </div>
 
@@ -342,7 +342,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
 
   <div class="callout warn">
-    <strong>Cell proliferation and oxidative stress are almost entirely metabolite signal.</strong> Both processes are under 17% protein by marker count, and both send more than 80% of their at-risk patients into "looks optimal" once metabolites are removed. Matrix remodelling, by contrast, is 100% protein and shows no effect at all.
+    <strong>Cell proliferation and oxidative stress are almost entirely metabolite signal.</strong> Both processes are under 17% protein by marker count, and both send more than 94% of their at-risk patients into "looks optimal" once metabolites are removed. Matrix remodelling, by contrast, is 100% protein and shows no effect at all.
   </div>
 </section>
 
@@ -353,12 +353,12 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>The effect concentrates hard in specific places</h2>
   </div>
   <div class="prose">
-    <p>The effect concentrates hard in specific diseases, body systems, and cancer processes. In the hardest-hit group, up to 88% of at-risk patients would score as optimal instead of at-risk, with no change in their actual biology. Population-wide, health scores barely move across diseases, systems, and cancer risk alike, so the effect stays invisible in an average and only shows up once at-risk patients are isolated.</p>
-    <p>Alzheimer's disease, PCOS, type 2 diabetes, depression, non-alcoholic fatty liver disease, energy & metabolism, digestion & gut health, hormone & brain function, cell proliferation, and oxidative stress all sit above 40% crossing. Rheumatoid arthritis, COPD, atherosclerosis, cardiovascular disease, immune system & inflammation, tissue repair & healing, matrix remodelling, metastasis, and thromboinflammation all sit under 10%.</p>
+    <p>The effect concentrates hard in specific diseases, body systems, and cancer processes. In the hardest-hit group, up to 99% of at-risk patients would score as optimal instead of at-risk, with no change in their actual biology. Population-wide, health scores barely move across diseases, systems, and cancer risk alike, so the effect stays invisible in an average and only shows up once at-risk patients are isolated.</p>
+    <p>Non-alcoholic fatty liver disease, Alzheimer's disease, and PCOS sit above 40% crossing among diseases. Digestion & gut health and energy & metabolism sit above 40% among body systems. Metabolic dysfunction, oxidative stress, and cell proliferation sit above 40% among cancer processes. Rheumatoid arthritis and COPD sit under 10% among diseases, immune system & inflammation and tissue repair & healing sit under 10% among body systems, and matrix remodelling and thromboinflammation sit under 10% among cancer processes.</p>
     <p><strong>Recommendations:</strong></p>
-    <p>1. Energy & metabolism, digestion & gut health, and the five diseases and cancer processes above 40% crossing should be treated as high-risk for a protein-only version of the report. Exclude them from its claims, or supplement with a subset of the 179 unmapped metabolites, since a large share of already-flagged patients in these groups would otherwise read as optimal.</p>
-    <p>2. Composition percentage counts how many of a group's markers are metabolite, not how much weight those markers carry in a patient's score or how often they're the one actually driving a flag. PCOS and inflammatory bowel disease have nearly identical composition (80% and 83% protein), but PCOS's at-risk patients cross into "optimal" at a much higher rate (41% vs. 30%). Any disease, system, or process under consideration for a protein-only version of the report should have its score effect measured directly, using the same comparison run here, not estimated from marker counts.</p>
-    <p>3. The groups that sit under 10% crossing are the only ones a protein-only version of the report can stand behind without further mitigation. That set spans cardiovascular, immune, joint, and lung diseases, three of the seven body systems, and four of the eight cancer processes.</p>
+    <p>1. Energy & metabolism, digestion & gut health, and the six diseases and cancer processes above 40% crossing (non-alcoholic fatty liver disease, Alzheimer's disease, PCOS, metabolic dysfunction, oxidative stress, and cell proliferation) should be treated as high-risk for a protein-only version of the report. Exclude them from its claims, or supplement with a subset of the 179 unmapped metabolites, since a large share of already-flagged patients in these groups would otherwise read as optimal.</p>
+    <p>2. Composition percentage counts how many of a group's markers are metabolite, not how much weight those markers carry in a patient's score or how often they're the one actually driving a flag. PCOS and inflammatory bowel disease have nearly identical composition (80% and 83% protein), but PCOS's at-risk patients cross into "optimal" at a much higher rate (51% vs. 26%). Any disease, system, or process under consideration for a protein-only version of the report should have its score effect measured directly, using the same comparison run here, not estimated from marker counts.</p>
+    <p>3. The groups that sit under 10% crossing are the only ones a protein-only version of the report can stand behind without further mitigation. That set spans joint and lung diseases (rheumatoid arthritis, COPD), two of the seven body systems (immune system & inflammation, tissue repair & healing), and two of the eight cancer processes (matrix remodelling, thromboinflammation).</p>
   </div>
 </section>
 
@@ -385,18 +385,18 @@ function renderTable(elId, rows){
 
 // ── DISEASES ─────────────────────────────────────────────────────────────────
 const conditionRows = [
-  {c:'Rheumatoid arthritis', p:98, lift:0.0, cross:0.3},
-  {c:'Chronic obstructive pulmonary disease', p:88, lift:1.0, cross:4.3},
-  {c:'Atherosclerosis', p:87, lift:1.5, cross:5.1},
-  {c:'Cardiovascular disease', p:84, lift:2.1, cross:9.4},
-  {c:'Inflammatory bowel disease', p:83, lift:2.9, cross:30.0},
-  {c:'Chronic kidney disease', p:67, lift:4.3, cross:30.4},
-  {c:'Liver disease', p:65, lift:4.5, cross:32.3},
-  {c:'Non-alcoholic fatty liver disease', p:65, lift:5.7, cross:39.3},
-  {c:'Depression', p:60, lift:5.4, cross:40.3},
-  {c:'Type 2 diabetes', p:49, lift:7.8, cross:40.4},
-  {c:'Polycystic ovarian syndrome', p:80, lift:4.4, cross:41.0},
-  {c:"Alzheimer's disease", p:55, lift:6.7, cross:47.0},
+  {c:'Rheumatoid arthritis', p:98, lift:0.1, cross:2.4},
+  {c:'Chronic obstructive pulmonary disease', p:88, lift:0.2, cross:8.8},
+  {c:'Atherosclerosis', p:87, lift:0.4, cross:16.7},
+  {c:'Chronic kidney disease', p:67, lift:1.5, cross:24.8},
+  {c:'Cardiovascular disease', p:84, lift:1.4, cross:25.1},
+  {c:'Inflammatory bowel disease', p:83, lift:1.0, cross:25.5},
+  {c:'Liver disease', p:65, lift:1.3, cross:26.6},
+  {c:'Depression', p:60, lift:2.0, cross:32.2},
+  {c:'Type 2 diabetes', p:49, lift:3.5, cross:39.3},
+  {c:'Non-alcoholic fatty liver disease', p:65, lift:4.0, cross:41.5},
+  {c:"Alzheimer's disease", p:55, lift:4.2, cross:45.2},
+  {c:'Polycystic ovarian syndrome', p:80, lift:6.5, cross:51.4},
 ];
 renderBars('crossBarsConditions', conditionRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('conditionTable', conditionRows);
@@ -405,11 +405,11 @@ renderTable('conditionTable', conditionRows);
 const systemRows = [
   {c:'Immune system & inflammation', p:100, lift:0.0, cross:0.0},
   {c:'Tissue repair & healing', p:100, lift:0.0, cross:0.0},
-  {c:'Blood flow & vessel health', p:86, lift:1.4, cross:3.3},
-  {c:'Cell defence & detox', p:80, lift:2.6, cross:8.0},
-  {c:'Hormone & brain function', p:47, lift:9.8, cross:67.5},
-  {c:'Energy & metabolism', p:2, lift:16.0, cross:72.3},
-  {c:'Digestion & gut health', p:15, lift:18.3, cross:78.9},
+  {c:'Blood flow & vessel health', p:86, lift:0.2, cross:13.0},
+  {c:'Cell defence & detox', p:80, lift:3.4, cross:21.8},
+  {c:'Hormone & brain function', p:47, lift:8.9, cross:49.8},
+  {c:'Digestion & gut health', p:15, lift:7.8, cross:75.1},
+  {c:'Energy & metabolism', p:2, lift:8.3, cross:81.9},
 ];
 renderBars('crossBarsSystems', systemRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('systemTable', systemRows);
@@ -417,13 +417,13 @@ renderTable('systemTable', systemRows);
 // ── CANCER PROCESSES ─────────────────────────────────────────────────────────
 const cancerRows = [
   {c:'Matrix remodelling', p:100, lift:0.0, cross:0.0},
-  {c:'Metastasis', p:92, lift:1.1, cross:5.5},
-  {c:'Thromboinflammation', p:80, lift:0.4, cross:5.9},
-  {c:'Immune system evasion', p:80, lift:1.4, cross:23.8},
-  {c:'Angiogenesis', p:83, lift:6.9, cross:27.4},
-  {c:'Metabolic dysfunction', p:18, lift:10.8, cross:46.2},
-  {c:'Oxidative stress', p:17, lift:22.9, cross:83.7},
-  {c:'Cell proliferation', p:9, lift:25.9, cross:88.0},
+  {c:'Thromboinflammation', p:80, lift:0.4, cross:8.6},
+  {c:'Immune system evasion', p:80, lift:1.1, cross:18.6},
+  {c:'Metastasis', p:92, lift:4.4, cross:23.0},
+  {c:'Angiogenesis', p:83, lift:16.3, cross:38.1},
+  {c:'Metabolic dysfunction', p:18, lift:6.2, cross:62.1},
+  {c:'Oxidative stress', p:17, lift:42.8, cross:94.4},
+  {c:'Cell proliferation', p:9, lift:32.7, cross:99.4},
 ];
 renderBars('crossBarsCancer', cancerRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('cancerTable', cancerRows);
