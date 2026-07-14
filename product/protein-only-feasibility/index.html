@@ -140,7 +140,7 @@
     <h1>Protein-Only Product<br><em>Impact of Removing Metabolites</em></h1>
     <div class="header-meta">
       <span>n = 1,678 patients · 1,998 barcodes</span>
-      <span>12 diseases · 7 body systems · cancer risk</span>
+      <span>diseases · 7 body systems · cancer risk</span>
     </div>
     <div class="header-dates">
       <span>Published: 2026-07-10</span>
@@ -169,10 +169,10 @@
     <h2>What happens to health scores when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, we recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: the 12 diseases, the 7 body systems, and cancer risk.</p>
+    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, we recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
   </div>
   <div class="callout">
-Among patients who are already flagged as at-risk, health scores move enough to flip 27% of them into "looks optimal" on average across the 12 diseases, and up to 79% for the hardest-hit body system, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
+Among patients who are already flagged as at-risk, health scores move enough to flip 27% of them into "looks optimal" on average across diseases, and up to 79% for the hardest-hit body system, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
   </div>
 </section>
 
@@ -197,9 +197,9 @@ Among patients who are already flagged as at-risk, health scores move enough to 
       <div class="sub">only 31% of tested metabolites feed a health score</div>
     </div>
     <div class="stat-card">
-      <div class="label">Result rows analysed</div>
-      <div class="val">511,937</div>
-      <div class="sub">reported results across the full cohort</div>
+      <div class="label">Samples analysed</div>
+      <div class="val">1,998</div>
+      <div class="sub">barcodes across 1,678 patients</div>
     </div>
   </div>
 </section>
@@ -208,11 +208,11 @@ Among patients who are already flagged as at-risk, health scores move enough to 
 <section id="diseases">
   <div class="section-header">
     <div class="section-num">Section 2</div>
-    <h2>Impact on the 12 diseases</h2>
+    <h2>Impact on diseases</h2>
   </div>
   <div class="prose">
-    <p>Diseases are made up of a group of biomarkers: each of the 12 diseases maps to a set of processes, and each process maps to a set of markers. For every patient, we recomputed their health score for each disease using every mapped marker they have results for, then again with metabolites removed.</p>
-    <p>At-risk patients, defined here as the worst-scoring 25% of the cohort for that disease under the full panel (a health-score percentile, not a yellow or red flag), show a much larger effect than the population as a whole. Across the 12 diseases, this group's health score lift averages 3.1 times the population-wide lift, and for several diseases, at least 39% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
+    <p>Diseases are made up of a group of biomarkers: each disease maps to a set of processes, and each process maps to a set of markers. For every patient, we recomputed their health score for each disease using every mapped marker they have results for, then again with metabolites removed.</p>
+    <p>At-risk patients, defined here as the worst-scoring 25% of the cohort for that disease under the full panel (a health-score percentile, not a yellow or red flag), show a much larger effect than the population as a whole. Across diseases, this group's health score lift averages 3.1 times the population-wide lift, and for several diseases, at least 39% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
     <p>Averaged across everyone, health scores move far less: 0.1 to 2.5 points depending on the disease, because metabolites flag out of range more often and more severely than proteins do, so dropping them removes some of the drag on the population-wide average.</p>
   </div>
 
@@ -230,7 +230,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <div class="stat-card">
       <div class="label">Population-wide lift</div>
       <div class="val">+1.3</div>
-      <div class="sub">avg points across 12 diseases</div>
+      <div class="sub">avg points across diseases</div>
     </div>
   </div>
 
