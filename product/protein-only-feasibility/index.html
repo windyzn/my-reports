@@ -95,9 +95,10 @@
   .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
   /* ── CALLOUT ── */
-  .callout { background: var(--serenity); border-left: 3px solid var(--blue-grey); border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; font-size: 13px; color: var(--dark-blue-grey); line-height: 1.65; margin-bottom: 20px; }
+  .callout { background: var(--serenity); border-radius: var(--radius); padding: 18px 22px; font-size: 15px; color: var(--dark-blue-grey); line-height: 1.65; margin-bottom: 20px; }
   .callout strong { color: var(--dark-blue); }
-  .callout.warn { border-left-color: var(--red); }
+  .callout.warn { background: rgba(196, 107, 90, 0.1); }
+  .callout.warn strong { color: var(--red); }
 
   /* ── TABLE ── */
   .table-wrap { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
@@ -169,7 +170,7 @@
     <h2>What happens to health scores when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, we recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
+    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, I recomputed health scores twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
   </div>
   <div class="callout">
 Among patients who are already flagged as at-risk, health scores move enough to flip 28% of them into "looks optimal" on average across diseases, and up to 99% for the hardest-hit cancer process, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
@@ -211,8 +212,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on diseases</h2>
   </div>
   <div class="prose">
-    <p>Diseases are made up of a group of biomarkers: each disease maps to a set of processes, and each process maps to a set of markers. For every patient, we recomputed their health score for each disease using every mapped marker they have results for, then again with metabolites removed.</p>
-    <p>At-risk patients, defined here as the worst-scoring 25% of the cohort for that disease under the full panel (a health-score percentile, not a yellow or red flag), show a much larger effect than the population as a whole. Across diseases, this group's health score lift averages 1.4 times the population-wide lift, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
+    <p>At-risk patients are those whose health score for that disease is yellow or red under the full panel. This group shows a much larger effect than the population as a whole: across diseases, its health score lift averages 1.4 times the population-wide lift, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into optimal territory (≥90) once metabolites are dropped.</p>
     <p>Averaged across everyone, health scores move far less: 0.1 to 5.6 points depending on the disease. Most patients are green on most metabolites most of the time, so removing metabolites only changes a score for the patients who had one flagged yellow or red. For everyone already green across the board, dropping metabolites changes nothing, and averaging in all of those unaffected patients pulls the population-wide number down. The at-risk lift is the same underlying jump, measured only across the patients it actually happened to instead of against everyone it didn't, which is why it comes out larger.</p>
   </div>
 
@@ -259,7 +259,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on the 7 body systems</h2>
   </div>
   <div class="prose">
-    <p>Each of the 7 body systems maps directly to a set of markers. We ran the same health score comparison at the system level: full panel vs. metabolites removed, population-wide and among the worst-scoring quarter of the cohort for each system.</p>
+    <p>Each of the 7 body systems maps directly to a set of markers. I ran the same health score comparison at the system level: full panel vs. metabolites removed, population-wide and among patients whose system score is yellow or red under the full panel.</p>
     <p>Energy & metabolism (2% protein) and digestion & gut health (15% protein) are the most affected: 81.9% and 75.1% of their at-risk patients cross into "optimal" once metabolites are dropped. Immune system & inflammation and tissue repair & healing, both 100% protein, show no effect at all.</p>
   </div>
 
@@ -306,7 +306,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on cancer risk</h2>
   </div>
   <div class="prose">
-    <p>Cancer risk uses its own biomarker map, organized into 8 cancer-relevant processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) rather than the 37-process framework used for diseases and systems. We ran the same comparison across all 90 mapped cancer-risk markers, and again within each of the 8 processes.</p>
+    <p>Cancer risk uses its own biomarker map, organized into 8 cancer-relevant processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) rather than the 37-process framework used for diseases and systems. I ran the same comparison across all 90 mapped cancer-risk markers, and again within each of the 8 processes.</p>
     <p>Cell proliferation (9% protein) and oxidative stress (17% protein) are the most affected: 99.4% and 94.4% of their at-risk patients cross into "optimal" once metabolites are dropped. Matrix remodelling and thromboinflammation, both at least 80% protein, show almost no effect.</p>
   </div>
 
