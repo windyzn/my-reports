@@ -170,7 +170,8 @@
     <h2>What happens to health scores when metabolites are removed</h2>
   </div>
   <div class="prose">
-    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, it recomputes health scores twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
+    <p>This report measures the effect of removing metabolite markers from the panel, using the biomarker-to-process mappings behind the report. For every patient, health scores were recomputed twice, once with the full panel and once with metabolites removed, at three levels: diseases, body systems, and cancer risk.</p>
+    <p>At-risk patients, throughout this report, are those whose health score is yellow or red under the full panel, for the disease, body system, or cancer tier being measured.</p>
   </div>
   <div class="callout">
 Among patients who are already flagged as at-risk, health scores move enough to flip 28% of them into "green" on average across diseases, and up to 99% for the hardest-hit cancer process, with no change in their actual biology. Population-wide, scores barely move. See <a href="#diseases" style="color:var(--dark-blue);">Diseases</a>, <a href="#systems" style="color:var(--dark-blue);">Body systems</a>, and <a href="#cancer" style="color:var(--dark-blue);">Cancer risk</a>.
@@ -212,7 +213,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on diseases</h2>
   </div>
   <div class="prose">
-    <p>At-risk patients are those whose health score for that disease is yellow or red under the full panel. This group shows a much larger effect than the population as a whole: across diseases, its health score change averages 1.4 times the population-wide change, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into the green zone (≥91) once metabolites are dropped.</p>
+    <p>At-risk patients show a much larger effect than the population as a whole: across diseases, health score change averages 1.4 times the population-wide change, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into the green zone (≥91) once metabolites are dropped.</p>
     <p>Averaged across everyone, health scores move far less: 0.1 to 5.6 points depending on the disease. Most patients are green on most metabolites most of the time, so removing metabolites only changes a score for the patients who had one flagged yellow or red. For everyone already green across the board, dropping metabolites changes nothing.</p>
   </div>
 
@@ -305,14 +306,15 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on cancer risk</h2>
   </div>
   <div class="prose">
-    <p>Cell proliferation (9% protein) and oxidative stress (17% protein) are the most affected: 99.4% and 94.4% of their at-risk patients cross into "green" once metabolites are dropped. Matrix remodelling and thromboinflammation, both at least 80% protein, show almost no effect.</p>
+    <p>Cancer risk follows the same biomarker → process → system → domain hierarchy used for diseases and body systems, with one extra rollup. The 8 cancer processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) roll up into 3 systems, called tiers, weighted 1, 2, and 3. The tiers roll up into a single domain-level cancer risk score. Tier and domain are the levels comparable to a disease or body system score elsewhere in this report; process is one level more granular.</p>
   </div>
 
+  <div class="bar-section-title">Domain — overall cancer risk</div>
   <div class="stat-grid highlight">
     <div class="stat-card">
       <div class="label">Cross into "green"</div>
       <div class="val">42%</div>
-      <div class="sub">overall composite, range 0%–99.4% by process</div>
+      <div class="sub">overall domain score, range 0%–99.4% by process</div>
     </div>
     <div class="stat-card">
       <div class="label">At-risk patient change</div>
@@ -322,8 +324,39 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <div class="stat-card">
       <div class="label">Population-wide change</div>
       <div class="val">+1.7</div>
-      <div class="sub">overall cancer-risk composite</div>
+      <div class="sub">overall domain score</div>
     </div>
+  </div>
+
+  <div class="bar-section-title" style="margin-top:28px;">System — cancer tiers</div>
+  <div class="prose">
+    <p>Tier 1 (metabolic dysfunction, thromboinflammation, oxidative stress) and tier 2 (cell proliferation, immune system evasion) carry the least weight in the domain score but show the largest effect: at-risk patients gain 16.1 and 16.9 points on average, with 78.9% and 84.8% crossing into green. Tier 3 (angiogenesis, matrix remodelling, metastasis), weighted highest and 92% protein by marker count, gains 3.5 points among at-risk patients and crosses only 22.7% into green.</p>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Of at-risk patients, % who cross into "green" (≥80) once metabolites are dropped</div>
+    <div id="crossBarsCancerTiers"></div>
+    <div class="chart-caption">Tiers ordered by impact, least affected at top.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th style="white-space:normal;">Tier</th><th style="white-space:normal;">Domain weight</th><th style="white-space:normal;">% protein</th><th style="white-space:normal;">Population-wide change</th><th style="white-space:normal;">At-risk change</th><th style="white-space:normal;">% crossing green</th></tr></thead>
+      <tbody>
+        <tr><td>Tier 1 — Systemic Environment</td><td>1</td><td>42%</td><td>+3.4</td><td>+16.1</td><td style="font-weight:600;color:var(--metabolite);">78.9%</td></tr>
+        <tr><td>Tier 2 — Transitional Biology</td><td>2</td><td>50%</td><td>+2.2</td><td>+16.9</td><td style="font-weight:600;color:var(--metabolite);">84.8%</td></tr>
+        <tr><td>Tier 3 — Tumour-Associated Biology</td><td>3</td><td>92%</td><td>+0.7</td><td>+3.5</td><td style="font-weight:600;color:var(--yellow);">22.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>The domain score's weighting cushions the effect, but doesn't erase it.</strong> Tier 3 carries the most weight in the domain score and is the most protein-heavy, which limits how far the overall score moves. Tier 1 and tier 2, weighted lower, still show at-risk patients crossing into green at 78.9% and 84.8%, well above the 42% domain-level crossing rate.
+  </div>
+
+  <div class="bar-section-title" style="margin-top:28px;">Process — cancer processes</div>
+  <div class="prose">
+    <p>Cell proliferation (9% protein) and oxidative stress (17% protein) are the most affected of the 8 processes: 99.4% and 94.4% of their at-risk patients cross into "green" once metabolites are dropped. Matrix remodelling and thromboinflammation, both at least 80% protein, show almost no effect.</p>
   </div>
 
   <div class="chart-card">
@@ -341,25 +374,6 @@ Among patients who are already flagged as at-risk, health scores move enough to 
 
   <div class="callout warn">
     <strong>Cell proliferation and oxidative stress are almost entirely metabolite signal.</strong> Both processes are under 17% protein by marker count, and both send more than 94% of their at-risk patients into "green" once metabolites are removed. Matrix remodelling, by contrast, is 100% protein and shows no effect at all.
-  </div>
-
-  <div class="prose" style="margin-top:28px;">
-    <p>The 8 processes also roll up into 3 tiers by cancer specificity, weighted 1, 2, and 3 in the overall composite: tier 1 (metabolic dysfunction, thromboinflammation, oxidative stress), tier 2 (cell proliferation, immune system evasion), and tier 3 (angiogenesis, matrix remodelling, metastasis). The same comparison, run at the tier level, concentrates in the two lowest-weighted tiers: at-risk patients in tier 1 and tier 2 gain 16.1 and 16.9 points on average, with 78.9% and 84.8% crossing into green. Tier 3, weighted highest in the composite and 92% protein by marker count, gains 3.5 points among at-risk patients and crosses only 22.7% into green.</p>
-  </div>
-
-  <div class="table-wrap">
-    <table class="data">
-      <thead><tr><th style="white-space:normal;">Tier</th><th style="white-space:normal;">Weight</th><th style="white-space:normal;">% protein</th><th style="white-space:normal;">Pop.-wide change</th><th style="white-space:normal;">At-risk change</th><th style="white-space:normal;">% crossing green</th></tr></thead>
-      <tbody>
-        <tr><td>Tier 1 — Systemic Environment</td><td>1</td><td>42%</td><td>+3.4</td><td>+16.1</td><td style="font-weight:600;color:var(--metabolite);">78.9%</td></tr>
-        <tr><td>Tier 2 — Transitional Biology</td><td>2</td><td>50%</td><td>+2.2</td><td>+16.9</td><td style="font-weight:600;color:var(--metabolite);">84.8%</td></tr>
-        <tr><td>Tier 3 — Tumour-Associated Biology</td><td>3</td><td>92%</td><td>+0.7</td><td>+3.5</td><td style="font-weight:600;color:var(--yellow);">22.7%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="callout warn">
-    <strong>The composite's weighting cushions the effect, but doesn't erase it.</strong> Tier 3 carries the most weight in the composite and is the most protein-heavy, which limits how far the overall score moves. Tier 1 and tier 2, weighted lower, still show at-risk patients crossing into green at 78.9% and 84.8%, well above the 42% overall composite crossing rate.
   </div>
 </section>
 
@@ -430,6 +444,14 @@ const systemRows = [
 ];
 renderBars('crossBarsSystems', systemRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('systemTable', systemRows);
+
+// ── CANCER TIERS ──────────────────────────────────────────────────────────────
+const tierRows = [
+  {c:'Tier 3 — Tumour-Associated Biology', cross:22.7},
+  {c:'Tier 1 — Systemic Environment', cross:78.9},
+  {c:'Tier 2 — Transitional Biology', cross:84.8},
+];
+renderBars('crossBarsCancerTiers', tierRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 
 // ── CANCER PROCESSES ─────────────────────────────────────────────────────────
 const cancerRows = [
