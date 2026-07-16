@@ -140,7 +140,7 @@
     <div class="header-eyebrow">Molecular You — Product Analysis</div>
     <h1>Protein-Only Product<br><em>Impact of Removing Metabolites</em></h1>
     <div class="header-meta">
-      <span>n = 1678 patients · 1998 barcodes</span>
+      <span>n = 1968 reports</span>
       <span>diseases · 7 body systems · cancer risk</span>
     </div>
     <div class="header-dates">
@@ -199,9 +199,9 @@ Among patients who are already flagged as at-risk, health scores move enough to 
       <div class="sub">only 31% of tested metabolites feed a health score</div>
     </div>
     <div class="stat-card">
-      <div class="label">Samples analysed</div>
-      <div class="val">1998</div>
-      <div class="sub">barcodes across 1678 patients</div>
+      <div class="label">Reports analysed</div>
+      <div class="val">1968</div>
+      <div class="sub">across 1678 patients</div>
     </div>
   </div>
 </section>
@@ -214,7 +214,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
   <div class="prose">
     <p>At-risk patients show a much larger effect than the population as a whole: across diseases, health score change averages 1.4 times the population-wide change, and for the three hardest-hit diseases, at least 40% of at-risk patients see their health score cross into the green zone (≥91) once metabolites are dropped.</p>
-    <p>Averaged across everyone, health scores move far less: 0.1 to 5.6 points depending on the disease. Most patients are green on most metabolites most of the time, so removing metabolites only changes a score for the patients who had one flagged yellow or red. For everyone already green across the board, dropping metabolites changes nothing.</p>
+    <p>Averaged across everyone, health scores move far less: 0.1 to 5.6 points depending on the disease. Patients are typically green on their metabolites, so removing metabolites only changes a score for the ones who had one flagged yellow or red. For everyone already green across the board, dropping metabolites changes nothing.</p>
   </div>
 
   <div class="stat-grid highlight">
@@ -238,7 +238,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   <div class="chart-card">
     <div class="chart-title">Of at-risk patients, % who cross into "green" (≥91) once metabolites are dropped</div>
     <div id="crossBarsConditions"></div>
-    <div class="chart-caption">Diseases ordered by impact, least affected at top.</div>
+    <div class="chart-caption">Diseases ordered by impact, most affected at top.</div>
   </div>
 
   <div class="table-wrap">
@@ -284,7 +284,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   <div class="chart-card">
     <div class="chart-title">Of at-risk patients, % who cross into "green" (≥91) once metabolites are dropped</div>
     <div id="crossBarsSystems"></div>
-    <div class="chart-caption">Systems ordered by impact, least affected at top.</div>
+    <div class="chart-caption">Systems ordered by impact, most affected at top.</div>
   </div>
 
   <div class="table-wrap">
@@ -336,7 +336,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   <div class="chart-card">
     <div class="chart-title">Of at-risk patients, % who cross into "green" (≥80) once metabolites are dropped</div>
     <div id="crossBarsCancerTiers"></div>
-    <div class="chart-caption">Tiers ordered by impact, least affected at top.</div>
+    <div class="chart-caption">Tiers ordered by impact, most affected at top.</div>
   </div>
 
   <div class="table-wrap">
@@ -362,7 +362,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   <div class="chart-card">
     <div class="chart-title">Of at-risk patients, % who cross into "green" (≥80) once metabolites are dropped</div>
     <div id="crossBarsCancer"></div>
-    <div class="chart-caption">Cancer processes ordered by impact, least affected at top.</div>
+    <div class="chart-caption">Cancer processes ordered by impact, most affected at top.</div>
   </div>
 
   <div class="table-wrap">
@@ -429,6 +429,7 @@ const conditionRows = [
   {c:"Alzheimer's disease", p:55, change:4.2, cross:45.2},
   {c:'Polycystic ovarian syndrome', p:80, change:6.5, cross:51.4},
 ];
+conditionRows.reverse();
 renderBars('crossBarsConditions', conditionRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('conditionTable', conditionRows);
 
@@ -442,6 +443,7 @@ const systemRows = [
   {c:'Digestion & gut health', p:15, change:7.8, cross:75.1},
   {c:'Energy & metabolism', p:2, change:8.3, cross:81.9},
 ];
+systemRows.reverse();
 renderBars('crossBarsSystems', systemRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('systemTable', systemRows);
 
@@ -451,6 +453,7 @@ const tierRows = [
   {c:'Tier 1 — Systemic Environment', cross:78.9},
   {c:'Tier 2 — Transitional Biology', cross:84.8},
 ];
+tierRows.reverse();
 renderBars('crossBarsCancerTiers', tierRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 
 // ── CANCER PROCESSES ─────────────────────────────────────────────────────────
@@ -464,6 +467,7 @@ const cancerRows = [
   {c:'Oxidative stress', p:17, change:42.8, cross:94.4},
   {c:'Cell proliferation', p:9, change:32.7, cross:99.4},
 ];
+cancerRows.reverse();
 renderBars('crossBarsCancer', cancerRows.map(r=>({l:r.c, n:r.cross})), n => n + '%');
 renderTable('cancerTable', cancerRows);
 </script>
