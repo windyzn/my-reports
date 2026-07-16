@@ -111,7 +111,7 @@
 
   /* ── BAR ROWS ── */
   .bar-section { margin-bottom: 24px; }
-  .bar-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .bar-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-light); margin-bottom: 8px; }
   .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
   .bar-label { width: 220px; flex-shrink: 0; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bar-track { flex: 1; background: var(--serenity); border-radius: 3px; height: 13px; overflow: hidden; }
@@ -243,13 +243,13 @@ Among patients who are already flagged as at-risk, health scores move enough to 
 
   <div class="table-wrap">
     <table class="data">
-      <thead><tr><th>Disease</th><th>% protein markers</th><th>Health score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
+      <thead><tr><th>Disease</th><th>% protein markers</th><th>Avg score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
       <tbody id="conditionTable"></tbody>
     </table>
   </div>
 
   <div class="callout warn">
-    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "green" at a much higher rate (51% vs. 26%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. Composition percentages are a reasonable first filter; they aren't a substitute for measuring the score effect directly.
+    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "green" at a much higher rate (51% vs. 26%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. % protein by marker count is a reasonable first filter for likely impact, but it isn't a measure of impact: it counts markers, not the weight those markers carry in a patient's score. The score effect has to be measured directly, the way it is here, not estimated from composition.
   </div>
 </section>
 
@@ -289,7 +289,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
 
   <div class="table-wrap">
     <table class="data">
-      <thead><tr><th>Body system</th><th>% protein markers</th><th>Health score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
+      <thead><tr><th>Body system</th><th>% protein markers</th><th>Avg score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
       <tbody id="systemTable"></tbody>
     </table>
   </div>
@@ -367,7 +367,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
 
   <div class="table-wrap">
     <table class="data">
-      <thead><tr><th>Cancer process</th><th>% protein markers</th><th>Health score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
+      <thead><tr><th>Cancer process</th><th>% protein markers</th><th>Avg score change, at-risk patients</th><th>% crossing into green</th></tr></thead>
       <tbody id="cancerTable"></tbody>
     </table>
   </div>
