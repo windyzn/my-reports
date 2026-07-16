@@ -201,7 +201,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <div class="stat-card">
       <div class="label">Reports analysed</div>
       <div class="val">1968</div>
-      <div class="sub">across 1678 patients</div>
+      <div class="sub">across 1678 my_ids</div>
     </div>
   </div>
 </section>
@@ -249,7 +249,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
   </div>
 
   <div class="callout warn">
-    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "green" at a much higher rate (51% vs. 26%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. % protein by marker count is a reasonable first filter for likely impact, but it isn't a measure of impact: it counts markers, not the weight those markers carry in a patient's score. The score effect has to be measured directly, the way it is here, not estimated from composition.
+    <strong>Marker-count share doesn't fully predict the damage.</strong> PCOS is 80% protein by marker count, similar to inflammatory bowel disease (83%), but its at-risk patients cross into "green" at a much higher rate (51% vs. 26%). The metabolites PCOS depends on carry more of its risk signal than their small share of the marker count suggests. % protein by marker count is a reasonable first filter for likely impact, but it isn't a measure of impact on real data.
   </div>
 </section>
 
@@ -306,7 +306,7 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <h2>Impact on cancer risk</h2>
   </div>
   <div class="prose">
-    <p>Cancer risk follows the same biomarker → process → system → domain hierarchy used for diseases and body systems, with one extra rollup. The 8 cancer processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) roll up into 3 systems, called tiers, weighted 1, 2, and 3. The tiers roll up into a single domain-level cancer risk score. Tier and domain are the levels comparable to a disease or body system score elsewhere in this report; process is one level more granular.</p>
+    <p>Cancer risk follows the same biomarker → process → system → domain hierarchy used for diseases and body systems, with one extra rollup. The 8 cancer processes (angiogenesis, cell proliferation, immune system evasion, matrix remodelling, metabolic dysfunction, metastasis, oxidative stress, and thromboinflammation) roll up into 3 systems, called tiers, weighted 1, 2, and 3. The tiers roll up into a single domain-level cancer risk score.</p>
   </div>
 
   <div class="bar-section-title">Domain — overall cancer risk</div>
@@ -387,9 +387,8 @@ Among patients who are already flagged as at-risk, health scores move enough to 
     <p>The effect concentrates hard in specific diseases, body systems, and cancer processes. In the hardest-hit group, up to 99% of at-risk patients would score as green instead of at-risk, with no change in their actual biology. Population-wide, health scores barely move across diseases, systems, and cancer risk alike, so the effect stays invisible in an average and only shows up once at-risk patients are isolated.</p>
     <p>Non-alcoholic fatty liver disease, Alzheimer's disease, and PCOS sit above 40% crossing among diseases. Digestion & gut health and energy & metabolism sit above 40% among body systems. Metabolic dysfunction, oxidative stress, and cell proliferation sit above 40% among cancer processes. Rheumatoid arthritis and COPD sit under 10% among diseases, immune system & inflammation and tissue repair & healing sit under 10% among body systems, and matrix remodelling and thromboinflammation sit under 10% among cancer processes.</p>
     <p><strong>Recommendations:</strong></p>
-    <p>1. Energy & metabolism, digestion & gut health, and the six diseases and cancer processes above 40% crossing (non-alcoholic fatty liver disease, Alzheimer's disease, PCOS, metabolic dysfunction, oxidative stress, and cell proliferation) should be treated as high-risk for a protein-only version of the report. Exclude them from its claims, or supplement with a subset of the 179 unmapped metabolites, since a large share of already-flagged patients in these groups would otherwise read as green.</p>
-    <p>2. Composition percentage counts how many of a group's markers are metabolite, not how much weight those markers carry in a patient's score or how often they're the one actually driving a flag. PCOS and inflammatory bowel disease have nearly identical composition (80% and 83% protein), but PCOS's at-risk patients cross into "green" at a much higher rate (51% vs. 26%). Any disease, system, or process under consideration for a protein-only version of the report should have its score effect measured directly, using the same comparison run here, not estimated from marker counts.</p>
-    <p>3. The groups that sit under 10% crossing are the only ones a protein-only version of the report can stand behind without further mitigation. That set spans joint and lung diseases (rheumatoid arthritis, COPD), two of the seven body systems (immune system & inflammation, tissue repair & healing), and two of the eight cancer processes (matrix remodelling, thromboinflammation).</p>
+    <p>1. Energy & metabolism, digestion & gut health, and the six diseases and cancer processes above 40% crossing (non-alcoholic fatty liver disease, Alzheimer's disease, PCOS, metabolic dysfunction, oxidative stress, and cell proliferation) should be treated as high-risk for a protein-only version of the report. Exclude them from its claims, since a large share of already-flagged patients in these groups would otherwise read as green.</p>
+    <p>2. The groups that sit under 10% crossing are the only ones a protein-only version of the report can stand behind without further mitigation. That set spans joint and lung diseases (rheumatoid arthritis, COPD), two of the seven body systems (immune system & inflammation, tissue repair & healing), and two of the eight cancer processes (matrix remodelling, thromboinflammation).</p>
   </div>
 </section>
 
